@@ -20,7 +20,7 @@ def login():
         print(email, password) # Now I have the inputs from name, email and passwd
     return render_template('login.html')
 
-@app.route('/signup')
+@app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
         name = request.form['name']
