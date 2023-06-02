@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    image = [i for i in listdir('static/images') if i.endswith('.png')][0]
+    image = [i for i in listdir('static/images') if i.endswith('.png')][0] # This will be useful when randomizing the display image
     return render_template('home.html', anime_image = image)
 
 @app.route('/about')
@@ -17,7 +17,7 @@ def login():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-        print(email, password) # Now I have the inputs from name, email and passwd
+        print(email, password) # Now I have the inputs from email and passwd
     return render_template('login.html')
 
 @app.route('/signup', methods=['GET', 'POST'])
