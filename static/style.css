@@ -1,17 +1,23 @@
 /* Top bar styles */
+
 header {
     background-color: #333;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     align-items: center;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     padding: 5px;
 }
 
-/* Centered heading */
+/* Centered header */
+
 .centered-heading {
+    display: inline-block;
     text-align: center;
     margin: 0 auto;
 }
+
+/* Header bar items */
 
 nav ul {
     list-style-type: none;
@@ -36,6 +42,7 @@ nav ul li a:hover {
 }
 
 /* Content styles */
+
 .content {
     margin: 20px;
 }
@@ -46,6 +53,7 @@ h1 {
 }
 
 /* Modern styles */
+
 body {
     font-family: 'Noto Sans', Arial, sans-serif;
     background-color: #1a1a1a;
@@ -66,19 +74,17 @@ a:hover {
     margin: 0 auto;
 }
 
-/* New styles for the buttons */
+/* Auth buttons */
+
 .auth-buttons {
     display: inline-block;
+    margin-left: auto;
 }
 
 .auth-buttons a {
     background-color: #333;
     color: white;
-    /* margin-right: 0px; */
-    /* padding: 10px 20px; */
     text-decoration: none;
-    /* margin-left: 10px; */
-    /* border-radius: 5px; */
 }
 
 .auth-buttons a:hover {

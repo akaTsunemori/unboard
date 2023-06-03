@@ -12,6 +12,14 @@ def home():
 def about():
     return render_template('about.html')
 
+@app.route('/classes')
+def classes():
+    return render_template('classes.html')
+
+@app.route('/ranking')
+def ranking():
+    return render_template('ranking.html')
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
