@@ -151,6 +151,6 @@ button:hover {
     position: fixed;
     bottom: 0px;
     right: 40px;
-    width: 600px; /* Adjust the width and height as needed */
-    height: auto;
+    width: auto;
+    height: 250px;  /* Adjust the width and height as needed */
 }
