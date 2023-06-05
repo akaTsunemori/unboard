@@ -17,8 +17,9 @@
         <h3 class="centered-heading">AvaliaUnB</h3>
         <nav class="auth-buttons">
             <ul>
-                <li><a href="/login">Login</a></li>
-                <li><a href="/signup">Signup</a></li>
+                <li {{hide_logged_status}}>Logado como: {{user_email}}</li>
+                <li><a href={{login_redirect}}>{{dynamic_login}}</a></li> <!-- This can be changed to Logout using jinja variables -->
+                <li class={{hide_signup_button}}><a href="/signup">Signup</a></li>
             </ul>
         </nav>
     </header>
