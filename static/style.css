@@ -85,6 +85,7 @@ a:hover {
     background-color: #333;
     color: white;
     text-decoration: none;
+    text-transform: capitalize;
 }
 
 .auth-buttons a:hover {

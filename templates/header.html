@@ -11,8 +11,8 @@
     <nav class="auth-buttons">
         <ul>
             <li {{hide_logged_status}}>Logged as: {{user_email}}</li>
-            <li {{hide_admin_panel}}><a href="/admin">Admin Panel</a></li>
-            <li><a href={{login_redirect}}>{{dynamic_login}}</a></li> <!-- This can be changed to Logout using jinja variables -->
+            <li {{hide_logged_panel}}><a href="/{{admin_student}}">{{admin_student}} Panel</a></li>
+            <li><a href={{login_redirect}}>{{login_logout}}</a></li>
             <li class={{hide_signup_button}}><a href="/signup">Signup</a></li>
         </ul>
     </nav>

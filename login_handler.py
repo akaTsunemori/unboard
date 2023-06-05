@@ -15,8 +15,9 @@ class LoginHandler:
         self.is_logged = False
         self.hide_logged_status='hidden'
         self.hide_signup_button=''
-        self.hide_admin_panel = 'hidden'
-        self.dynamic_login = 'Login'
+        self.hide_logged_panel = 'hidden'
+        self.login_logout = 'Login'
+        self.admin_student = 'student'
         self.user_email=''
         self.login_redirect = '/login'
 
@@ -26,25 +27,25 @@ class LoginHandler:
         if users[email][0] != password:
             raise LoginError('Wrong password')
         if users[email][1]:
-            self.admin_logon()
+            self.is_admin = True
+            self.admin_student = 'admin'
         self.is_logged = True
         self.hide_logged_status=''
         self.hide_signup_button='hidden'
-        self.dynamic_login = 'Logout'
+        self.hide_logged_panel = ''
+        self.login_logout = 'Logout'
         self.user_email = email
         self.login_redirect = '/logout'
 
-    def admin_logon(self) -> None:
-        self.is_admin = True
-        self.hide_admin_panel = ''
 
     def user_logout(self) -> None:
         self.is_admin = False
         self.is_logged = False
         self.hide_logged_status='hidden'
         self.hide_signup_button=''
-        self.hide_admin_panel = 'hidden'
-        self.dynamic_login = 'Login'
+        self.hide_logged_panel = 'hidden'
+        self.login_logout = 'Login'
+        self.admin_student = 'Student'
         self.user_email=''
         self.login_redirect = '/login'
 
