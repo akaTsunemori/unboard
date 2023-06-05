@@ -49,3 +49,6 @@ class LoginHandler:
         self.user_email=''
         self.login_redirect = '/login'
 
+    def user_signup(self) -> None:
+        pass
+

@@ -92,7 +92,9 @@ def signup():
         name = request.form['name']
         email = request.form['email']
         password = request.form['password']
+        profile_picture = request.files['profile-picture']
         print(name, email, password) # Now I have the inputs from name, email and passwd
+        print(type(profile_picture)) # I also have a profile picure
     return render_template('signup.html', anime_image = image)
 
 
