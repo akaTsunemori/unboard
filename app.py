@@ -22,6 +22,7 @@ def home():
         anime_image=image,
         hide_logged_status=lh.hide_logged_status,
         hide_signup_button=lh.hide_signup_button,
+        hide_admin_panel=lh.hide_admin_panel,
         user_email=lh.user_email,
         dynamic_login=lh.dynamic_login,
         login_redirect=lh.login_redirect)
@@ -34,6 +35,7 @@ def about():
         anime_image=image,
         hide_logged_status=lh.hide_logged_status,
         hide_signup_button=lh.hide_signup_button,
+        hide_admin_panel=lh.hide_admin_panel,
         user_email=lh.user_email,
         dynamic_login=lh.dynamic_login,
         login_redirect=lh.login_redirect)
@@ -46,6 +48,7 @@ def classes():
         anime_image=image,
         hide_logged_status=lh.hide_logged_status,
         hide_signup_button=lh.hide_signup_button,
+        hide_admin_panel=lh.hide_admin_panel,
         user_email=lh.user_email,
         dynamic_login=lh.dynamic_login,
         login_redirect=lh.login_redirect)
@@ -58,6 +61,7 @@ def ranking():
         anime_image=image,
         hide_logged_status=lh.hide_logged_status,
         hide_signup_button=lh.hide_signup_button,
+        hide_admin_panel=lh.hide_admin_panel,
         user_email=lh.user_email,
         dynamic_login=lh.dynamic_login,
         login_redirect=lh.login_redirect)
@@ -71,7 +75,7 @@ def login():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-        lh.user_logon(email)
+        lh.user_logon(email, password)
         print(email, password) # Now I have the inputs from email and passwd
         return redirect('/')
     return render_template('login.html', anime_image = image)

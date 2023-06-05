@@ -5,24 +5,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/about">About</a></li>
-                <li><a href="/classes">Classes</a></li>
-                <li><a href="/ranking">Ranking</a></li>
-            </ul>
-        </nav>
-        <h3 class="centered-heading">AvaliaUnB</h3>
-        <nav class="auth-buttons">
-            <ul>
-                <li {{hide_logged_status}}>Logado como: {{user_email}}</li>
-                <li><a href={{login_redirect}}>{{dynamic_login}}</a></li> <!-- This can be changed to Logout using jinja variables -->
-                <li class={{hide_signup_button}}><a href="/signup">Signup</a></li>
-            </ul>
-        </nav>
-    </header>
+    {% include 'header.html' %}
     <div class="content">
         <h1>About Us</h1>
         <!-- Add your content here -->
