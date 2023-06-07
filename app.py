@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, redirect
 from os import listdir
 from random import choice
 
+
+# Project modules
 from login_handler import LoginHandler
 
 
@@ -15,54 +17,52 @@ lh = LoginHandler()
 images = [i for i in listdir('static/images/anime') if i.endswith('.png') or i.endswith('.webp')]
 
 
-@app.route('/')
-def home():
+# Utility for calling flask's render_template function
+def render_template_util(page: str) -> str:
     image = choice(images)
-    return render_template('home.html',
+    return render_template(page,
         anime_image=image,
         hide_logged_status=lh.hide_logged_status,
         hide_signup_button=lh.hide_signup_button,
+        hide_logged_panel=lh.hide_logged_panel,
+        admin_student=lh.admin_student,
         user_email=lh.user_email,
-        dynamic_login=lh.dynamic_login,
+        login_logout=lh.login_logout,
         login_redirect=lh.login_redirect)
+
+
+# Conventional routes
+@app.route('/')
+def home():
+    return render_template_util('home.html')
 
 
 @app.route('/about')
 def about():
-    image = choice(images)
-    return render_template('about.html',
-        anime_image=image,
-        hide_logged_status=lh.hide_logged_status,
-        hide_signup_button=lh.hide_signup_button,
-        user_email=lh.user_email,
-        dynamic_login=lh.dynamic_login,
-        login_redirect=lh.login_redirect)
+    return render_template_util('about.html')
 
 
 @app.route('/classes')
 def classes():
-    image = choice(images)
-    return render_template('classes.html',
-        anime_image=image,
-        hide_logged_status=lh.hide_logged_status,
-        hide_signup_button=lh.hide_signup_button,
-        user_email=lh.user_email,
-        dynamic_login=lh.dynamic_login,
-        login_redirect=lh.login_redirect)
+    return render_template_util('classes.html')
 
 
 @app.route('/ranking')
 def ranking():
-    image = choice(images)
-    return render_template('ranking.html',
-        anime_image=image,
-        hide_logged_status=lh.hide_logged_status,
-        hide_signup_button=lh.hide_signup_button,
-        user_email=lh.user_email,
-        dynamic_login=lh.dynamic_login,
-        login_redirect=lh.login_redirect)
+    return render_template_util('ranking.html')
 
 
+@app.route('/admin')
+def admin():
+    return render_template_util('admin.html')
+
+
+@app.route('/student')
+def student():
+    return render_template_util('student.html')
+
+
+# Login, logout and signup routes
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if lh.is_logged:
@@ -71,7 +71,7 @@ def login():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-        lh.user_logon(email)
+        lh.user_logon(email, password)
         print(email, password) # Now I have the inputs from email and passwd
         return redirect('/')
     return render_template('login.html', anime_image = image)
@@ -92,9 +92,12 @@ def signup():
         name = request.form['name']
         email = request.form['email']
         password = request.form['password']
+        profile_picture = request.files['profile-picture']
         print(name, email, password) # Now I have the inputs from name, email and passwd
+        print(type(profile_picture)) # I also have a profile picure
     return render_template('signup.html', anime_image = image)
 
 
+# Run the app
 if __name__ == '__main__':
     app.run(debug=True)

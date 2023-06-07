@@ -23,7 +23,7 @@
         </nav>
     </header>
     <div class="container">
-        <form class="form" method="POST">
+        <form class="form" method="POST" enctype="multipart/form-data">
             <h2>Signup</h2>
             <div class="form-group">
                 <label for="name">Name:</label>
@@ -42,10 +42,14 @@
                 <input type="password" id="confirm-password" name="confirm-password" required>
             </div>
             <div class="form-group">
+                <label for="profile-picture">Profile Picture:</label>
+                <input type="file" id="profile-picture" name="profile-picture">
+            </div>
+            <div class="form-group">
                 <button type="submit">Signup</button>
             </div>
         </form>
-        <img src="/static/images/anime/{{anime_image}}" alt="Image" class="bottom-right-image">
     </div>
+    <img src="/static/images/anime/{{anime_image}}" alt="Image" class="bottom-right-image">
 </body>
 </html>
