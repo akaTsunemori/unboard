@@ -11,8 +11,9 @@ header {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     align-items: center;
-    padding: 10px;
+    padding: 1rem;
     width: 100%;
+    min-width: 60rem;
 }
 
 /* Centered header */
@@ -27,12 +28,14 @@ header {
 
 nav ul {
     list-style-type: none;
-    padding: 0px 10px;
+    padding: 0rem 1rem;
     display: flex;
-    gap: 20px;
+    gap: 1rem;
 }
 
 nav ul li a {
+    text-align: center;
+    vertical-align: middle;
     color: white;
     text-decoration: none;
     transition: all 0.3s ease;
@@ -42,15 +45,25 @@ nav ul li a:hover {
     color: #888;
 }
 
+/* Auth buttons */
+
+.auth-buttons {
+    margin-left: auto;
+}
+
+.auth-buttons a {
+    text-transform: capitalize;
+}
+
 /* Content styles */
 
 .content {
-    margin: 20px;
+    margin: 2rem;
 }
 
 h1 {
     color: #fff;
-    font-size: 32px;
+    font-size: 2rem;
 }
 
 /* Modern styles */
@@ -70,73 +83,52 @@ a:hover {
     color: #888;
 }
 
-.container {
-    max-width: 960px;
-    margin: 0 auto;
-}
-
-/* Auth buttons */
-
-.auth-buttons {
-    display: inline-block;
-    margin-left: auto;
-}
-
-.auth-buttons a {
-    background-color: #333;
-    color: white;
-    text-decoration: none;
-    text-transform: capitalize;
-}
-
-.auth-buttons a:hover {
-    color: #888;
-}
-
 /* Login and signup */
 
 .container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    margin: 0 auto;
+    height: 38rem;
+    min-width: 60rem;
 }
 
 .form {
-    width: 400px;
+    width: 25rem;
     background-color: #333;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1.3rem;
+    border-radius: 0.3rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
 }
 
 .form-group {
-    margin-bottom: 20px;
-    margin-right: 20px;
+    margin-bottom: 1.3rem;
+    margin-right: 1.3rem;
 }
 
 label {
     font-weight: bold;
     color: #fff;
-    margin-right: 20px;
+    margin-right: 1.3rem;
     display: flex;
 }
 
 input {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    padding: 0.6rem;
+    border: 0.06rem solid #ccc;
+    border-radius: 0.3rem;
     background-color: #fff;
     color: #333;
 }
 
 button {
-    padding: 10px 20px;
+    padding: 0.6rem 1.3rem;
     background-color: #fff;
     color: #333;
     border: none;
-    border-radius: 5px;
+    border-radius: 0.3rem;
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -156,8 +148,8 @@ button:hover {
 
 .bottom-right-image {
     position: fixed;
-    bottom: 0px;
-    right: 40px;
+    bottom: 0rem;
+    right: 2rem;
     width: auto;
-    height: 250px;  /* Adjust the width and height as needed */
+    height: 15rem;  /* Adjust the width and height as needed */
 }
