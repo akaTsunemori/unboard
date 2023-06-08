@@ -11,9 +11,11 @@ header {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     align-items: center;
-    padding: 1rem;
+    /* padding: 1rem; */
+    height: 3.5rem;
     width: 100%;
     min-width: 60rem;
+    white-space: nowrap;
 }
 
 /* Centered header */
@@ -89,9 +91,9 @@ a:hover {
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
     margin: 0 auto;
-    height: 38rem;
-    min-width: 60rem;
+    min-height: 100vh;;
 }
 
 .form {
