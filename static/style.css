@@ -32,7 +32,7 @@ nav ul {
     list-style-type: none;
     padding: 0rem 1rem;
     display: flex;
-    gap: 1rem;
+    gap: 1.3rem;
 }
 
 nav ul li a {
