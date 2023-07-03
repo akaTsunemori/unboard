@@ -2,8 +2,8 @@ from threading import Timer
 from database_handler import DatabaseHandler
 
 
-class LoginHandler:
-    def __init__(self) -> None:
+class LoginHandler():
+    def __init__(self, database_handler: DatabaseHandler) -> None:
         self.is_admin = False
         self.is_logged = False
         self.hide_logged_status='hidden'
@@ -13,7 +13,7 @@ class LoginHandler:
         self.admin_student = 'student'
         self.user_email=''
         self.login_redirect = '/login'
-        self.database_handler = DatabaseHandler()
+        self.database_handler = database_handler
         self.warning = ''
 
     def user_logon(self, email: str, password: str) -> None:

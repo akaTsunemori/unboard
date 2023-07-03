@@ -11,7 +11,6 @@ from database_handler import DatabaseHandler
 # Main app
 app = Flask(__name__)
 
-
 # Setup base64 encode filter to handle BLOB images
 import base64
 @app.template_filter('base64_encode')
@@ -19,9 +18,9 @@ def base64_encode(value):
     return base64.b64encode(value).decode('utf-8')
 app.jinja_env.filters['base64_encode'] = base64_encode
 
-
-# Login handler
-lh = LoginHandler()
+# Login and database handlers
+database_handler = DatabaseHandler()
+lh = LoginHandler(database_handler=database_handler)
 
 # Get random anime images from the anime dir
 images = [i for i in listdir('static/images/anime') if i.endswith('.png') or i.endswith('.webp')]
@@ -53,20 +52,24 @@ def about():
     return render_template_util('about.html')
 
 
-@app.route('/classes', methods=['GET', 'POST'])
-def classes():
+@app.route('/disciplines', methods=['GET', 'POST'])
+def disciplines():
     search_results = []
     if request.method == 'POST':
+        if 'button_value' in request.form:
+            button_value = request.form['button_value']
+            return classes(button_value)
         query = request.form.get('query') # Handle the search query
         if query: # To-do search logic
             # search_results = [query] + [f"Result {i}" for i in range(1, 11)]
-            search_results = lh.database_handler.search(query)
-    return render_template_util('classes.html', search_results=search_results)
+            search_results = database_handler.search(query)
+    return render_template_util('disciplines.html', search_results=search_results)
 
 
-@app.route('/class_page', methods=['GET', 'POST'])
-def class_page():
-    pass
+@app.route('/classes', methods=['GET', 'POST'])
+def classes(selected_class: str):
+    print('Selected class:', selected_class)
+    return render_template_util('classes.html')
 
 
 @app.route('/ranking')
@@ -85,7 +88,7 @@ def admin():
 def student():
     if not lh.is_logged:
         return redirect('/')
-    user_name, user_profile_pic = lh.database_handler.student_data(lh.user_email)
+    user_name, user_profile_pic = database_handler.student_data(lh.user_email)
     return render_template_util('student.html', user_name=user_name, user_profile_pic=user_profile_pic)
 
 
