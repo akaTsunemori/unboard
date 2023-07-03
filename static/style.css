@@ -163,6 +163,17 @@ ul {
 
 /* Bottom right image */
 
+.profile-picture {
+    display: flex;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    width: auto;
+    height: 10rem;  /* Adjust the width and height as needed */
+    border-radius: 10%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .bottom-right-image {
     position: fixed;
     bottom: 0rem;

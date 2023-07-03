@@ -51,3 +51,10 @@ class DatabaseHandler:
 
     def search():
         pass
+
+    def student_data(self, email: str):
+        query = f'SELECT name, profile_pic FROM Students WHERE email="{email}"'
+        self.cursor.execute(query)
+        user = self.cursor.fetchall()[0]
+        name, profile_pic = user
+        return name, profile_pic

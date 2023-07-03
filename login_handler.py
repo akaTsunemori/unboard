@@ -41,7 +41,7 @@ class LoginHandler:
         self.hide_signup_button=''
         self.hide_logged_panel = 'hidden'
         self.login_logout = 'Login'
-        self.admin_student = 'Student'
+        self.admin_student = 'student'
         self.user_email=''
         self.login_redirect = '/login'
         self.warning = ''

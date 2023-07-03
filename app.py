@@ -10,6 +10,14 @@ from login_handler import LoginHandler
 # Main app
 app = Flask(__name__)
 
+
+import base64
+@app.template_filter('base64_encode')
+def base64_encode(value):
+    return base64.b64encode(value).decode('utf-8')
+app.jinja_env.filters['base64_encode'] = base64_encode
+
+
 # Login handler
 lh = LoginHandler()
 
@@ -54,6 +62,11 @@ def classes():
     return render_template_util('classes.html', search_results=search_results)
 
 
+@app.route('/class_page', methods=['GET', 'POST'])
+def class_page():
+    pass
+
+
 @app.route('/ranking')
 def ranking():
     return render_template_util('ranking.html')
@@ -61,12 +74,17 @@ def ranking():
 
 @app.route('/admin')
 def admin():
+    if not lh.is_logged:
+        return redirect('/')
     return render_template_util('admin.html')
 
 
 @app.route('/student')
 def student():
-    return render_template_util('student.html')
+    if not lh.is_logged:
+        return redirect('/')
+    user_name, user_profile_pic = lh.database_handler.student_data(lh.user_email)
+    return render_template_util('student.html', user_name=user_name, user_profile_pic=user_profile_pic)
 
 
 # Login, logout and signup routes
@@ -79,7 +97,6 @@ def login():
         email = request.form['email']
         password = request.form['password']
         lh.user_logon(email, password)
-        print(email, password) # Now I have the inputs from email and passwd
         return redirect('/')
     return render_template('login.html', anime_image = image)
 
@@ -100,8 +117,6 @@ def signup():
         email = request.form['email']
         password = request.form['password']
         profile_picture = request.files['profile-picture']
-        print(name, email, password) # Now I have the inputs from name, email and passwd
-        print(type(profile_picture)) # I also have a profile picure
         lh.user_signup(email, name, password, profile_picture)
         return redirect('/')
     return render_template('signup.html', anime_image = image)
