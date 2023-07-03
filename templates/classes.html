@@ -10,6 +10,25 @@
         <h2>Classes</h2>
         <!-- Add your content here -->
         This page will be used to show all classes/teachers from a discipline.
+
+        <h2 style="margin-top: 3rem;">Course List</h2>
+        <table style="margin-top: 1.5rem;">
+            <tr>
+                <th>Discipline</th>
+                <th>Period</th>
+                <th>Class</th>
+                <th>Professor</th>
+            </tr>
+            {% for cl in classes %}
+            <tr>
+                <td>{{ cl[0] }}</td>
+                <td>{{ cl[1] }}</td>
+                <td>{{ cl[2] }}</td>
+                <td>{{ cl[3] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
     </div>
     <img src="/static/images/anime/{{anime_image}}" alt="Image" class="bottom-right-image">
 </body>

@@ -58,18 +58,17 @@ def disciplines():
     if request.method == 'POST':
         if 'button_value' in request.form:
             button_value = request.form['button_value']
-            return classes(button_value)
+            return classes(selected_discipline=button_value)
         query = request.form.get('query') # Handle the search query
-        if query: # To-do search logic
-            # search_results = [query] + [f"Result {i}" for i in range(1, 11)]
-            search_results = database_handler.search(query)
+        if query:
+            search_results = database_handler.search_discipline(query)
     return render_template_util('disciplines.html', search_results=search_results)
 
 
 @app.route('/classes', methods=['GET', 'POST'])
-def classes(selected_class: str):
-    print('Selected class:', selected_class)
-    return render_template_util('classes.html')
+def classes(selected_discipline: str):
+    query_classes = database_handler.get_classes(selected_discipline)
+    return render_template_util('classes.html', classes=query_classes)
 
 
 @app.route('/ranking')

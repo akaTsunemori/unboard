@@ -49,7 +49,7 @@ class DatabaseHandler:
     #  Query Functions  #
     #####################
 
-    def search(self, term: str):
+    def search_discipline(self, term: str) -> list:
         query = f'SELECT name FROM Disciplines'
         self.cursor.execute(query)
         result = self.cursor.fetchall()
@@ -57,6 +57,14 @@ class DatabaseHandler:
             return
         entries = [i[0] for i in result if term.lower() in i[0].lower()]
         return entries
+
+    def get_classes(self, discipline: str) -> list:
+        query = f'SELECT D.name, C.periodo, C.id, P.name\
+            FROM Professors AS P, Disciplines AS D, Classes AS C\
+            WHERE P.id=C.prof_id AND D.id=C.disc_id AND D.name="{discipline}"'
+        self.cursor.execute(query)
+        result = self.cursor.fetchall()
+        return result
 
     def student_data(self, email: str):
         query = f'SELECT name, profile_pic FROM Students WHERE email="{email}"'
