@@ -4,11 +4,30 @@
     <title>Classes</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
+<body>
     {% include 'header.html' %}
-    <div class="content">
-        <h1>Classes</h1>
-        <!-- Add your content here -->
-        <img src="/static/images/anime/{{anime_image}}" alt="Image" class="bottom-right-image">
+    <div class="container">
+        <form class="form" method="POST" action="{{ url_for('classes') }}">
+            <h2>Classes</h2>
+            <!-- Add your content here -->
+            <div class="form-group">
+                <input type="text" name="query" placeholder="Search...">
+            </div>
+            <div class="form-group">
+                <button type="submit">Search</button>
+            </div>
+            <div class="form-group">
+                {% if search_results %}
+                    <h2>Search Results:</h2>
+                    <ul>
+                        {% for result in search_results %}
+                            <li>{{ result }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </form>
     </div>
+    <img src="/static/images/anime/{{anime_image}}" alt="Image" class="bottom-right-image">
 </body>
 </html>

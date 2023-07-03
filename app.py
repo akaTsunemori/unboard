@@ -18,7 +18,7 @@ images = [i for i in listdir('static/images/anime') if i.endswith('.png') or i.e
 
 
 # Utility for calling flask's render_template function
-def render_template_util(page: str) -> str:
+def render_template_util(page: str, **kwargs) -> str:
     image = choice(images)
     return render_template(page,
         anime_image=image,
@@ -28,7 +28,8 @@ def render_template_util(page: str) -> str:
         admin_student=lh.admin_student,
         user_email=lh.user_email,
         login_logout=lh.login_logout,
-        login_redirect=lh.login_redirect)
+        login_redirect=lh.login_redirect,
+        **kwargs)
 
 
 # Conventional routes
@@ -42,9 +43,15 @@ def about():
     return render_template_util('about.html')
 
 
-@app.route('/classes')
+@app.route('/classes', methods=['GET', 'POST'])
 def classes():
-    return render_template_util('classes.html')
+    search_results = []
+    if request.method == 'POST':
+        query = request.form.get('query') # Handle the search query
+        print(query)
+        if query: # To-do search logic
+            search_results = [query] + [f"Result {i}" for i in range(1, 11)]
+    return render_template_util('classes.html', search_results=search_results)
 
 
 @app.route('/ranking')
