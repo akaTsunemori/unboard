@@ -5,12 +5,14 @@ from random import choice
 
 # Project modules
 from login_handler import LoginHandler
+from database_handler import DatabaseHandler
 
 
 # Main app
 app = Flask(__name__)
 
 
+# Setup base64 encode filter to handle BLOB images
 import base64
 @app.template_filter('base64_encode')
 def base64_encode(value):
@@ -56,9 +58,9 @@ def classes():
     search_results = []
     if request.method == 'POST':
         query = request.form.get('query') # Handle the search query
-        print(query)
         if query: # To-do search logic
-            search_results = [query] + [f"Result {i}" for i in range(1, 11)]
+            # search_results = [query] + [f"Result {i}" for i in range(1, 11)]
+            search_results = lh.database_handler.search(query)
     return render_template_util('classes.html', search_results=search_results)
 
 

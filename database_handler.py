@@ -1,4 +1,5 @@
 import mysql.connector
+from unidecode import unidecode
 
 
 class DatabaseHandler:
@@ -49,8 +50,14 @@ class DatabaseHandler:
     #  Query Functions  #
     #####################
 
-    def search():
-        pass
+    def search(self, term: str):
+        query = f'SELECT name FROM Disciplines'
+        self.cursor.execute(query)
+        result = self.cursor.fetchall()
+        if not result:
+            return
+        entries = [i[0] for i in result if term.lower() in i[0].lower()]
+        return entries
 
     def student_data(self, email: str):
         query = f'SELECT name, profile_pic FROM Students WHERE email="{email}"'

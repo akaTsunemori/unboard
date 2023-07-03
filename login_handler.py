@@ -56,4 +56,3 @@ class LoginHandler:
 
     def __reset_warning(self) -> None:
         self.warning = ''
-
