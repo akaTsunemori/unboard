@@ -147,6 +147,15 @@ ul {
     list-style-type: none;
 }
 
+/* Warning text */
+.warning {
+    color: #bd0707;
+    font-weight: bold;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
 /* Hidden items */
 .hidden {
     display: none;

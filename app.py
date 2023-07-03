@@ -35,7 +35,7 @@ def render_template_util(page: str, **kwargs) -> str:
 # Conventional routes
 @app.route('/')
 def home():
-    return render_template_util('home.html')
+    return render_template_util('home.html', warning=lh.warning)
 
 
 @app.route('/about')
@@ -102,6 +102,8 @@ def signup():
         profile_picture = request.files['profile-picture']
         print(name, email, password) # Now I have the inputs from name, email and passwd
         print(type(profile_picture)) # I also have a profile picure
+        lh.user_signup(email, name, password, profile_picture)
+        return redirect('/')
     return render_template('signup.html', anime_image = image)
 
 

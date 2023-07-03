@@ -7,9 +7,16 @@
 <body>
     {% include 'header.html' %}
     <div class="content">
+        <p class="warning" id="warning">{{ warning }}</p>
         <h1>Welcome to the Home Page!</h1>
         <!-- Add your content here -->
         <img src="/static/images/anime/{{anime_image}}" alt="Image" class="bottom-right-image">
     </div>
+    <script>
+        setTimeout(function(){
+            var warning = document.getElementById("warning");
+            warning.parentNode.removeChild(warning);
+        }, 2500);
+    </script>
 </body>
 </html>
