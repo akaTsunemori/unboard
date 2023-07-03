@@ -1,5 +1,4 @@
 import mysql.connector
-from unidecode import unidecode
 
 
 class DatabaseHandler:
