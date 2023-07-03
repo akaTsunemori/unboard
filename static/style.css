@@ -92,8 +92,8 @@ a:hover {
     justify-content: center;
     align-items: center;
     text-align: center;
-    margin: 0 auto;
-    min-height: 100vh;;
+    margin: 2.5rem;
+    min-height: 50rem;
 }
 
 .form {
@@ -106,7 +106,8 @@ a:hover {
 
 .form-group {
     margin-bottom: 1.3rem;
-    margin-right: 1.3rem;
+    margin-left: 0;
+    margin-right: 0;
 }
 
 label {
@@ -139,6 +140,11 @@ button:hover {
     background-color: #888;
     color: #fff;
     transition: all 0.3s ease;
+}
+
+/* List items */
+ul {
+    list-style-type: none;
 }
 
 /* Hidden items */
