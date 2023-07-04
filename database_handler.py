@@ -59,7 +59,7 @@ class DatabaseHandler:
         return entries
 
     def get_classes(self, discipline: str) -> list:
-        query = f'SELECT D.name, C.periodo, C.id, P.name\
+        query = f'SELECT D.name, C.term, C.id, P.name\
             FROM Professors AS P, Disciplines AS D, Classes AS C\
             WHERE P.id=C.prof_id AND D.id=C.disc_id AND D.name="{discipline}"'
         self.cursor.execute(query)

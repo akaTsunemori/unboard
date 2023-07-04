@@ -61,6 +61,7 @@ nav ul li a:hover {
 
 .content {
     margin: 2rem;
+    margin-bottom: 20rem;
 }
 
 h1 {
@@ -176,7 +177,7 @@ ul {
     margin-bottom: 2rem;
     width: auto;
     height: 10rem;  /* Adjust the width and height as needed */
-    border-radius: 10%;
+    border-radius: 100%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -224,7 +225,7 @@ table {
 th, td {
     text-align: left;
     padding: 0.5rem;
-    min-width: 25rem;
+    min-width: 15vw;
 }
 
 th {

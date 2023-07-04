@@ -1,0 +1,59 @@
+CREATE USER 'unboard_admin'@'localhost' IDENTIFIED BY 'unboard_passwd';
+
+CREATE DATABASE unboard;
+USE unboard;
+GRANT ALL PRIVILEGES ON unboard TO 'unboard_admin'@'localhost';
+GRANT ALL PRIVILEGES ON unboard.* TO 'unboard_admin'@'localhost';
+
+CREATE TABLE Students (
+  email VARCHAR(50) PRIMARY KEY NOT NULL,
+  name VARCHAR(200) NOT NULL,
+  passwd VARCHAR(32) NOT NULL,
+  profile_pic MEDIUMBLOB NOT NULL
+);
+
+CREATE TABLE Professors (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(200) NOT NULL
+);
+
+CREATE TABLE Departments (
+  id INT PRIMARY KEY NOT NULL,
+  name VARCHAR(200) NOT NULL
+);
+
+CREATE TABLE Disciplines (
+  id VARCHAR(20) NOT NULL,
+  name VARCHAR(400) NOT NULL,
+  dept_id INT NOT NULL,
+  PRIMARY KEY (id, name),
+  FOREIGN KEY (dept_id) REFERENCES Departments(id)
+);
+
+CREATE TABLE Classes (
+  id VARCHAR(20) NOT NULL,
+  disc_id VARCHAR(20) NOT NULL,
+  term VARCHAR(20) NOT NULL,
+  prof_id INT NOT NULL,
+  schedule VARCHAR(20),
+  PRIMARY KEY (id, disc_id, term, prof_id),
+  FOREIGN KEY (disc_id) REFERENCES Disciplines(id),
+  FOREIGN KEY (prof_id) REFERENCES Professors(id)
+);
+
+CREATE TABLE Reviews (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  student_email VARCHAR(50) NOT NULL,
+  class_id VARCHAR(20) NOT NULL,
+  review TEXT NOT NULL,
+  FOREIGN KEY (student_email) REFERENCES Students(email),
+  FOREIGN KEY (class_id) REFERENCES Classes(id)
+);
+
+CREATE TABLE Reports (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  student_email VARCHAR(50) NOT NULL,
+  review_id INT NOT NULL,
+  FOREIGN KEY (student_email) REFERENCES Students(email),
+  FOREIGN KEY (review_id) REFERENCES Reviews(id)
+);
