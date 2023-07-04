@@ -12,10 +12,10 @@ from database_handler import DatabaseHandler
 app = Flask(__name__)
 
 # Setup base64 encode filter to handle BLOB images
-import base64
+from base64 import b64encode
 @app.template_filter('base64_encode')
 def base64_encode(value):
-    return base64.b64encode(value).decode('utf-8')
+    return b64encode(value).decode('utf-8')
 app.jinja_env.filters['base64_encode'] = base64_encode
 
 # Login and database handlers
@@ -62,6 +62,8 @@ def disciplines():
         query = request.form.get('query') # Handle the search query
         if query:
             search_results = database_handler.search_discipline(query)
+            if not search_results:
+                search_results = [f'No results found for "{query}".']
     return render_template_util('disciplines.html', search_results=search_results)
 
 

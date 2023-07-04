@@ -92,8 +92,15 @@ a:hover {
     justify-content: center;
     align-items: center;
     text-align: center;
-    margin: 2.5rem;
-    min-height: 50rem;
+    margin: 5rem;
+    /* Needs further examination: */
+    /* min-height: 50rem; */
+    /* margin-top: 2.55rem; */
+    /* padding: 5rem; */
+    /* left: 50%; */
+    /* top: 25%; */
+    /* position: absolute; */
+    /* transform: translate(-50%, 0%); */
 }
 
 .form {
