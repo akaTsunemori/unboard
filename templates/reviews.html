@@ -14,6 +14,17 @@
         {% elif class_to_review %}
             You are reviewing the class {{ class_to_review }} from the discipline {{ discipline_to_review }}.
         {% endif %}
+        <div class="container">
+            <form class="form" method="POST" action="{{ url_for('reviews') }}">
+                <h2>Review</h2>
+                <div class="form-group">
+                    <textarea name="review" class="text-box" placeholder="Type your review..."></textarea>
+                </div>
+                <div class="form-group">
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
         <img src="/static/images/anime/{{anime_image}}" alt="Image" class="bottom-right-image">
     </div>
 </body>

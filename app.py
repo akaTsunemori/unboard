@@ -80,8 +80,13 @@ def classes():
     query_classes = database_handler.get_classes(selected_discipline)
     return render_template_util('classes.html', classes=query_classes)
 
-@app.route('/reviews')
+
+@app.route('/reviews', methods=['GET', 'POST'])
 def reviews():
+    if request.method == 'POST':
+        review = request.form.get('review')
+        if review:
+            print(review)
     class_to_review      = global_vars.get_class()
     discipline_to_review = global_vars.get_discipline()
     professor_to_review  = global_vars.get_professor()
@@ -89,6 +94,8 @@ def reviews():
                 class_to_review=class_to_review,
                 discipline_to_review=discipline_to_review,
                 professor_to_review=professor_to_review)
+
+
 @app.route('/professors', methods=['GET', 'POST'])
 def professors():
     search_results = []
