@@ -23,7 +23,7 @@ for id, name in professors_db:
     professors[name] = id
 
 for idx, data in df.iterrows():
-    id = data['turma']
+    code = data['turma']
     term = data['periodo']
     p = data['professor']
     prof_name = p.split()
@@ -35,7 +35,7 @@ for idx, data in df.iterrows():
     prof_id = professors[prof_name]
     disc_id = data['cod_disciplina']
     schedule = data['periodo']
-    cmd = f'INSERT INTO Classes VALUES ("{id}", "{disc_id}", "{term}", {prof_id}, "{schedule}")'
+    cmd = f'INSERT INTO Classes (code, disc_id, term, prof_id, schedule) VALUES ("{code}", "{disc_id}", "{term}", {prof_id}, "{schedule}")'
     try:
         cursor.execute(cmd)
     except mysql.connector.errors.IntegrityError as e:

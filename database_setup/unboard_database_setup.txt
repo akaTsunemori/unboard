@@ -15,7 +15,7 @@ CREATE TABLE Students (
 CREATE TABLE Professors (
   id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
   name VARCHAR(200) NOT NULL,
-  CONSTRAINT uc_Professors UNIQUE (name);
+  CONSTRAINT uc_Professors UNIQUE (name)
 );
 
 CREATE TABLE Departments (
@@ -37,8 +37,8 @@ CREATE TABLE Classes (
   disc_id VARCHAR(20) NOT NULL,
   term VARCHAR(20) NOT NULL,
   prof_id INT NOT NULL,
-  schedule VARCHAR(20),
-  CONSTRAINT uc_Classes UNIQUE (code, disc_id, term, prof_id),
+  schedule VARCHAR(20) NOT NULL,
+  CONSTRAINT uc_Classes UNIQUE (code, disc_id, term, prof_id, schedule),
   FOREIGN KEY (disc_id) REFERENCES Disciplines(id),
   FOREIGN KEY (prof_id) REFERENCES Professors(id)
 );
