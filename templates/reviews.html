@@ -9,9 +9,11 @@
     <div class="content">
         <h1>Reviews</h1>
         <!-- Add your content here -->
-        {{ class_to_review }}
-        {{ discipline_to_review }}
-        {{ professor_to_review }}
+        {% if professor_to_review %}
+            You are reviewing the professor {{ professor_to_review }}.
+        {% elif class_to_review %}
+            You are reviewing the class {{ class_to_review }} from the discipline {{ discipline_to_review }}.
+        {% endif %}
         <img src="/static/images/anime/{{anime_image}}" alt="Image" class="bottom-right-image">
     </div>
 </body>
