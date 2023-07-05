@@ -54,11 +54,11 @@ CREATE TABLE ClassReviews (
 
 CREATE TABLE ProfessorReviews (
   student_email VARCHAR(50) NOT NULL,
-  prof_name VARCHAR(200) NOT NULL,
+  prof_id INT NOT NULL,
   review TEXT NOT NULL,
-  PRIMARY KEY (student_email, prof_name),
+  PRIMARY KEY (student_email, prof_id),
   FOREIGN KEY (student_email) REFERENCES Students(email),
-  FOREIGN KEY (prof_name) REFERENCES Professors(name)
+  FOREIGN KEY (prof_id) REFERENCES Professors(id)
 );
 
 CREATE TABLE ClassReviewsReports (
@@ -71,9 +71,9 @@ CREATE TABLE ClassReviewsReports (
 
 CREATE TABLE ProfessorReviewsReports (
   student_email VARCHAR(50) NOT NULL,
-  prof_id VARCHAR(200) NOT NULL,
+  prof_id INT NOT NULL,
   review TEXT NOT NULL,
   PRIMARY KEY (student_email, prof_id),
   FOREIGN KEY (student_email) REFERENCES Students(email),
-  FOREIGN KEY (prof_id) REFERENCES Professors(name)
+  FOREIGN KEY (prof_id) REFERENCES Professors(id)
 );

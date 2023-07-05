@@ -75,8 +75,20 @@ class DatabaseHandler:
         self.cursor.execute(query)
         result = self.cursor.fetchall()
         return result
+    
+    def get_classreviews(self, id: int) -> list:
+        query = f'SELECT student_email, review FROM ClassReviews WHERE class_id={id}'
+        self.cursor.execute(query)
+        result = self.cursor.fetchall()
+        return result
+    
+    def get_professorreviews(self, id: int) -> list:
+        query = f'SELECT student_email, review FROM ProfessorReviews WHERE prof_id={id}'
+        self.cursor.execute(query)
+        result = self.cursor.fetchall()
+        return result
 
-    def student_data(self, email: str):
+    def student_data(self, email: str) -> tuple:
         query = f'SELECT name, profile_pic FROM Students WHERE email="{email}"'
         self.cursor.execute(query)
         user = self.cursor.fetchall()[0]
