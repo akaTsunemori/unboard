@@ -18,7 +18,7 @@ class DatabaseHandler:
         self.connection.close()
 
     #####################
-    #   CRUD Functions  #
+    #   C_UD Functions  #
     #####################
 
     def signup(self, email: str, name: str, password: str, profile_pic) -> bool:
@@ -44,6 +44,24 @@ class DatabaseHandler:
         db_password = user[2]
         if password != db_password:
             return False
+        return True
+    
+    def review_professor(self, student_email: str, prof_id: int, review: str) -> bool:
+        cmd = f'INSERT INTO ProfessorReviews VALUES "{student_email}", {prof_id}, "{review}"'
+        try:
+            self.cursor.execute(cmd)
+        except mysql.connector.errors.IntegrityError as e:
+            return False
+        self.connection.commit()
+        return True
+    
+    def review_class(self, student_email: str, class_id: int, review: str) -> bool:
+        cmd = f'INSERT INTO ProfessorReviews VALUES "{student_email}", {class_id}, "{review}"'
+        try:
+            self.cursor.execute(cmd)
+        except mysql.connector.errors.IntegrityError as e:
+            return False
+        self.connection.commit()
         return True
 
     #####################
