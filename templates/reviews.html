@@ -14,6 +14,7 @@
         {% elif class_to_review %}
             You are reviewing the class {{ class_to_review }} from the discipline {{ discipline_to_review }}.
         {% endif %}
+
         <div class="container">
             <form class="form" method="POST" action="{{ url_for('reviews') }}">
                 <h2>Review</h2>
@@ -25,6 +26,19 @@
                 </div>
             </form>
         </div>
+        {% if reviews_list %}
+        <h1 style="margin-top: 3rem;">Reviews List</h1>
+        <table style="margin-top: 1.5rem;">
+            <tr>
+                <th>Review</th>
+            </tr>
+            {% for r in reviews_list %}
+            <tr>
+                <td>{{ r }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
         <img src="/static/images/anime/{{anime_image}}" alt="Image" class="bottom-right-image">
     </div>
 </body>

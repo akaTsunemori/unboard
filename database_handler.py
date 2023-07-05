@@ -47,7 +47,7 @@ class DatabaseHandler:
         return True
     
     def review_professor(self, student_email: str, prof_id: int, review: str) -> bool:
-        cmd = f'INSERT INTO ProfessorReviews VALUES "{student_email}", {prof_id}, "{review}"'
+        cmd = f'INSERT INTO ProfessorReviews VALUES ("{student_email}", {prof_id}, "{review}")'
         try:
             self.cursor.execute(cmd)
         except mysql.connector.errors.IntegrityError as e:
@@ -56,7 +56,7 @@ class DatabaseHandler:
         return True
     
     def review_class(self, student_email: str, class_id: int, review: str) -> bool:
-        cmd = f'INSERT INTO ProfessorReviews VALUES "{student_email}", {class_id}, "{review}"'
+        cmd = f'INSERT INTO ClassReviews VALUES ("{student_email}", {class_id}, "{review}")'
         try:
             self.cursor.execute(cmd)
         except mysql.connector.errors.IntegrityError as e:
@@ -69,6 +69,11 @@ class DatabaseHandler:
     #####################
 
     def search_discipline(self, name: str) -> list:
+        """
+        Gets disciplines with matching names with the search query.
+
+        Returns a list, each item being a name that matches the query.
+        """
         query = f'SELECT name FROM Disciplines'
         self.cursor.execute(query)
         result = self.cursor.fetchall()
@@ -78,26 +83,45 @@ class DatabaseHandler:
         return sorted(entries)
 
     def search_professor(self, name: str) -> list:
-        query = f'SELECT name FROM Professors'
+        """
+        Gets professors with matching names with the search query.
+
+        Returns a list, each item being a tuple, each tuple being:
+        (professor id, professor name)
+        """
+        query = f'SELECT * FROM Professors'
         self.cursor.execute(query)
         result = self.cursor.fetchall()
         if not result:
             return
-        entries = [i[0] for i in result if unidecode(name).lower() in unidecode(i[0]).lower()]
+        entries = [i for i in result if unidecode(name).lower() in unidecode(i[1]).lower()]
         return sorted(entries)
 
     def get_classes(self, discipline: str) -> list:
-        query = f'SELECT D.name, C.term, C.code, P.name\
+        """
+        Gets all classes that match the selected discipline.
+
+        Returns a list of tuples, each tuple consisting of:
+        (department name, department id, 
+        class id, class term, class code, 
+        professor name, professor id)
+        """
+        query = f'SELECT D.name, D.id, C.id, C.term, C.code, P.name, P.id\
             FROM Professors AS P, Disciplines AS D, Classes AS C\
             WHERE P.id=C.prof_id AND D.id=C.disc_id AND D.name="{discipline}"'
         self.cursor.execute(query)
         result = self.cursor.fetchall()
         return result
     
-    def get_classreviews(self, id: int) -> list:
-        query = f'SELECT student_email, review FROM ClassReviews WHERE class_id={id}'
-        self.cursor.execute(query)
-        result = self.cursor.fetchall()
+    def get_classreviews(self, ids: list) -> list:
+        result = set()
+        for id in ids:
+            query = f'SELECT student_email, review FROM ClassReviews WHERE class_id={id}'
+            self.cursor.execute(query)
+            query_result = self.cursor.fetchall()
+            if query_result:
+                result.add(query_result[0][1])
+        result = list(result)
         return result
     
     def get_professorreviews(self, id: int) -> list:

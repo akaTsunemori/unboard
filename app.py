@@ -78,6 +78,8 @@ def classes():
         return redirect('/reviews')
     selected_discipline = global_vars.get_discipline()
     query_classes = database_handler.get_classes(selected_discipline)
+    global_vars.set_query_results(query_classes)
+    query_classes = [(i[0], i[3], i[4], i[5]) for i in query_classes]
     return render_template_util('classes.html', classes=query_classes)
 
 
@@ -86,14 +88,23 @@ def reviews():
     if request.method == 'POST':
         review = request.form.get('review')
         if review:
-            print(review)
+            student_email = lh.user_email
+            ids = [i[2] for i in global_vars.get_query_results()]
+            for id in ids:
+                database_handler.review_class(student_email, id, review)
     class_to_review      = global_vars.get_class()
     discipline_to_review = global_vars.get_discipline()
     professor_to_review  = global_vars.get_professor()
+    if professor_to_review:
+        reviews_list = []
+    else:
+        ids = [i[2] for i in global_vars.get_query_results()]
+        reviews_list = database_handler.get_classreviews(ids)
     return render_template_util('reviews.html',
                 class_to_review=class_to_review,
                 discipline_to_review=discipline_to_review,
-                professor_to_review=professor_to_review)
+                professor_to_review=professor_to_review,
+                reviews_list=reviews_list)
 
 
 @app.route('/professors', methods=['GET', 'POST'])
@@ -107,8 +118,11 @@ def professors():
         query = request.form.get('query') # Handle the search query
         if query:
             search_results = database_handler.search_professor(query)
+            global_vars.set_query_results(search_results)
             if not search_results:
                 search_results = [f'No results found for "{query}".']
+            else:
+                search_results = [i[1] for i in search_results] 
     return render_template_util('professors.html', search_results=search_results)
 
 
