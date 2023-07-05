@@ -89,9 +89,9 @@ def reviews():
         review = request.form.get('review')
         if review:
             student_email = lh.user_email
-            ids = [i[2] for i in global_vars.get_query_results()]
-            for id in ids:
-                database_handler.review_class(student_email, id, review)
+            ids = [i[2] for i in global_vars.get_query_results() if i[4] == global_vars.get_class()]
+            if ids:
+                database_handler.review_class(student_email, ids[0], review)
     class_to_review      = global_vars.get_class()
     discipline_to_review = global_vars.get_discipline()
     professor_to_review  = global_vars.get_professor()
