@@ -45,7 +45,7 @@ class DatabaseHandler:
         if password != db_password:
             return False
         return True
-    
+
     def review_professor(self, student_email: str, prof_id: int, review: str) -> bool:
         cmd = f'INSERT INTO ProfessorReviews VALUES ("{student_email}", {prof_id}, "{review}")'
         try:
@@ -54,7 +54,7 @@ class DatabaseHandler:
             return False
         self.connection.commit()
         return True
-    
+
     def review_class(self, student_email: str, class_id: int, review: str) -> bool:
         cmd = f'INSERT INTO ClassReviews VALUES ("{student_email}", {class_id}, "{review}")'
         try:
@@ -102,8 +102,8 @@ class DatabaseHandler:
         Gets all classes that match the selected discipline.
 
         Returns a list of tuples, each tuple consisting of:
-        (department name, department id, 
-        class id, class term, class code, 
+        (department name, department id,
+        class id, class term, class code,
         professor name, professor id)
         """
         query = f'SELECT D.name, D.id, C.id, C.term, C.code, P.name, P.id\
@@ -112,7 +112,7 @@ class DatabaseHandler:
         self.cursor.execute(query)
         result = self.cursor.fetchall()
         return result
-    
+
     def get_classreviews(self, id: int) -> list:
         result = []
         query = f'SELECT student_email, review FROM ClassReviews WHERE class_id={id}'
@@ -121,7 +121,7 @@ class DatabaseHandler:
         if query_result:
             result.append(query_result[0][1])
         return result
-    
+
     def get_professorreviews(self, id: int) -> list:
         result = []
         query = f'SELECT student_email, review FROM ProfessorReviews WHERE prof_id={id}'
@@ -130,6 +130,22 @@ class DatabaseHandler:
         if query_result:
             result.append(query_result[0][1])
         return result
+
+    def student_professor_reviews(self, email: str) -> list:
+        query = f'SELECT P.name, PR.review \
+            FROM Professors AS P, ProfessorReviews AS PR \
+            WHERE P.id=PR.prof_id AND PR.student_email="{email}"'
+        self.cursor.execute(query)
+        query_result = self.cursor.fetchall()
+        return query_result
+
+    def student_class_reviews(self, email: str) -> list:
+        query = f'SELECT C.code, D.name, C.term, P.name, C.schedule, CR.review\
+            FROM Classes AS C, Disciplines as D, Professors as P, ClassReviews as CR\
+            WHERE C.disc_id=D.id AND C.prof_id=P.id AND CR.class_id=C.id AND CR.student_email="{email}"'
+        self.cursor.execute(query)
+        query_result = self.cursor.fetchall()
+        return query_result
 
     def student_data(self, email: str) -> tuple:
         query = f'SELECT name, profile_pic FROM Students WHERE email="{email}"'

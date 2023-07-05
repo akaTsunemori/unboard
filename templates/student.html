@@ -15,5 +15,47 @@
             <img src="/static/images/anime/{{anime_image}}" alt="Random anime image :)" class="bottom-right-image">
         </div>
     </div>
+    {% if professor_reviews %}
+    <div class="content">
+            <h2 style="margin-top: 3rem;">Your professor reviews</h2>
+            <table style="margin-top: 1.5rem; margin-bottom: 1.5rem;">
+                <tr>
+                    <th>Professor</th>
+                    <th>Review</th>
+                </tr>
+                {% for r in professor_reviews %}
+                <tr>
+                    <td>{{ r[0] }}</td>
+                    <td>{{ r[1] }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+    </div>
+    {% endif %}
+    {% if class_reviews %}
+    <div class="content">
+            <h2 style="margin-top: 3rem;">Your classes reviews</h2>
+            <table style="margin-top: 1.5rem;">
+                <tr>
+                    <th>Class code</th>
+                    <th>Discipline name</th>
+                    <th>Term</th>
+                    <th>Professor</th>
+                    <th>Schedule</th>
+                    <th>Review</th>
+                </tr>
+                {% for r in class_reviews %}
+                <tr>
+                    <td>{{ r[0] }}</td>
+                    <td>{{ r[1] }}</td>
+                    <td>{{ r[2] }}</td>
+                    <td>{{ r[3] }}</td>
+                    <td>{{ r[4] }}</td>
+                    <td>{{ r[5] }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+    </div>
+    {% endif %}
 </body>
 </html>

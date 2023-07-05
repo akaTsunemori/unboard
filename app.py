@@ -132,7 +132,7 @@ def professors():
             if not search_results:
                 search_results = [f'No results found for "{query}".']
             else:
-                search_results = [i[1] for i in search_results] 
+                search_results = [i[1] for i in search_results]
     return render_template_util('professors.html', search_results=search_results)
 
 
@@ -147,8 +147,15 @@ def admin():
 def student():
     if not lh.is_logged:
         return redirect('/')
-    user_name, user_profile_pic = database_handler.student_data(lh.user_email)
-    return render_template_util('student.html', user_name=user_name, user_profile_pic=user_profile_pic)
+    student_email = lh.user_email
+    user_name, user_profile_pic = database_handler.student_data(student_email)
+    professor_reviews = database_handler.student_professor_reviews(student_email)
+    class_reviews = database_handler.student_class_reviews(student_email)
+    return render_template_util('student.html',
+                user_name=user_name,
+                user_profile_pic=user_profile_pic,
+                professor_reviews=professor_reviews,
+                class_reviews=class_reviews)
 
 
 # Login, logout and signup routes

@@ -37,7 +37,7 @@ CREATE TABLE Classes (
   disc_id VARCHAR(20) NOT NULL,
   term VARCHAR(20) NOT NULL,
   prof_id INT NOT NULL,
-  schedule VARCHAR(20) NOT NULL,
+  schedule VARCHAR(200) NOT NULL,
   CONSTRAINT uc_Classes UNIQUE (code, disc_id, term, prof_id, schedule),
   FOREIGN KEY (disc_id) REFERENCES Disciplines(id),
   FOREIGN KEY (prof_id) REFERENCES Professors(id)

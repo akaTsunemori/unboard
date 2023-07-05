@@ -34,7 +34,7 @@ for idx, data in df.iterrows():
         continue
     prof_id = professors[prof_name]
     disc_id = data['cod_disciplina']
-    schedule = data['periodo']
+    schedule = data['horario']
     cmd = f'INSERT INTO Classes (code, disc_id, term, prof_id, schedule) VALUES ("{code}", "{disc_id}", "{term}", {prof_id}, "{schedule}")'
     try:
         cursor.execute(cmd)
