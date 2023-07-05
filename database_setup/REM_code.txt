@@ -1,0 +1,36 @@
+Professor
+Classe
+Aula .diamond
+  (Classe)
+  (Professor)
+
+Departamento
+Disciplina
+Possui .diamond
+  (Departamento)
+  (Disciplina)
+
+Tem .diamond
+  (Classe)
+  (Disciplina)
+
+Avaliação
+Comentário .diamond
+  (Professor)
+  (Classe)
+  (Avaliação)
+
+Denúncia
+Gerenciamento .diamond
+  (Avaliação)
+  (Denúncia)
+
+Estudante
+Faz .diamond
+  (Avaliação)
+  (Estudante)
+Faz .diamond
+  (Denúncia)
+  (Estudante)
+
+https://flowchart.fun/

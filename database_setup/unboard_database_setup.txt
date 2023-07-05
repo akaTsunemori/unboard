@@ -13,8 +13,9 @@ CREATE TABLE Students (
 );
 
 CREATE TABLE Professors (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(200) NOT NULL
+  id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  name VARCHAR(200) NOT NULL,
+  CONSTRAINT uc_Professors UNIQUE (name);
 );
 
 CREATE TABLE Departments (
@@ -31,29 +32,48 @@ CREATE TABLE Disciplines (
 );
 
 CREATE TABLE Classes (
-  id VARCHAR(20) NOT NULL,
+  id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  code VARCHAR(20) NOT NULL,
   disc_id VARCHAR(20) NOT NULL,
   term VARCHAR(20) NOT NULL,
   prof_id INT NOT NULL,
   schedule VARCHAR(20),
-  PRIMARY KEY (id, disc_id, term, prof_id),
+  CONSTRAINT uc_Classes UNIQUE (code, disc_id, term, prof_id),
   FOREIGN KEY (disc_id) REFERENCES Disciplines(id),
   FOREIGN KEY (prof_id) REFERENCES Professors(id)
 );
 
-CREATE TABLE Reviews (
-  id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE ClassReviews (
   student_email VARCHAR(50) NOT NULL,
-  class_id VARCHAR(20) NOT NULL,
+  class_id INT NOT NULL,
   review TEXT NOT NULL,
+  PRIMARY KEY (student_email, class_id),
   FOREIGN KEY (student_email) REFERENCES Students(email),
   FOREIGN KEY (class_id) REFERENCES Classes(id)
 );
 
-CREATE TABLE Reports (
-  id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE ProfessorReviews (
   student_email VARCHAR(50) NOT NULL,
-  review_id INT NOT NULL,
+  prof_name VARCHAR(200) NOT NULL,
+  review TEXT NOT NULL,
+  PRIMARY KEY (student_email, prof_name),
   FOREIGN KEY (student_email) REFERENCES Students(email),
-  FOREIGN KEY (review_id) REFERENCES Reviews(id)
+  FOREIGN KEY (prof_name) REFERENCES Professors(name)
+);
+
+CREATE TABLE ClassReviewsReports (
+  reporter_email VARCHAR(50) NOT NULL,
+  class_id INT NOT NULL,
+  PRIMARY KEY (reporter_email, class_id),
+  FOREIGN KEY (reporter_email) REFERENCES Students(email),
+  FOREIGN KEY (class_id) REFERENCES Classes(id)
+);
+
+CREATE TABLE ProfessorReviewsReports (
+  student_email VARCHAR(50) NOT NULL,
+  prof_id VARCHAR(200) NOT NULL,
+  review TEXT NOT NULL,
+  PRIMARY KEY (student_email, prof_id),
+  FOREIGN KEY (student_email) REFERENCES Students(email),
+  FOREIGN KEY (prof_id) REFERENCES Professors(name)
 );
