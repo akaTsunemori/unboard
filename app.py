@@ -6,6 +6,7 @@ from random import choice
 # Project modules
 from login_handler import LoginHandler
 from database_handler import DatabaseHandler
+from global_vars import GlobalVars
 
 
 # Main app
@@ -21,6 +22,7 @@ app.jinja_env.filters['base64_encode'] = base64_encode
 # Login and database handlers
 database_handler = DatabaseHandler()
 lh = LoginHandler(database_handler=database_handler)
+global_vars = GlobalVars()
 
 # Get random anime images from the anime dir
 images = [i for i in listdir('static/images/anime') if i.endswith('.png') or i.endswith('.webp')]
@@ -57,8 +59,9 @@ def disciplines():
     search_results = []
     if request.method == 'POST':
         if 'button_value' in request.form:
-            button_value = request.form['button_value']
-            return classes(selected_discipline=button_value)
+            selected_discipline = request.form['button_value']
+            global_vars.set_discipline(selected_discipline)
+            return redirect('/classes')
         query = request.form.get('query') # Handle the search query
         if query:
             search_results = database_handler.search_discipline(query)
@@ -68,18 +71,32 @@ def disciplines():
 
 
 @app.route('/classes', methods=['GET', 'POST'])
-def classes(selected_discipline: str):
+def classes():
+    if request.method == 'POST':
+        selected_class = request.form['button_value']
+        global_vars.set_class(selected_class)
+        return redirect('/reviews')
+    selected_discipline = global_vars.get_discipline()
     query_classes = database_handler.get_classes(selected_discipline)
     return render_template_util('classes.html', classes=query_classes)
 
-
+@app.route('/reviews')
+def reviews():
+    class_to_review      = global_vars.get_class()
+    discipline_to_review = global_vars.get_discipline()
+    professor_to_review  = global_vars.get_professor()
+    return render_template_util('reviews.html',
+                class_to_review=class_to_review,
+                discipline_to_review=discipline_to_review,
+                professor_to_review=professor_to_review)
 @app.route('/professors', methods=['GET', 'POST'])
 def professors():
     search_results = []
     if request.method == 'POST':
         if 'button_value' in request.form:
-            button_value = request.form['button_value']
-            return classes(selected_discipline=button_value) # This should return to a page with reviews for the professor
+            selected_professor = request.form['button_value']
+            global_vars.set_professor(selected_professor)
+            return redirect('/reviews')
         query = request.form.get('query') # Handle the search query
         if query:
             search_results = database_handler.search_professor(query)
