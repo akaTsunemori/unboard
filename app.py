@@ -85,21 +85,31 @@ def classes():
 
 @app.route('/reviews', methods=['GET', 'POST'])
 def reviews():
-    if request.method == 'POST':
-        review = request.form.get('review')
-        if review:
-            student_email = lh.user_email
-            ids = [i[2] for i in global_vars.get_query_results() if i[4] == global_vars.get_class()]
-            if ids:
-                database_handler.review_class(student_email, ids[0], review)
     class_to_review      = global_vars.get_class()
     discipline_to_review = global_vars.get_discipline()
     professor_to_review  = global_vars.get_professor()
+    if request.method == 'POST':
+        review = request.form.get('review')
+        if review and class_to_review:
+            student_email = lh.user_email
+            id = [i[2] for i in global_vars.get_query_results() if i[4] == global_vars.get_class()]
+            if id:
+                database_handler.review_class(student_email, *id, review)
+        elif review and professor_to_review:
+            student_email = lh.user_email
+            id = [i[0] for i in global_vars.get_query_results() if i[1] == global_vars.get_professor()]
+            if id:
+                database_handler.review_professor(student_email, *id, review)
     if professor_to_review:
-        reviews_list = []
+        id = [i[0] for i in global_vars.get_query_results()
+              if i[1] == global_vars.get_professor()]
+        if id:
+            reviews_list = database_handler.get_professorreviews(*id)
     else:
-        ids = [i[2] for i in global_vars.get_query_results()]
-        reviews_list = database_handler.get_classreviews(ids)
+        id = [i[2] for i in global_vars.get_query_results()
+              if i[4] == global_vars.get_class()]
+        if id:
+            reviews_list = database_handler.get_classreviews(*id)
     return render_template_util('reviews.html',
                 class_to_review=class_to_review,
                 discipline_to_review=discipline_to_review,

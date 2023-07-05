@@ -35,4 +35,3 @@ class GlobalVars:
         self.__discipline = ''
         self.__class = ''
         self.__professor = ''
-        self.__query_results = []
