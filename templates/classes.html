@@ -9,9 +9,9 @@
     <div class="content">
         <h2>Classes</h2>
         <!-- Add your content here -->
-        This page will be used to show all classes/teachers from a discipline.
+        Displayed below is a list with all classes from the selected discipline. Click on a class number in order to review it.
 
-        <h2 style="margin-top: 3rem;">Course List</h2>
+        <h2 style="margin-top: 3rem;">Classes List</h2>
         <table style="margin-top: 1.5rem;">
             <tr>
                 <th>Discipline</th>
@@ -23,7 +23,11 @@
             <tr>
                 <td>{{ cl[0] }}</td>
                 <td>{{ cl[1] }}</td>
-                <td>{{ cl[2] }}</td>
+                <td>
+                    <form method="POST">
+                        <button class="button list" type="submit" name="button_value" value="{{ cl[2] }}">{{ cl[2] }}</button>
+                    </form>
+                </td>
                 <td>{{ cl[3] }}</td>
             </tr>
             {% endfor %}

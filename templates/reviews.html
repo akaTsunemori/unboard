@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Ranking</title>
+    <title>About</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     {% include 'header.html' %}
     <div class="content">
-        <h1>Ranking</h1>
+        <h1>About Us</h1>
         <!-- Add your content here -->
+        Class to be reviewed: {{ to_review }}.
         <img src="/static/images/anime/{{anime_image}}" alt="Image" class="bottom-right-image">
     </div>
 </body>

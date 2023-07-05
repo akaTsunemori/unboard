@@ -73,9 +73,19 @@ def classes(selected_discipline: str):
     return render_template_util('classes.html', classes=query_classes)
 
 
-@app.route('/ranking')
-def ranking():
-    return render_template_util('ranking.html')
+@app.route('/professors', methods=['GET', 'POST'])
+def professors():
+    search_results = []
+    if request.method == 'POST':
+        if 'button_value' in request.form:
+            button_value = request.form['button_value']
+            return classes(selected_discipline=button_value) # This should return to a page with reviews for the professor
+        query = request.form.get('query') # Handle the search query
+        if query:
+            search_results = database_handler.search_professor(query)
+            if not search_results:
+                search_results = [f'No results found for "{query}".']
+    return render_template_util('professors.html', search_results=search_results)
 
 
 @app.route('/admin')

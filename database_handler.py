@@ -1,4 +1,5 @@
 import mysql.connector
+from unidecode import unidecode
 
 
 class DatabaseHandler:
@@ -49,14 +50,23 @@ class DatabaseHandler:
     #  Query Functions  #
     #####################
 
-    def search_discipline(self, term: str) -> list:
+    def search_discipline(self, name: str) -> list:
         query = f'SELECT name FROM Disciplines'
         self.cursor.execute(query)
         result = self.cursor.fetchall()
         if not result:
             return
-        entries = [i[0] for i in result if term.lower() in i[0].lower()]
-        return entries
+        entries = [i[0] for i in result if unidecode(name).lower() in unidecode(i[0]).lower()]
+        return sorted(entries)
+
+    def search_professor(self, name: str) -> list:
+        query = f'SELECT name FROM Professors'
+        self.cursor.execute(query)
+        result = self.cursor.fetchall()
+        if not result:
+            return
+        entries = [i[0] for i in result if unidecode(name).lower() in unidecode(i[0]).lower()]
+        return sorted(entries)
 
     def get_classes(self, discipline: str) -> list:
         query = f'SELECT D.name, C.term, C.id, P.name\
