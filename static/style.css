@@ -61,7 +61,7 @@ nav ul li a:hover {
 
 .content {
     margin: 2rem;
-    margin-bottom: 20rem;
+    margin-bottom: 5rem;
 }
 
 h1 {
@@ -212,6 +212,7 @@ table {
     align-items: center;
     justify-content: center;
     display: flex;
+    margin-bottom: 20rem;
 }
 
 th, td {
