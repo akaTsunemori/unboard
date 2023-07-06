@@ -9,7 +9,7 @@
     <div class="content">
         <h2>Classes</h2>
         <!-- Add your content here -->
-        Displayed below is a list with all classes from the selected discipline. Click on a class number in order to review it.
+        Displayed below is a list with all classes from the selected discipline. Click on a row in order to review it.
 
         <h2 style="margin-top: 3rem;">Classes List</h2>
         <table style="margin-top: 1.5rem;">
@@ -21,15 +21,50 @@
             </tr>
             {% for cl in classes %}
             <tr> <!-- I should make each <td> clickable -->
-                <td>{{ cl[0] }}</td>
-                <td>{{ cl[1] }}</td>
                 <td>
-                    <form method="POST"z>
-                        <button class="button list" type="submit" name="button_value" value="{{ cl[2] }}">{{ cl[2] }}</button>
+                    <form method="POST">
+                        <button 
+                            style="width: 100%; text-align: left;" 
+                            class="button list" 
+                            type="submit" 
+                            name="button_value" 
+                            value="{{ cl[2] }}">{{ cl[0] }}
+                        </button>
                     </form>
                 </td>
-                <td>{{ cl[3] }}</td>
-            </tr>
+                <td>
+                    <form method="POST"z>
+                        <button 
+                            style="width: 100%; text-align: left;" 
+                            class="button list" 
+                            type="submit" 
+                            name="button_value" 
+                            value="{{ cl[2] }}">{{ cl[1] }}
+                        </button>
+                    </form>
+                </td>
+                <td>
+                    <form method="POST"z>
+                        <button 
+                            style="width: 100%; text-align: left;" 
+                            class="button list" 
+                            type="submit" 
+                            name="button_value" 
+                            value="{{ cl[2] }}">{{ cl[2] }}
+                        </button>
+                    </form>
+                </td>
+                <td>
+                    <form method="POST"z>
+                        <button 
+                            style="width: 100%; text-align: left;" 
+                            class="button list" 
+                            type="submit" 
+                            name="button_value" 
+                            value="{{ cl[2] }}">{{ cl[3] }}
+                        </button>
+                    </form>
+                </td>
             {% endfor %}
         </table>
 
