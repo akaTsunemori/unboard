@@ -72,7 +72,6 @@ CREATE TABLE ClassReviewsReports (
 CREATE TABLE ProfessorReviewsReports (
   student_email VARCHAR(50) NOT NULL,
   prof_id INT NOT NULL,
-  review TEXT NOT NULL,
   PRIMARY KEY (student_email, prof_id),
   FOREIGN KEY (student_email) REFERENCES Students(email),
   FOREIGN KEY (prof_id) REFERENCES Professors(id)
