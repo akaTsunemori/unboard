@@ -31,10 +31,14 @@
         <table style="margin-top: 1.5rem;">
             <tr>
                 <th>Review</th>
+                <th style="min-width: 8rem; text-align: center;">Action</th>
             </tr>
             {% for r in reviews_list %}
             <tr>
                 <td>{{ r }}</td>
+                <td style="text-align: center; min-width: 8rem;" >
+                    <button type="submit" title="Report review">&#128681;</button>
+                </td>
             </tr>
             {% endfor %}
         </table>

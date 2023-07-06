@@ -105,11 +105,13 @@ def reviews():
               if i[1] == global_vars.get_professor()]
         if id:
             reviews_list = database_handler.get_professorreviews(*id)
+            reviews_list = [i[1] for i in reviews_list]
     else:
         id = [i[2] for i in global_vars.get_query_results()
               if i[4] == global_vars.get_class()]
         if id:
             reviews_list = database_handler.get_classreviews(*id)
+            reviews_list = [i[1] for i in reviews_list]
     return render_template_util('reviews.html',
                 class_to_review=class_to_review,
                 discipline_to_review=discipline_to_review,

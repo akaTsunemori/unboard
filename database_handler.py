@@ -114,22 +114,16 @@ class DatabaseHandler:
         return result
 
     def get_classreviews(self, id: int) -> list:
-        result = []
         query = f'SELECT student_email, review FROM ClassReviews WHERE class_id={id}'
         self.cursor.execute(query)
-        query_result = self.cursor.fetchall()
-        if query_result:
-            result.append(query_result[0][1])
-        return result
+        query_result = [i for i in self.cursor.fetchall() if i]
+        return query_result
 
     def get_professorreviews(self, id: int) -> list:
-        result = []
         query = f'SELECT student_email, review FROM ProfessorReviews WHERE prof_id={id}'
         self.cursor.execute(query)
-        query_result = self.cursor.fetchall()
-        if query_result:
-            result.append(query_result[0][1])
-        return result
+        query_result = [i for i in self.cursor.fetchall() if i]
+        return query_result
 
     def student_professor_reviews(self, email: str) -> list:
         query = f'SELECT P.name, PR.review \
