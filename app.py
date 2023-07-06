@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect
 from os import listdir
 from random import choice
+from base64 import b64encode
 
 
 # Project modules
@@ -13,7 +14,6 @@ from global_vars import GlobalVars
 app = Flask(__name__)
 
 # Setup base64 encode filter to handle BLOB images
-from base64 import b64encode
 @app.template_filter('base64_encode')
 def base64_encode(value):
     return b64encode(value).decode('utf-8')
@@ -118,6 +118,7 @@ def reviews():
             reviews_list = database_handler.get_classreviews(*id)
             reviews_list = [i[1] for i in reviews_list]
     return render_template_util('reviews.html',
+                is_logged=lh.is_logged,
                 class_to_review=class_to_review,
                 discipline_to_review=discipline_to_review,
                 professor_to_review=professor_to_review,

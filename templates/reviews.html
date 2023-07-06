@@ -4,6 +4,7 @@
     <title>Reviews</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
     {% include 'header.html' %}
     <div class="content">
@@ -26,17 +27,26 @@
                 </div>
             </form>
         </div>
+
+        <!-- Check whether the user is authenticated or not -->
+        <!-- If authenticated, show the report button on reviews -->
+        {% if is_logged %}
+            {% set is_hidden='' %}
+        {% else %}
+            {% set is_hidden='hidden' %}
+        {% endif %}
         {% if reviews_list %}
+
         <h1 style="margin-top: 3rem;">Reviews List</h1>
         <table style="margin-top: 1.5rem;">
             <tr>
                 <th>Review</th>
-                <th style="min-width: 8rem; text-align: center;">Action</th>
+                <th {{is_hidden}} style="min-width: 8rem; text-align: center;">Action</th>
             </tr>
             {% for r in reviews_list %}
             <tr>
                 <td>{{ r }}</td>
-                <td style="text-align: center; min-width: 8rem;" >
+                <td {{is_hidden}} style="text-align: center; min-width: 8rem;" >
                     <button type="submit" title="Report review">&#128681;</button>
                 </td>
             </tr>
