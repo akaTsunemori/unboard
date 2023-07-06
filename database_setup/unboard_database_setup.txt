@@ -62,10 +62,10 @@ CREATE TABLE ProfessorReviews (
 );
 
 CREATE TABLE ClassReviewsReports (
-  reporter_email VARCHAR(50) NOT NULL,
+  student_email VARCHAR(50) NOT NULL,
   class_id INT NOT NULL,
-  PRIMARY KEY (reporter_email, class_id),
-  FOREIGN KEY (reporter_email) REFERENCES Students(email),
+  PRIMARY KEY (student_email, class_id),
+  FOREIGN KEY (student_email) REFERENCES Students(email),
   FOREIGN KEY (class_id) REFERENCES Classes(id)
 );
 

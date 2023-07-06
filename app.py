@@ -142,7 +142,15 @@ def professors():
 def admin():
     if not lh.is_logged:
         return redirect('/')
-    return render_template_util('admin.html')
+    if not lh.is_admin:
+        return redirect('/')
+    professor_reviews_query = [i for i in database_handler.get_professorreviews_reports() if i]
+    professor_reviews_reports = [i[1] for i in professor_reviews_query]
+    class_reviews_query = [i for i in database_handler.get_classreviews_reports() if i]
+    class_reviews_reports = [i[1] for i in class_reviews_query]
+    return render_template_util('admin.html',
+                professor_reviews_reports=professor_reviews_reports,
+                class_reviews_reports=class_reviews_reports)
 
 
 @app.route('/student')

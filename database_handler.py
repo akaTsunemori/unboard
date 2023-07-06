@@ -124,6 +124,22 @@ class DatabaseHandler:
         self.cursor.execute(query)
         query_result = [i for i in self.cursor.fetchall() if i]
         return query_result
+    
+    def get_professorreviews_reports(self) -> list:
+        query = f'SELECT PRR.student_email, PR.review\
+            FROM ProfessorReviews AS PR, ProfessorReviewsReports AS PRR \
+            WHERE PR.student_email=PRR.student_email AND PR.prof_id=PRR.prof_id'
+        self.cursor.execute(query)
+        query_result = [i for i in self.cursor.fetchall() if i]
+        return query_result
+    
+    def get_classreviews_reports(self) -> list:
+        query = f'SELECT CRR.student_email, CR.review\
+            FROM ClassReviews AS CR, ClassReviewsReports AS CRR \
+            WHERE CR.student_email=CRR.student_email AND CR.class_id=CRR.class_id'
+        self.cursor.execute(query)
+        query_result = [i for i in self.cursor.fetchall() if i]
+        return query_result
 
     def student_professor_reviews(self, email: str) -> list:
         query = f'SELECT P.name, PR.review \
