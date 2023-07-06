@@ -229,8 +229,20 @@ th {
     background-color: #242424;
 }
 
+tr {
+    transition: all 0.3s ease;
+}
+
 tr:nth-child(even) {
-    background-color: #646464;
+    background-color: #484848;
+}
+
+tr:hover:nth-child(even) {
+    background-color: #505050;
+}
+
+tr:hover:nth-child(odd) {
+    background-color: #222222;
 }
 
 /* Text box */

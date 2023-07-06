@@ -149,11 +149,14 @@ def student():
         return redirect('/')
     student_email = lh.user_email
     user_name, user_profile_pic = database_handler.student_data(student_email)
+    first_name = user_name.split()[0]
+    personal_information = [user_name, student_email]
     professor_reviews = database_handler.student_professor_reviews(student_email)
     class_reviews = database_handler.student_class_reviews(student_email)
     return render_template_util('student.html',
-                user_name=user_name,
+                user_name=first_name,
                 user_profile_pic=user_profile_pic,
+                personal_information=personal_information,
                 professor_reviews=professor_reviews,
                 class_reviews=class_reviews)
 

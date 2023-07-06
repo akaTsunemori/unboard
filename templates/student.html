@@ -11,8 +11,14 @@
             <h1>Welcome to the Student Panel!</h1>
             <img src="data:image/jpeg;base64,{{ user_profile_pic|base64_encode }}" alt="Profile Picture" class="profile-picture">
             <!-- Add your content here -->
-            Hello, {{user_name}}.
+            <p style="margin-bottom: 2rem;"> Hello, {{user_name}}. </p>
             <img src="/static/images/anime/{{anime_image}}" alt="Random anime image :)" class="bottom-right-image">
+            <h2>Your personal information</h2>
+            {% for info in personal_information %}
+            <ul class="list">
+                <li>{{ info }}</li>
+            </ul>
+            {% endfor %}
         </div>
     </div>
     {% if professor_reviews %}
@@ -22,11 +28,15 @@
                 <tr>
                     <th>Professor</th>
                     <th>Review</th>
+                    <th style="min-width: 8rem; text-align: center;">Action</th>
                 </tr>
                 {% for r in professor_reviews %}
                 <tr>
                     <td>{{ r[0] }}</td>
                     <td>{{ r[1] }}</td>
+                    <td style="text-align: center; min-width: 8rem;" >
+                        <button type="submit" title="Delete">&#10060;</button>
+                    </td>
                 </tr>
                 {% endfor %}
             </table>
@@ -37,21 +47,25 @@
             <h2 style="margin-top: 3rem;">Your classes reviews</h2>
             <table style="margin-top: 1.5rem;">
                 <tr>
-                    <th>Class code</th>
+                    <th style="min-width: 8rem;">Class code</th>
                     <th>Discipline name</th>
-                    <th>Term</th>
+                    <th style="min-width: 8rem;">Term</th>
                     <th>Professor</th>
                     <th>Schedule</th>
                     <th>Review</th>
+                    <th style="min-width: 8rem; text-align: center;">Action</th>
                 </tr>
                 {% for r in class_reviews %}
                 <tr>
-                    <td>{{ r[0] }}</td>
+                    <td style="min-width: 8rem;">{{ r[0] }}</td>
                     <td>{{ r[1] }}</td>
-                    <td>{{ r[2] }}</td>
+                    <td style="min-width: 8rem;">{{ r[2] }}</td>
                     <td>{{ r[3] }}</td>
                     <td>{{ r[4] }}</td>
                     <td>{{ r[5] }}</td>
+                    <td style="text-align: center; min-width: 8rem;" >
+                        <button type="submit" title="Delete">&#10060;</button>
+                    </td>
                 </tr>
                 {% endfor %}
             </table>

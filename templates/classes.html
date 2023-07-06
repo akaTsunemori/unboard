@@ -20,11 +20,11 @@
                 <th>Professor</th>
             </tr>
             {% for cl in classes %}
-            <tr>
+            <tr> <!-- I should make each <td> clickable -->
                 <td>{{ cl[0] }}</td>
                 <td>{{ cl[1] }}</td>
                 <td>
-                    <form method="POST">
+                    <form method="POST"z>
                         <button class="button list" type="submit" name="button_value" value="{{ cl[2] }}">{{ cl[2] }}</button>
                     </form>
                 </td>
