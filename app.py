@@ -28,8 +28,13 @@ global_vars = GlobalVars()
 images = [i for i in listdir('static/images/anime') if i.endswith('.png') or i.endswith('.webp')]
 
 
-# Utility for calling flask's render_template function
 def render_template_util(page: str, **kwargs) -> str:
+    '''
+    Utility for calling flask's render_template function with fixed arguments,
+    additional arguments are allowed.
+
+    Returns a str, the same as flask's render_template function does.
+    '''
     image = choice(images)
     return render_template(page,
         anime_image=image,
