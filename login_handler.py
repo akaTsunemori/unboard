@@ -20,11 +20,12 @@ class LoginHandler():
         if email == 'admin@unb.br' and password == 'admin':
             self.is_admin = True
             self.admin_student = 'admin'
-        login_sucess = self.database_handler.login(email, password)
-        if not login_sucess:
-            self.warning = 'Login failure! Check that you\'ve entered valid information.'
-            Timer(2.5, self.__reset_warning).start()
-            return
+        else:
+            login_sucess = self.database_handler.login(email, password)
+            if not login_sucess:
+                self.warning = 'Login failure! Check that you\'ve entered valid information.'
+                Timer(2.5, self.__reset_warning).start()
+                return
         self.warning = ''
         self.is_logged = True
         self.hide_logged_status=''
