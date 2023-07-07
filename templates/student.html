@@ -19,27 +19,38 @@
                 <li>{{ info }}</li>
             </ul>
             {% endfor %}
+            <form style="margin-top: 1rem;" method="POST">
+                <button 
+                    class="button list" 
+                    style="font-size: medium; font-style: italic;"
+                    type="submit" 
+                    title="Edit personal information"
+                    name="edit-profile">
+                    Edit profile
+                </button>
+                &#128221; <!-- Emoji icon (pen and paper) -->
+            </form>
         </div>
     </div>
     {% if professor_reviews %}
     <div class="content">
-            <h2 style="margin-top: 3rem;">Your professor reviews</h2>
-            <table style="margin-top: 1.5rem; margin-bottom: 1.5rem;">
-                <tr>
-                    <th>Professor</th>
-                    <th>Review</th>
-                    <th style="min-width: 8rem; text-align: center;">Action</th>
-                </tr>
-                {% for r in professor_reviews %}
-                <tr>
-                    <td>{{ r[0] }}</td>
-                    <td>{{ r[1] }}</td>
-                    <td style="text-align: center; min-width: 8rem;" >
-                        <button type="submit" title="Delete">&#10060;</button>
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>
+        <h2 style="margin-top: 3rem;">Your professor reviews</h2>
+        <table style="margin-top: 1.5rem; margin-bottom: 1.5rem;">
+            <tr>
+                <th>Professor</th>
+                <th>Review</th>
+                <th style="min-width: 8rem; text-align: center;">Action</th>
+            </tr>
+            {% for r in professor_reviews %}
+            <tr>
+                <td>{{ r[0] }}</td>
+                <td>{{ r[1] }}</td>
+                <td style="text-align: center; min-width: 8rem;" >
+                    <button type="submit" title="Delete">&#10060;</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
     </div>
     {% endif %}
     {% if class_reviews %}

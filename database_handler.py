@@ -62,6 +62,33 @@ class DatabaseHandler:
         if password != db_password:
             return False
         return True
+    
+    def edit_personal_info(self, email: str, new_email: str = None, name: str = None, passwd: str = None, profile_pic = None):
+        queries = []
+        if name:
+            name_query = f'UPDATE Students SET name="{name}" WHERE email="{email}"'
+            queries.append(name_query)
+        if passwd:
+            passwd_query = f'UPDATE Students SET passwd="{passwd}" WHERE email="{email}"'
+            queries.append(passwd_query)
+        if profile_pic:
+            pfp_query = f'UPDATE Students SET profile_pic=_binary %s WHERE email="{email}"'
+            profile_pic_data = profile_pic.read()
+            try:
+                self.cursor.execute(pfp_query, (profile_pic_data,))
+            except mysql.connector.errors.IntegrityError as e:
+                return False
+        if new_email:
+            email_query = f'UPDATE Students SET email="{new_email}" WHERE email="{email}"'
+            queries.append(email_query)
+        for query in queries:
+            try:
+                self.cursor.execute(query)
+            except mysql.connector.errors.IntegrityError as e:
+                return False
+        self.connection.commit()
+        return True
+
 
     def review_professor(self, student_email: str, prof_id: int, review: str) -> bool:
         '''

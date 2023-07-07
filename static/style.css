@@ -202,6 +202,7 @@ ul {
 }
 
 .button.list:hover {
+    filter: brightness(125%);
     color: #888;
 }
 

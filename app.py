@@ -159,10 +159,13 @@ def admin():
                 class_reviews_reports=class_reviews_reports)
 
 
-@app.route('/student')
+@app.route('/student', methods=['GET', 'POST'])
 def student():
     if not lh.is_logged:
         return redirect('/')
+    if request.method == 'POST':
+        if 'edit-profile' in request.form:
+            return redirect('/edit-profile')
     student_email = lh.user_email
     user_name, user_profile_pic = database_handler.student_data(student_email)
     first_name = user_name.split()[0]
@@ -177,7 +180,7 @@ def student():
                 class_reviews=class_reviews)
 
 
-# Login, logout and signup routes
+# Student profile authentication and information routes
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if lh.is_logged:
@@ -188,7 +191,7 @@ def login():
         password = request.form['password']
         lh.user_logon(email, password)
         return redirect('/')
-    return render_template('login.html', anime_image = image)
+    return render_template('login.html', anime_image=image)
 
 
 @app.route('/logout')
@@ -206,10 +209,26 @@ def signup():
         name = request.form['name']
         email = request.form['email']
         password = request.form['password']
+        confirm_password = request.form['confirm-password']
         profile_picture = request.files['profile-picture']
-        lh.user_signup(email, name, password, profile_picture)
+        lh.user_signup(email, name, password, confirm_password, profile_picture)
         return redirect('/')
-    return render_template('signup.html', anime_image = image)
+    return render_template('signup.html', anime_image=image)
+
+
+@app.route('/edit-profile', methods=['GET', 'POST'])
+def edit_profile():
+    if not lh.is_logged:
+        return redirect('/')
+    if request.method == 'POST':
+        name = request.form['name']
+        email = request.form['email']
+        password = request.form['password']
+        confirm_password = request.form['confirm-password']
+        profile_picture = request.files['profile-picture']
+        lh.user_edit(email, name, password, confirm_password, profile_picture)
+        return redirect('/')
+    return render_template_util('edit-profile.html')
 
 
 # Run the app

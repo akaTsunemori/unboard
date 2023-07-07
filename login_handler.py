@@ -23,10 +23,9 @@ class LoginHandler():
         else:
             login_sucess = self.database_handler.login(email, password)
             if not login_sucess:
-                self.warning = 'Login failure! Check that you\'ve entered valid information.'
-                Timer(2.5, self.__reset_warning).start()
+                self.set_warning(
+                    'Login failure! Check that you\'ve entered valid information.')
                 return
-        self.warning = ''
         self.is_logged = True
         self.hide_logged_status=''
         self.hide_signup_button='hidden'
@@ -34,6 +33,7 @@ class LoginHandler():
         self.login_logout = 'Logout'
         self.user_email = email
         self.login_redirect = '/logout'
+        self.__reset_warning()
 
     def user_logout(self) -> None:
         self.is_admin = False
@@ -45,15 +45,37 @@ class LoginHandler():
         self.admin_student = 'student'
         self.user_email=''
         self.login_redirect = '/login'
-        self.warning = ''
+        self.__reset_warning()
 
-    def user_signup(self, email: str, name: str, password: str, profile_pic) -> None:
-        signup_sucess = self.database_handler.signup(email, name, password, profile_pic)
-        if not signup_sucess:
-            self.warning = 'Sign up failure! Check that you\'ve entered valid information.'
+    def user_signup(self, email: str, name: str, password: str, confirm_password, profile_pic) -> None:
+        if password != confirm_password:
+            self.set_warning(
+                '"Password" and "Confirm password" do not match!')
+            return
+        signup_success = self.database_handler.signup(email, name, password, profile_pic)
+        if not signup_success:
+            self.set_warning(
+                'Sign up failure! Check that you\'ve entered valid information.')
+            return
+        self.__reset_warning()
+
+
+    def user_edit(self, email: str, name: str, password: str, confirm_password: str, profile_pic) -> None:
+        if password != confirm_password:
+            self.set_warning(
+                '"Password" and "Confirm password" do not match!')
+            return
+        edit_success = self.database_handler.edit_personal_info(self.user_email, email, name, password, profile_pic)
+        if not edit_success:
+            self.set_warning(
+                'Failure when editing profile! Check that you\'ve entered valid information.')
             Timer(2.5, self.__reset_warning).start()
             return
         self.warning = ''
+
+    def set_warning(self, warning: str) -> None:
+        self.warning = warning
+        Timer(2.5, self.__reset_warning).start()
 
     def __reset_warning(self) -> None:
         self.warning = ''

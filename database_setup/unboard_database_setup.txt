@@ -28,7 +28,7 @@ CREATE TABLE Disciplines (
   name VARCHAR(400) NOT NULL,
   dept_id INT NOT NULL,
   PRIMARY KEY (id, name),
-  FOREIGN KEY (dept_id) REFERENCES Departments(id)
+  FOREIGN KEY (dept_id) REFERENCES Departments(id) ON DELETE CASCADE
 );
 
 CREATE TABLE Classes (
@@ -39,8 +39,8 @@ CREATE TABLE Classes (
   prof_id INT NOT NULL,
   schedule VARCHAR(200) NOT NULL,
   CONSTRAINT uc_Classes UNIQUE (code, disc_id, term, prof_id, schedule),
-  FOREIGN KEY (disc_id) REFERENCES Disciplines(id),
-  FOREIGN KEY (prof_id) REFERENCES Professors(id)
+  FOREIGN KEY (disc_id) REFERENCES Disciplines(id) ON DELETE CASCADE,
+  FOREIGN KEY (prof_id) REFERENCES Professors(id) ON DELETE CASCADE
 );
 
 CREATE TABLE ClassReviews (
@@ -48,8 +48,8 @@ CREATE TABLE ClassReviews (
   class_id INT NOT NULL,
   review TEXT NOT NULL,
   PRIMARY KEY (student_email, class_id),
-  FOREIGN KEY (student_email) REFERENCES Students(email),
-  FOREIGN KEY (class_id) REFERENCES Classes(id)
+  FOREIGN KEY (student_email) REFERENCES Students(email) ON DELETE CASCADE,
+  FOREIGN KEY (class_id) REFERENCES Classes(id) ON DELETE CASCADE
 );
 
 CREATE TABLE ProfessorReviews (
@@ -57,22 +57,22 @@ CREATE TABLE ProfessorReviews (
   prof_id INT NOT NULL,
   review TEXT NOT NULL,
   PRIMARY KEY (student_email, prof_id),
-  FOREIGN KEY (student_email) REFERENCES Students(email),
-  FOREIGN KEY (prof_id) REFERENCES Professors(id)
+  FOREIGN KEY (student_email) REFERENCES Students(email) ON DELETE CASCADE,
+  FOREIGN KEY (prof_id) REFERENCES Professors(id) ON DELETE CASCADE
 );
 
 CREATE TABLE ClassReviewsReports (
   student_email VARCHAR(50) NOT NULL,
   class_id INT NOT NULL,
   PRIMARY KEY (student_email, class_id),
-  FOREIGN KEY (student_email) REFERENCES Students(email),
-  FOREIGN KEY (class_id) REFERENCES Classes(id)
+  FOREIGN KEY (student_email) REFERENCES Students(email) ON DELETE CASCADE,
+  FOREIGN KEY (class_id) REFERENCES Classes(id) ON DELETE CASCADE
 );
 
 CREATE TABLE ProfessorReviewsReports (
   student_email VARCHAR(50) NOT NULL,
   prof_id INT NOT NULL,
   PRIMARY KEY (student_email, prof_id),
-  FOREIGN KEY (student_email) REFERENCES Students(email),
-  FOREIGN KEY (prof_id) REFERENCES Professors(id)
+  FOREIGN KEY (student_email) REFERENCES Students(email) ON DELETE CASCADE,
+  FOREIGN KEY (prof_id) REFERENCES Professors(id) ON DELETE CASCADE
 );
