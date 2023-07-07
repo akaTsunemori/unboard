@@ -17,7 +17,7 @@ class GlobalVars:
         self.__class = cl
 
     def set_query_results(self, query_results: list) -> None:
-        self.__query_results = query_results
+        self.__query_results = [i for i in query_results]
 
     def get_professor(self) -> str:
         return self.__professor
@@ -27,7 +27,7 @@ class GlobalVars:
 
     def get_class(self) -> str:
         return self.__class
-    
+
     def get_query_results(self) -> list:
         return self.__query_results
 

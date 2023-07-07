@@ -167,18 +167,19 @@ def student():
         if 'edit-profile' in request.form:
             return redirect('/edit-profile')
         if 'button_delete' in request.form:
-            row_to_delete = request.form['button_delete']
-            print(row_to_delete) # To-Do: delete review logic
+            row_to_delete = eval(request.form['button_delete'])
             if 'professor' in row_to_delete:
-                pass
+                database_handler.del_professor_review(lh.user_email, row_to_delete['professor'])
             elif 'review' in row_to_delete:
-                pass
+                class_id = [i[-1] for i in global_vars.get_query_results() if i == row_to_delete['review']]
+                database_handler.del_class_review(lh.user_email, *class_id)
     student_email = lh.user_email
     user_name, user_profile_pic = database_handler.student_data(student_email)
     first_name = user_name.split()[0]
     personal_information = [user_name, student_email]
     professor_reviews = database_handler.student_professor_reviews(student_email)
     class_reviews = database_handler.student_class_reviews(student_email)
+    global_vars.set_query_results(class_reviews)
     return render_template_util('student.html',
                 user_name=first_name,
                 user_profile_pic=user_profile_pic,

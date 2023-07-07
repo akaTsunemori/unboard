@@ -62,7 +62,7 @@ class DatabaseHandler:
         if password != db_password:
             return False
         return True
-    
+
     def edit_personal_info(self, email: str, new_email: str = None, name: str = None, passwd: str = None, profile_pic = None):
         queries = []
         if name:
@@ -117,6 +117,25 @@ class DatabaseHandler:
             return False
         self.connection.commit()
         return True
+
+    def del_professor_review(self, student_email: str, professor_name: str) -> bool:
+        get_professor_id = f'SELECT P.id \
+            FROM Professors AS P \
+            WHERE P.name="{professor_name}"'
+        self.cursor.execute(get_professor_id)
+        professor_id = self.cursor.fetchall()[0][0]
+        delete_professor_review = f'DELETE \
+            FROM ProfessorReviews AS PR \
+            WHERE PR.prof_id={professor_id} AND PR.student_email="{student_email}"'
+        self.cursor.execute(delete_professor_review)
+        self.connection.commit()
+
+    def del_class_review(self, student_email: str, class_id: str):
+        delete_class_review = f'DELETE \
+            FROM ClassReviews AS CR \
+            WHERE CR.student_email="{student_email}" AND CR.class_id={class_id}'
+        self.cursor.execute(delete_class_review)
+        self.connection.commit()
 
     ###########################################################
     #                      Read functions                     #
@@ -188,7 +207,7 @@ class DatabaseHandler:
         self.cursor.execute(query)
         query_result = [i for i in self.cursor.fetchall() if i]
         return query_result
-    
+
     def get_professorreviews_reports(self) -> list:
         '''
         Gets all professor reviews that were reported by students (users).
@@ -201,7 +220,7 @@ class DatabaseHandler:
         self.cursor.execute(query)
         query_result = [i for i in self.cursor.fetchall() if i]
         return query_result
-    
+
     def get_classreviews_reports(self) -> list:
         '''
         Gets all class reviews that were reported by students (users).
@@ -232,10 +251,10 @@ class DatabaseHandler:
         '''
         Gets all class reviews that a specific student made, given his email.
 
-        Returns a list of tuples, each tuple consisting of: 
+        Returns a list of tuples, each tuple consisting of:
         (class code, discipline name, term, professor name, class schedule, review text)
         '''
-        query = f'SELECT C.code, D.name, C.term, P.name, C.schedule, CR.review\
+        query = f'SELECT C.code, D.name, C.term, P.name, C.schedule, CR.review, C.id\
             FROM Classes AS C, Disciplines as D, Professors as P, ClassReviews as CR\
             WHERE C.disc_id=D.id AND C.prof_id=P.id AND CR.class_id=C.id AND CR.student_email="{email}"'
         self.cursor.execute(query)
