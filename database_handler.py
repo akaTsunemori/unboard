@@ -3,6 +3,13 @@ from unidecode import unidecode
 
 
 class DatabaseHandler:
+    '''
+    This is the main handler for the communitcation between the application and
+    the MySQL database. Every query is explicit and every function is well documented.
+
+    The unidecode module is used in order to make a better comparison of strings
+    when searching, for example, 'Lélio' and 'LELio' should be considered equal.
+    '''
     def __init__(self) -> None:
         # Constructor: opens the connection to the database.
         self.connection = mysql.connector.connect(
@@ -165,7 +172,7 @@ class DatabaseHandler:
         self.connection.commit()
         return True
 
-    def del_professorreview_report(self, student_email: str, prof_id: int):
+    def del_professorreview_report(self, student_email: str, prof_id: int) -> bool:
         query = f'DELETE \
             FROM ProfessorReviewsReports as PRR \
             WHERE PRR.student_email="{student_email}" AND PRR.prof_id={prof_id}'
@@ -176,7 +183,7 @@ class DatabaseHandler:
         self.connection.commit()
         return True
 
-    def del_classreview_report(self, student_email: str, class_id: int):
+    def del_classreview_report(self, student_email: str, class_id: int) -> bool:
         query = f'DELETE \
             FROM ClassReviewsReports as CRR \
             WHERE CRR.student_email="{student_email}" AND CRR.class_id={class_id}'
@@ -187,7 +194,7 @@ class DatabaseHandler:
         self.connection.commit()
         return True
 
-    def remove_user(self, student_email: str):
+    def remove_user(self, student_email: str) -> bool:
         query = f'DELETE \
             FROM Students AS S \
             WHERE S.email="{student_email}"'
@@ -204,7 +211,7 @@ class DatabaseHandler:
 
     def search_discipline(self, name: str) -> list:
         '''
-        Gets disciplines with matching names with the search query.
+        Gets disciplines with matching name with the search query.
 
         Returns a list, each item being a name that matches the query.
         '''
@@ -236,9 +243,7 @@ class DatabaseHandler:
         Gets all classes that match the selected discipline.
 
         Returns a list of tuples, each tuple consisting of:
-        (department name, department id,
-        class id, class term, class code,
-        professor name, professor id)
+        (department name, department id, class id, class term, class code, professor name, professor id)
         '''
         query = f'SELECT D.name, D.id, C.id, C.term, C.code, P.name, P.id\
             FROM Professors AS P, Disciplines AS D, Classes AS C\
@@ -313,7 +318,7 @@ class DatabaseHandler:
         Gets all class reviews that a specific student made, given his email.
 
         Returns a list of tuples, each tuple consisting of:
-        (class code, discipline name, term, professor name, class schedule, review text)
+        (class code, discipline name, term, professor name, class schedule, review text, class id)
         '''
         query = f'SELECT C.code, D.name, C.term, P.name, C.schedule, CR.review, C.id\
             FROM Classes AS C, Disciplines as D, Professors as P, ClassReviews as CR\

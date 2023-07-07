@@ -3,6 +3,11 @@ from database_handler import DatabaseHandler
 
 
 class LoginHandler():
+    '''
+    I'm not using Flask's login handler since it uses SQLAlchemy and using it would mean
+    the SQL queries would be implicit. This login handler is a very basic and messy way
+    to do it, and even then, I could make this better if I had the time.
+    '''
     def __init__(self, database_handler: DatabaseHandler) -> None:
         self.is_admin = False
         self.is_logged = False

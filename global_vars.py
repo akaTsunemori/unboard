@@ -1,4 +1,10 @@
 class GlobalVars:
+    '''
+    This object makes sharing specific variables between
+    routes/pages considerably easier.
+
+    There's most likely a better way to do this tho.
+    '''
     def __init__(self) -> None:
         self.__discipline = ''
         self.__class = ''

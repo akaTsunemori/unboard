@@ -67,7 +67,7 @@ def disciplines():
             selected_discipline = request.form['button_value']
             global_vars.set_discipline(selected_discipline)
             return redirect('/classes')
-        query = request.form.get('query') # Handle the search query
+        query = request.form.get('query')
         if query:
             search_results = database_handler.search_discipline(query)
             if not search_results:
@@ -85,7 +85,6 @@ def classes():
     selected_discipline = global_vars.get_discipline()
     query_classes = database_handler.get_classes(selected_discipline)
     global_vars.set_query_results(query_classes)
-    # query_classes = [(i[0], i[3], i[4], i[5]) for i in query_classes]
     return render_template_util('classes.html', classes=query_classes)
 
 
@@ -140,7 +139,7 @@ def professors():
             selected_professor = request.form['button_value']
             global_vars.set_professor(selected_professor)
             return redirect('/reviews')
-        query = request.form.get('query') # Handle the search query
+        query = request.form.get('query')
         if query:
             search_results = database_handler.search_professor(query)
             global_vars.set_query_results(search_results)
