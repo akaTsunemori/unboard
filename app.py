@@ -152,16 +152,21 @@ def professors():
     return render_template_util('professors.html', search_results=search_results)
 
 
-@app.route('/admin')
+@app.route('/admin', methods=['GET', 'POST'])
 def admin():
     if not lh.is_logged:
         return redirect('/')
     if not lh.is_admin:
         return redirect('/')
-    professor_reviews_query = [i for i in database_handler.get_professorreviews_reports() if i]
-    professor_reviews_reports = [i[1] for i in professor_reviews_query]
-    class_reviews_query = [i for i in database_handler.get_classreviews_reports() if i]
-    class_reviews_reports = [i[1] for i in class_reviews_query]
+    if request.method == 'POST':
+        if 'delete_button' in request.form:
+            pass
+        if 'ban_button' in request.form:
+            pass
+        if 'remove_report_button' in request.form:
+            pass
+    professor_reviews_reports = [i for i in database_handler.get_professorreviews_reports() if i]
+    class_reviews_reports = [i for i in database_handler.get_classreviews_reports() if i]
     return render_template_util('admin.html',
                 professor_reviews_reports=professor_reviews_reports,
                 class_reviews_reports=class_reviews_reports)

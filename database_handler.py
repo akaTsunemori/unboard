@@ -237,9 +237,9 @@ class DatabaseHandler:
         '''
         Gets all professor reviews that were reported by students (users).
 
-        Returns a list of tuples, each tuple consisting of: (student email, review text)
+        Returns a list of tuples, each tuple consisting of: (student email, review text, professor id)
         '''
-        query = f'SELECT PRR.student_email, PR.review\
+        query = f'SELECT PRR.student_email, PR.review, PRR.prof_id \
             FROM ProfessorReviews AS PR, ProfessorReviewsReports AS PRR \
             WHERE PR.student_email=PRR.student_email AND PR.prof_id=PRR.prof_id'
         self.cursor.execute(query)
@@ -250,9 +250,9 @@ class DatabaseHandler:
         '''
         Gets all class reviews that were reported by students (users).
 
-        Returns a list of tuples, each tuple consisting of: (student email, review text)
+        Returns a list of tuples, each tuple consisting of: (student email, review text, class id)
         '''
-        query = f'SELECT CRR.student_email, CR.review\
+        query = f'SELECT CRR.student_email, CR.review, CRR.class_id \
             FROM ClassReviews AS CR, ClassReviewsReports AS CRR \
             WHERE CR.student_email=CRR.student_email AND CR.class_id=CRR.class_id'
         self.cursor.execute(query)
