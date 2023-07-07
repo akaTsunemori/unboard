@@ -24,7 +24,7 @@
                     <tr>
                         <td>{{ r[1] }}</td>
                         <td style="text-align: center; min-width: 12rem; display: flex; gap: 0.25rem;">
-                            <form method="POST"><button type="submit" title="Delete the review" name="delete_button" value="{{ r }}"></form>
+                            <form method="POST"><button type="submit" title="Delete the review" name="delete_button" value="{{ {'professor_review': r} }}"></form>
                                 &#10060;</button> <!-- "X" icon for deleting review -->
                             <form method="POST"><button type="submit" title="Remove user" name="ban_button" value="{{ r }}"></form>
                                 &#9940;</button> <!-- "Block" icon for banning the user -->
@@ -48,7 +48,7 @@
                     <tr>
                         <td>{{ r[1] }}</td>
                         <td style="text-align: center; min-width: 12rem; display: flex; gap: 0.25rem;">
-                            <form method="POST"><button type="submit" title="Delete the review" name="delete_button" value="{{ r }}"></form>
+                            <form method="POST"><button type="submit" title="Delete the review" name="delete_button" value="{{ {'class_review': r} }}"></form>
                                 &#10060;</button> <!-- "X" icon for deleting review -->
                             <form method="POST"><button type="submit" title="Ban user" name="ban_button" value="{{ r }}"></form>
                                 &#9940;</button> <!-- "Block" icon for banning the user -->

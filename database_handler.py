@@ -162,8 +162,27 @@ class DatabaseHandler:
         self.connection.commit()
         return True
 
-    def del_report(self):
-        pass
+    def del_professorreview_report(self, student_email: str, prof_id: int):
+        query = f'DELETE \
+            FROM ProfessorReviewsReports as PRR \
+            WHERE PRR.student_email="{student_email}" AND PRR.prof_id={prof_id}'
+        try:
+            self.cursor.execute(query)
+        except mysql.connector.errors.IntegrityError as e:
+            return False
+        self.connection.commit()
+        return True
+
+    def del_classreview_report(self, student_email: str, class_id: int):
+        query = f'DELETE \
+            FROM ClassReviewsReports as CRR \
+            WHERE CRR.student_email="{student_email}" AND CRR.class_id={class_id}'
+        try:
+            self.cursor.execute(query)
+        except mysql.connector.errors.IntegrityError as e:
+            return False
+        self.connection.commit()
+        return True
 
     def remove_user(self):
         pass
