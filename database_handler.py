@@ -162,6 +162,15 @@ class DatabaseHandler:
         self.connection.commit()
         return True
 
+    def del_report(self):
+        pass
+
+    def remove_user(self):
+        pass
+
+    def del_review(self):
+        pass
+
     ###########################################################
     #                      Read functions                     #
     ###########################################################

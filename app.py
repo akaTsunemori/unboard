@@ -160,11 +160,12 @@ def admin():
         return redirect('/')
     if request.method == 'POST':
         if 'delete_button' in request.form:
-            pass
+            selected_row = request.form['delete_button']
         if 'ban_button' in request.form:
-            pass
+            selected_row = request.form['ban_button']
         if 'remove_report_button' in request.form:
-            pass
+            selected_row = request.form['remove_report_button']
+        print(selected_row)
     professor_reviews_reports = [i for i in database_handler.get_professorreviews_reports() if i]
     class_reviews_reports = [i for i in database_handler.get_classreviews_reports() if i]
     return render_template_util('admin.html',
