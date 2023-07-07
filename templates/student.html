@@ -10,7 +10,6 @@
         <div class="form">
             <h1>Welcome to the Student Panel!</h1>
             <img src="data:image/jpeg;base64,{{ user_profile_pic|base64_encode }}" alt="Profile Picture" class="profile-picture">
-            <!-- Add your content here -->
             <p style="margin-bottom: 2rem;"> Hello, {{user_name}}. </p>
             <img src="/static/images/anime/{{anime_image}}" alt="Random anime image :)" class="bottom-right-image">
             <h2>Your personal information</h2>
@@ -20,10 +19,10 @@
             </ul>
             {% endfor %}
             <form style="margin-top: 1rem;" method="POST">
-                <button 
-                    class="button list" 
+                <button
+                    class="button list"
                     style="font-size: medium; font-style: italic;"
-                    type="submit" 
+                    type="submit"
                     title="Edit personal information"
                     name="edit-profile">
                     Edit profile
@@ -47,8 +46,8 @@
                 <td>{{ r[1] }}</td>
                 <td style="text-align: center; min-width: 8rem;" >
                     <form method="POST">
-                        <button 
-                            type="submit" 
+                        <button
+                            type="submit"
                             title="Delete"
                             name="button_delete"
                             value="{{ {'professor': r[0]} }}">
@@ -84,12 +83,12 @@
                     <td>{{ r[5] }}</td>
                     <td style="text-align: center; min-width: 8rem;" >
                         <form method="POST">
-                            <button 
-                                type="submit" 
+                            <button
+                                type="submit"
                                 title="Delete"
                                 name="button_delete"
                                 value="{{ {'review': r} }}">
-                                &#10060;
+                                &#10060; <!-- "X" button to indicate review deletion -->
                             </button>
                         </form>
                     </td>
