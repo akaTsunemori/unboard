@@ -117,12 +117,15 @@ class DatabaseHandler:
         self.connection.commit()
         return True
 
-    def del_professor_review(self, student_email: str, professor_name: str) -> bool:
-        get_professor_id = f'SELECT P.id \
-            FROM Professors AS P \
-            WHERE P.name="{professor_name}"'
-        self.cursor.execute(get_professor_id)
-        professor_id = self.cursor.fetchall()[0][0]
+    def del_professor_review(self, student_email: str, professor_name: str = None, professor_id: int = None) -> bool:
+        if not professor_name and not professor_id:
+            return False
+        if not professor_id:
+            get_professor_id = f'SELECT P.id \
+                FROM Professors AS P \
+                WHERE P.name="{professor_name}"'
+            self.cursor.execute(get_professor_id)
+            professor_id = self.cursor.fetchall()[0][0]
         delete_professor_review = f'DELETE \
             FROM ProfessorReviews AS PR \
             WHERE PR.prof_id={professor_id} AND PR.student_email="{student_email}"'
@@ -184,11 +187,16 @@ class DatabaseHandler:
         self.connection.commit()
         return True
 
-    def remove_user(self):
-        pass
-
-    def del_review(self):
-        pass
+    def remove_user(self, student_email: str):
+        query = f'DELETE \
+            FROM Students AS S \
+            WHERE S.email="{student_email}"'
+        try:
+            self.cursor.execute(query)
+        except mysql.connector.errors.IntegrityError as e:
+            return False
+        self.connection.commit()
+        return True
 
     ###########################################################
     #                      Read functions                     #
