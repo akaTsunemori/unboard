@@ -46,7 +46,15 @@
                 <td>{{ r[0] }}</td>
                 <td>{{ r[1] }}</td>
                 <td style="text-align: center; min-width: 8rem;" >
-                    <button type="submit" title="Delete">&#10060;</button>
+                    <form method="POST">
+                        <button 
+                            type="submit" 
+                            title="Delete"
+                            name="button_delete"
+                            value="{{ {'professor': r[0]} }}">
+                            &#10060; <!-- "X" emoji icon to indicate deletion -->
+                        </button>
+                    </form>
                 </td>
             </tr>
             {% endfor %}
@@ -75,7 +83,15 @@
                     <td>{{ r[4] }}</td>
                     <td>{{ r[5] }}</td>
                     <td style="text-align: center; min-width: 8rem;" >
-                        <button type="submit" title="Delete">&#10060;</button>
+                        <form method="POST">
+                            <button 
+                                type="submit" 
+                                title="Delete"
+                                name="button_delete"
+                                value="{{ {'review': r} }}">
+                                &#10060;
+                            </button>
+                        </form>
                     </td>
                 </tr>
                 {% endfor %}

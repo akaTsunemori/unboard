@@ -166,6 +166,13 @@ def student():
     if request.method == 'POST':
         if 'edit-profile' in request.form:
             return redirect('/edit-profile')
+        if 'button_delete' in request.form:
+            row_to_delete = request.form['button_delete']
+            print(row_to_delete) # To-Do: delete review logic
+            if 'professor' in row_to_delete:
+                pass
+            elif 'review' in row_to_delete:
+                pass
     student_email = lh.user_email
     user_name, user_profile_pic = database_handler.student_data(student_email)
     first_name = user_name.split()[0]
