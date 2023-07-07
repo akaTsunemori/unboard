@@ -7,9 +7,32 @@
 <body>
     {% include 'header.html' %}
     <div class="content">
-        <h1>Welcome to the Home Page!</h1>
-        <!-- Add your content here -->
+        <p class="warning" id="warning">{{ warning }}</p>
+        <h1>Welcome to UnBoard!</h1>
+        <div class="container">
+        <div class="form">
+            <h2>Discover the Power of Student Feedback</h2>
+            <p>At UnBoard, we believe in the power of student voices. Our platform is dedicated to empowering students like you to evaluate and share your experiences with professors. By providing a space for honest and constructive feedback, we aim to foster a community that benefits both students and educators.</p>
+            <h3 style="margin-top: 1rem;">Why Evaluate Professors?</h3>
+            <p>Evaluating professors allows you to contribute to the overall quality of education. Your valuable insights help future students make informed decisions when selecting classes and professors. Additionally, your feedback can inspire positive changes in teaching methods, classroom dynamics, and overall student engagement.</p>
+            <h3 style="margin-top: 1rem;">How It Works</h3>
+            <p><b>Search for Classes:</b> Use our intuitive search feature to find specific classes and explore the available professor evaluations. Gain valuable insights before enrolling and make informed decisions about your academic journey.</p>
+            <p><b>Evaluate Professors:</b> Share your experiences by submitting evaluations for professors you have encountered. Your feedback will help other students gauge the strengths and areas for improvement of each professor.</p>
+            <p><b>Browse Reviews:</b> Read authentic reviews from fellow students about professors and their teaching styles. Gain a comprehensive understanding of what to expect from different courses and professors.</p>
+            <p><b>Foster a Community:</b> Engage in meaningful discussions, exchange tips, and connect with other students who share your academic interests. Together, we can create a vibrant community of learners dedicated to enhancing the educational experience.</p>
+            <h3 style="margin-top: 1rem;">Join UnBoard Today!</h3>
+            <p>Ready to make your voice heard? Join UnBoard today and become part of a community of students committed to improving the learning environment. Your evaluations and insights have the power to shape the educational landscape for future generations.</p>
+            <p>Sign up now and let your evaluations count!</p>
+            <p style="margin-top: 2rem; font-style: italic;">Note: UnBoard is committed to maintaining a respectful and constructive environment. Offensive or inappropriate content will not be tolerated. Help us create a safe and inclusive space for everyone to share their experiences and contribute to meaningful change.</p>
+        </div>
+        </div>
         <img src="/static/images/anime/{{anime_image}}" alt="Image" class="bottom-right-image">
     </div>
+    <script>
+        setTimeout(function(){
+            var warning = document.getElementById("warning");
+            warning.parentNode.removeChild(warning);
+        }, 2500);
+    </script>
 </body>
 </html>

@@ -6,27 +6,68 @@
 </head>
 <body>
     {% include 'header.html' %}
-    <div class="container">
-        <form class="form" method="POST" action="{{ url_for('classes') }}">
-            <h2>Classes</h2>
-            <!-- Add your content here -->
-            <div class="form-group">
-                <input type="text" name="query" placeholder="Search...">
-            </div>
-            <div class="form-group">
-                <button type="submit">Search</button>
-            </div>
-            <div class="form-group">
-                {% if search_results %}
-                    <h2>Search Results:</h2>
-                    <ul>
-                        {% for result in search_results %}
-                            <li>{{ result }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            </div>
-        </form>
+    <div class="content">
+        <h2>Classes</h2>
+        <!-- Add your content here -->
+        Displayed below is a list with all classes from the selected discipline. Click on a row in order to review it.
+
+        <h2 style="margin-top: 3rem;">Classes List</h2>
+        <table style="margin-top: 1.5rem;">
+            <tr>
+                <th>Discipline</th>
+                <th>Period</th>
+                <th>Class</th>
+                <th>Professor</th>
+            </tr>
+            {% for cl in classes %}
+            <tr>
+                <td style="padding: 0;">
+                    <form method="POST">
+                        <button
+                            style="width: 100%; padding: 0.5rem; text-align: left;"
+                            class="button list"
+                            type="submit"
+                            name="button_value"
+                            value="{{ (cl[2], cl[4]) }}">{{ cl[1] }}
+                        </button>
+                    </form>
+                </td>
+                <td style="padding: 0;">
+                    <form method="POST">
+                        <button
+                            style="width: 100%; padding: 0.5rem; text-align: left;"
+                            class="button list"
+                            type="submit"
+                            name="button_value"
+                            value="{{ (cl[2], cl[4]) }}">{{ cl[3] }}
+                        </button>
+                    </form>
+                </td>
+                <td style="padding: 0;">
+                    <form method="POST">
+                        <button
+                            style="width: 100%; padding: 0.5rem; text-align: left;"
+                            class="button list"
+                            type="submit"
+                            name="button_value"
+                            value="{{ (cl[2], cl[4]) }}">{{ cl[4] }}
+                        </button>
+                    </form>
+                </td>
+                <td style="padding: 0;">
+                    <form method="POST">
+                        <button
+                            style="width: 100%; padding: 0.5rem; text-align: left;"
+                            class="button list"
+                            type="submit"
+                            name="button_value"
+                            value="{{ (cl[2], cl[4]) }}">{{ cl[5] }}
+                        </button>
+                    </form>
+                </td>
+            {% endfor %}
+        </table>
+
     </div>
     <img src="/static/images/anime/{{anime_image}}" alt="Image" class="bottom-right-image">
 </body>

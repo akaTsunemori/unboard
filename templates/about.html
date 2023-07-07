@@ -7,9 +7,30 @@
 <body>
     {% include 'header.html' %}
     <div class="content">
-        <h1>About Us</h1>
-        <!-- Add your content here -->
-        <img src="/static/images/anime/{{anime_image}}" alt="Image" class="bottom-right-image">
+        <h1>About</h1>
+        <div class="container">
+        <div class="form">
+            <p style="margin-bottom: 1rem;">
+            UnBoard is a website designed for UnB students to be able to evaluate professors and classes.
+            </p>
+            <p>
+            For information about a specific class, simply search for a subject through the "Disciplines" menu, select a class, and all the evaluations for that class will be displayed, along with a section for students to evaluate the professors.
+            </p>
+            <p>
+            For information about a professor, just search for a professor in the "Professors" section, select a professor, and their evaluations will be shown, along with a section to evaluate them.
+            </p>
+            <p>
+            It's important to mention that only registered and authenticated students can evaluate professors. Offensive evaluations will be deleted, and the user may be banned. Authenticated users have the option to report offensive evaluations.
+            </p>
+            <p>
+            If you are an authenticated student, you can view all your evaluations by selecting "Student Panel" in the top menu of the page. If you don't have an account yet, you can register by clicking the "Sign Up" button. If you are registered but haven't logged in yet, simply select "Login".
+            </p>
+            <p style="margin-top: 1rem;">
+            Have fun!
+            </p>
+        </div>
+        </div>
     </div>
+    <img src="/static/images/anime/{{anime_image}}" alt="Image" class="bottom-right-image">
 </body>
 </html>

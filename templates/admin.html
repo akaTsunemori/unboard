@@ -8,7 +8,59 @@
     {% include 'header.html' %}
     <div class="content">
         <h1>Welcome to the Admin Panel!</h1>
-        <!-- Add your content here -->
+        Here you can see all the reviews that were reported.
+        You can delete a review, remove the user from the database (and eveything linked to him)
+        and remove reports.
+
+        {% if professor_reviews_reports %}
+        <div class="content">
+                <h2 style="margin-top: 3rem;">Professor reviews reports</h2>
+                <table style="margin-top: 1.5rem; margin-bottom: 1.5rem;">
+                    <tr>
+                        <th>Review</th>
+                        <th style="min-width: 8rem; text-align: center;">Action</th>
+                    </tr>
+                    {% for r in professor_reviews_reports %}
+                    <tr>
+                        <td>{{ r[1] }}</td>
+                        <td style="text-align: center; min-width: 12rem; display: flex; gap: 0.25rem;">
+                            <form method="POST"><button type="submit" title="Delete the review" name="delete_button" value="{{ {'professor_review': r} }}"></form>
+                                &#10060;</button> <!-- "X" icon for deleting review -->
+                            <form method="POST"><button type="submit" title="Remove user" name="ban_button" value="{{ {'professor_review': r} }}"></form>
+                                &#9940;</button> <!-- "Block" icon for banning the user -->
+                            <form method="POST"><button type="submit" title="Remove the report" name="remove_report_button" value="{{ {'professor_review': r} }}"></form>
+                                &#9989;</button> <!-- "OK" icon to delete the report -->
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+        </div>
+        {% endif %}
+        {% if class_reviews_reports %}
+        <div class="content">
+                <h2 style="margin-top: 3rem;">Class reviews reports</h2>
+                <table style="margin-top: 1.5rem; margin-bottom: 1.5rem;">
+                    <tr>
+                        <th>Review</th>
+                        <th style="min-width: 8rem; text-align: center;">Action</th>
+                    </tr>
+                    {% for r in class_reviews_reports %}
+                    <tr>
+                        <td>{{ r[1] }}</td>
+                        <td style="text-align: center; min-width: 12rem; display: flex; gap: 0.25rem;">
+                            <form method="POST"><button type="submit" title="Delete the review" name="delete_button" value="{{ {'class_review': r} }}"></form>
+                                &#10060;</button> <!-- "X" icon for deleting review -->
+                            <form method="POST"><button type="submit" title="Ban user" name="ban_button" value="{{ {'class_review': r} }}"></form>
+                                &#9940;</button> <!-- "Block" icon for banning the user -->
+                            <form method="POST"><button type="submit" title="Remove the report" name="remove_report_button" value="{{ {'class_review': r} }}"></form>
+                                &#9989;</button> <!-- "OK" icon to delete the report -->
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+        </div>
+        {% endif %}
+
         <img src="/static/images/anime/{{anime_image}}" alt="Image" class="bottom-right-image">
     </div>
 </body>

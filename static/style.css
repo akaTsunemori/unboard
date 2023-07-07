@@ -61,6 +61,10 @@ nav ul li a:hover {
 
 .content {
     margin: 2rem;
+    margin-bottom: 5rem;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 h1 {
@@ -92,12 +96,11 @@ a:hover {
     justify-content: center;
     align-items: center;
     text-align: center;
-    margin: 2.5rem;
-    min-height: 50rem;
+    margin: 5rem;
 }
 
 .form {
-    width: 25rem;
+    width: 30rem;
     background-color: #333;
     padding: 1.3rem;
     border-radius: 0.3rem;
@@ -147,6 +150,15 @@ ul {
     list-style-type: none;
 }
 
+/* Warning text */
+.warning {
+    color: #bd0707;
+    font-weight: bold;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
 /* Hidden items */
 .hidden {
     display: none;
@@ -154,10 +166,95 @@ ul {
 
 /* Bottom right image */
 
+.profile-picture {
+    display: flex;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    width: 10rem;
+    height: 10rem;  /* Adjust the width and height as needed */
+    object-fit: cover;
+    border-radius: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .bottom-right-image {
     position: fixed;
     bottom: 0rem;
     right: 2rem;
     width: auto;
     height: 15rem;  /* Adjust the width and height as needed */
+}
+
+/* List items */
+
+.button.list {
+    display: inline-block;
+    padding: 0;
+    border: none;
+    background: none;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    cursor: pointer;
+    font-style: normal;
+    transition: all 0.3s ease;
+}
+
+.button.list:hover {
+    filter: brightness(125%);
+    color: #888;
+}
+
+ul.list {
+    list-style-type: none;
+}
+
+/* Tables */
+
+table {
+    border-collapse: collapse;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    margin-bottom: 20rem;
+}
+
+th, td {
+    text-align: left;
+    padding: 0.5rem;
+    min-width: 15vw;
+}
+
+th {
+    background-color: #242424;
+}
+
+tr {
+    transition: all 0.3s ease;
+}
+
+tr:nth-child(even) {
+    background-color: #484848;
+}
+
+tr:hover:nth-child(even) {
+    background-color: #505050;
+}
+
+tr:hover:nth-child(odd) {
+    background-color: #222222;
+}
+
+/* Text box */
+.text-box {
+    resize: none;
+    width: 100%;
+    height: 10rem;
+    margin-top: 1.3rem;
+    padding: 0.6rem;
+    border: 0.06rem solid #ccc;
+    border-radius: 0.3rem;
+    background-color: #fff;
+    color: #333;
 }
