@@ -10,14 +10,19 @@ connection = mysql.connector.connect(
 )
 cursor = connection.cursor()
 
-
-PATH = '~/Downloads/ofertas_sigaa/data/2023.1/'
-departments_df = pd.read_csv(PATH + 'departamentos_2023-1.csv')
-
-for idx, data in departments_df.iterrows():
-    id = data['cod']
-    name = data['nome']
-    cmd = f'INSERT INTO Departments VALUES ({id}, "{name}")'
-    cursor.execute(cmd)
+terms = ['2023-1', '2022-2', '2022-1']
+PATH = './database_setup/data/'
+for term in terms:
+    departments_df = pd.read_csv(PATH + f'departamentos_{term}.csv')
+    for idx, data in departments_df.iterrows():
+        id = data['cod']
+        name = data['nome']
+        cmd = f'INSERT INTO Departments VALUES ({id}, "{name}")'
+        try:
+            cursor.execute(cmd)
+        except mysql.connector.errors.IntegrityError as e:
+            if 'Duplicate entry' in str(e):
+                continue
+            print(e)
 
 connection.commit()

@@ -10,26 +10,29 @@ connection = mysql.connector.connect(
 )
 cursor = connection.cursor()
 
+terms = ['2023-1', '2022-2', '2022-1']
+PATH = './database_setup/data/'
+for term in terms:
+    df = pd.read_csv(PATH + f'turmas_{term}.csv')
+    df = df['professor']
+    professors = set()
+    for i in df:
+        prof = i.split()
+        if i[-1][-1] == ')':
+            prof.pop()
+        professors.add(' '.join(prof))
 
-PATH = '~/Downloads/ofertas_sigaa/data/2023.1/'
-df = pd.read_csv(PATH + 'turmas_2023-1.csv')
-df = df['professor']
-professors = set()
-for i in df:
-    prof = i.split()
-    if i[-1][-1] == ')':
-        prof = prof[:-1]
-    professors.add(' '.join(prof))
+    if '' in professors:
+        professors.remove('')
 
-
-if '' in professors:
-    professors.remove('')
-
-
-result = list(professors)
-for name in result:
-    cmd = f'INSERT INTO Professors (name) VALUES ("{name}")'
-    cursor.execute(cmd)
+    result = list(professors)
+    for name in result:
+        cmd = f'INSERT INTO Professors (name) VALUES ("{name}")'
+        try:
+            cursor.execute(cmd)
+        except mysql.connector.errors.IntegrityError as e:
+            if 'Duplicate entry' in str(e):
+                continue
+            print(e)
 
 connection.commit()
-
