@@ -45,9 +45,17 @@
             </tr>
             {% for r in reviews_list %}
             <tr>
-                <td>{{ r }}</td>
+                <td>{{ r[1] }}</td>
                 <td {{is_hidden}} style="text-align: center; min-width: 8rem;" >
-                    <button type="submit" title="Report review">&#128681;</button>
+                    <form method="POST">
+                        <button
+                            type="submit"
+                            title="Report review"
+                            name="report_button"
+                            value="{{ r }}">
+                            &#128681;
+                        </button>
+                    </form>
                 </td>
             </tr>
             {% endfor %}

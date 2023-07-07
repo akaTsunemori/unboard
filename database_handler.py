@@ -63,7 +63,7 @@ class DatabaseHandler:
             return False
         return True
 
-    def edit_personal_info(self, email: str, new_email: str = None, name: str = None, passwd: str = None, profile_pic = None):
+    def edit_personal_info(self, email: str, new_email: str = None, name: str = None, passwd: str = None, profile_pic = None) -> bool:
         queries = []
         if name:
             name_query = f'UPDATE Students SET name="{name}" WHERE email="{email}"'
@@ -88,7 +88,6 @@ class DatabaseHandler:
                 return False
         self.connection.commit()
         return True
-
 
     def review_professor(self, student_email: str, prof_id: int, review: str) -> bool:
         '''
@@ -127,15 +126,41 @@ class DatabaseHandler:
         delete_professor_review = f'DELETE \
             FROM ProfessorReviews AS PR \
             WHERE PR.prof_id={professor_id} AND PR.student_email="{student_email}"'
-        self.cursor.execute(delete_professor_review)
+        try:
+            self.cursor.execute(delete_professor_review)
+        except mysql.connector.errors.IntegrityError as e:
+            return False
         self.connection.commit()
+        return True
 
-    def del_class_review(self, student_email: str, class_id: str):
+    def del_class_review(self, student_email: str, class_id: int) -> bool:
         delete_class_review = f'DELETE \
             FROM ClassReviews AS CR \
             WHERE CR.student_email="{student_email}" AND CR.class_id={class_id}'
-        self.cursor.execute(delete_class_review)
+        try:
+            self.cursor.execute(delete_class_review)
+        except mysql.connector.errors.IntegrityError as e:
+            return False
         self.connection.commit()
+        return True
+
+    def report_professor_review(self, student_email: str, prof_id: int) -> bool:
+        report_query = f'INSERT INTO ProfessorReviewsReports VALUES ("{student_email}", {prof_id})'
+        try:
+            self.cursor.execute(report_query)
+        except mysql.connector.errors.IntegrityError as e:
+            return False
+        self.connection.commit()
+        return True
+
+    def report_class_review(self, student_email: str, class_id: int) -> bool:
+        report_query = f'INSERT INTO ClassReviewsReports VALUES ("{student_email}", {class_id})'
+        try:
+            self.cursor.execute(report_query)
+        except mysql.connector.errors.IntegrityError as e:
+            return False
+        self.connection.commit()
+        return True
 
     ###########################################################
     #                      Read functions                     #
@@ -190,9 +215,9 @@ class DatabaseHandler:
         '''
         Gets all reviews made for a class with a given id.
 
-        Returns a list of tuples, each tuple consisting of: (student email, review text)
+        Returns a list of tuples, each tuple consisting of: (student email, review text, class id)
         '''
-        query = f'SELECT student_email, review FROM ClassReviews WHERE class_id={id}'
+        query = f'SELECT student_email, review, class_id FROM ClassReviews WHERE class_id={id}'
         self.cursor.execute(query)
         query_result = [i for i in self.cursor.fetchall() if i]
         return query_result
@@ -201,9 +226,9 @@ class DatabaseHandler:
         '''
         Gets all reviews for a professor with a given id.
 
-        Returns a list of tuples, each tuple consisting of: (student email, review text)
+        Returns a list of tuples, each tuple consisting of: (student email, review text, professor id)
         '''
-        query = f'SELECT student_email, review FROM ProfessorReviews WHERE prof_id={id}'
+        query = f'SELECT student_email, review, prof_id FROM ProfessorReviews WHERE prof_id={id}'
         self.cursor.execute(query)
         query_result = [i for i in self.cursor.fetchall() if i]
         return query_result

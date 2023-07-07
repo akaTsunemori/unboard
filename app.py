@@ -94,15 +94,25 @@ def reviews():
     discipline_to_review = global_vars.get_discipline()
     professor_to_review  = global_vars.get_professor()
     if request.method == 'POST':
+        if 'report_button' in request.form:
+            to_report = eval(request.form['report_button'])
+            if professor_to_review:
+                student_email, prof_id = to_report[0], to_report[2]
+                database_handler.report_professor_review(student_email, prof_id)
+            elif class_to_review:
+                student_email, class_id = to_report[0], to_report[2]
+                database_handler.report_class_review(student_email, class_id)
         review = request.form.get('review')
         if review and class_to_review:
             student_email = lh.user_email
-            id = [i[2] for i in global_vars.get_query_results() if i[4] == global_vars.get_class()]
+            id = [i[2] for i in global_vars.get_query_results()
+                  if i[4] == global_vars.get_class()]
             if id:
                 database_handler.review_class(student_email, *id, review)
         elif review and professor_to_review:
             student_email = lh.user_email
-            id = [i[0] for i in global_vars.get_query_results() if i[1] == global_vars.get_professor()]
+            id = [i[0] for i in global_vars.get_query_results()
+                  if i[1] == global_vars.get_professor()]
             if id:
                 database_handler.review_professor(student_email, *id, review)
     if professor_to_review:
@@ -110,13 +120,11 @@ def reviews():
               if i[1] == global_vars.get_professor()]
         if id:
             reviews_list = database_handler.get_professorreviews(*id)
-            reviews_list = [i[1] for i in reviews_list]
     else:
         id = [i[2] for i in global_vars.get_query_results()
               if i[4] == global_vars.get_class()]
         if id:
             reviews_list = database_handler.get_classreviews(*id)
-            reviews_list = [i[1] for i in reviews_list]
     return render_template_util('reviews.html',
                 is_logged=lh.is_logged,
                 class_to_review=class_to_review,
