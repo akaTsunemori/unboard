@@ -15,7 +15,7 @@ class Alerts:
             return
         self.__alert = alert
         self.__alert_type = alert_type
-        Timer(3.1, self.__reset).start()
+        Timer(3.6, self.__reset).start()
 
     def get_alert(self) -> tuple[str, str]:
         return self.__alert, self.__alert_type
