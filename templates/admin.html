@@ -13,6 +13,29 @@
         You can delete a review, remove the user from the database (and eveything linked to him)
         and remove reports.
 
+        <div class="container">
+            <form class="form" method="POST" enctype="multipart/form-data">
+                <h2>Signup a new administrator</h2>
+                <p style="margin-bottom: 2rem;">The email cannot conflict with an existing email in the database
+                    (being from a Student or from another Administrator)</p>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password:</label>
+                    <input type="password" id="confirm-password" name="confirm-password" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" name="new_admin_button">Sign Up</button>
+                </div>
+            </form>
+        </div>
+
         {% if professor_reviews_reports %}
         <div class="content">
                 <h2 style="margin-top: 3rem;">Professor reviews reports</h2>
@@ -39,6 +62,7 @@
                 </table>
         </div>
         {% endif %}
+
         {% if class_reviews_reports %}
         <div class="content">
                 <h2 style="margin-top: 3rem;">Class reviews reports</h2>

@@ -22,20 +22,22 @@ class LoginHandler():
         self.alerts = alerts
 
     def user_logon(self, email: str, password: str) -> None:
-        if email == 'admin@unb.br' and password == 'admin':
+        student_login_success = self.database_handler.login(email, password)
+        admin_login_success = None
+        if not student_login_success:
+            admin_login_success = self.database_handler.admin_login(email, password)
+        if not student_login_success and not admin_login_success:
+            self.alerts.new_alert(
+                "Login failure! Check that you've entered valid information.",
+                'warning')
+            return
+        else:
+            self.alerts.new_alert(
+                f'Logged in with account {email}. Have fun!',
+                'success')
+        if admin_login_success:
             self.is_admin = True
             self.admin_student = 'admin'
-        else:
-            login_sucess = self.database_handler.login(email, password)
-            if not login_sucess:
-                self.alerts.new_alert(
-                    "Login failure! Check that you've entered valid information.",
-                    'warning')
-                return
-            else:
-                self.alerts.new_alert(
-                    f'Logged in with account {email}. Have fun!',
-                    'success')
         self.is_logged = True
         self.hide_logged_status=''
         self.hide_signup_button='hidden'
@@ -73,6 +75,21 @@ class LoginHandler():
                 'Sign up success! You can now login with your account.',
                 'success')
 
+    def signup_admin(self, email: str, password: str, confirm_password: str) -> None:
+        if password != confirm_password:
+            self.alerts.new_alert(
+                '"Password" and "Confirm password" do not match!',
+                'warning')
+            return
+        signup_success = self.database_handler.signup_admin(email, password)
+        if not signup_success:
+            self.alerts.new_alert(
+                'Admin sign up failure! Check that you\'ve entered valid information.',
+                'warning')
+        else:
+            self.alerts.new_alert(
+                'Admin sign up success! You can now login with your account.',
+                'success')
 
     def user_edit(self, email: str, name: str, password: str, confirm_password: str, profile_pic) -> None:
         if password != confirm_password:

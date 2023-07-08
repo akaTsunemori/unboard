@@ -40,15 +40,30 @@ class DatabaseHandler:
 
         Returns a bool indicating the success or failure of the operation.
         '''
-        check_email = f'SELECT * FROM Students WHERE email="{email}"'
+        check_email = f'SELECT * FROM Emails WHERE email="{email}"'
         self.cursor.execute(check_email)
         exists_email = self.cursor.fetchall()
         if exists_email:
             return False
         profile_pic_data = profile_pic.read()
+        cmd = f'INSERT INTO Emails VALUES ("{email}")'
+        self.cursor.execute(cmd)
         cmd = f'INSERT INTO Students (email, name, passwd, profile_pic) \
                 VALUES ("{email}", "{name}", "{password}", _binary %s)'
         self.cursor.execute(cmd, (profile_pic_data,))
+        self.connection.commit()
+        return True
+    
+    def signup_admin(self, email: str, passwd: str) -> bool:
+        check_email = f'SELECT * FROM Emails WHERE email="{email}"'
+        self.cursor.execute(check_email)
+        exists_email = self.cursor.fetchall()
+        if exists_email:
+            return False
+        cmd = f'INSERT INTO Emails VALUES ("{email}")'
+        self.cursor.execute(cmd)
+        cmd = f'INSERT INTO Admins VALUES ("{email}", "{passwd}")'
+        self.cursor.execute(cmd)
         self.connection.commit()
         return True
 
@@ -66,6 +81,18 @@ class DatabaseHandler:
             return False
         user = user[0]
         db_password = user[2]
+        if password != db_password:
+            return False
+        return True
+    
+    def admin_login(self, email: str, password: str) -> bool:
+        select_user = f'SELECT * FROM Admins WHERE email="{email}"'
+        self.cursor.execute(select_user)
+        user = self.cursor.fetchall()
+        if not user:
+            return False
+        user = user[0]
+        db_password = user[-1]
         if password != db_password:
             return False
         return True

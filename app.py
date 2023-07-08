@@ -167,6 +167,11 @@ def admin():
     if not lh.is_admin:
         return redirect('/')
     if request.method == 'POST':
+        if 'new_admin_button' in request.form:
+            email = request.form['email']
+            password = request.form['password']
+            confirm_password = request.form['confirm-password']
+            lh.signup_admin(email, password, confirm_password)
         if 'delete_button' in request.form:
             selected_row = eval(request.form['delete_button'])
             if 'professor_review' in selected_row:
