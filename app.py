@@ -172,6 +172,15 @@ def admin():
             password = request.form['password']
             confirm_password = request.form['confirm-password']
             lh.signup_admin(email, password, confirm_password)
+        if 'remove_admin_button' in request.form:
+            email = request.form['email']
+            confirm_email = request.form['confirm-email']
+            if email != confirm_email:
+                alerts.new_alert('"Email" and "Confirm email" do not match!' , 'warning')
+            else:
+                database_handler.remove_user(email)
+                alerts.new_alert(
+                    'Admin and everything linked to him removed from the database', 'success')
         if 'delete_button' in request.form:
             selected_row = eval(request.form['delete_button'])
             if 'professor_review' in selected_row:
@@ -188,7 +197,8 @@ def admin():
             selected_row = eval(request.form['ban_button'])
             student_email = selected_row[0]
             database_handler.remove_user(student_email)
-            alerts.new_alert('User and everything linked to him removed from the database', 'warning')
+            alerts.new_alert(
+                'User and everything linked to him removed from the database', 'warning')
         if 'remove_report_button' in request.form:
             selected_row = eval(request.form['remove_report_button'])
             if 'professor_review' in selected_row:

@@ -38,6 +38,8 @@ class DatabaseHandler:
         Register a new student on the database, given the parameters:
         email, name, password, profile picture
 
+        An admin and a student can't have the same email.
+
         Returns a bool indicating the success or failure of the operation.
         '''
         check_email = f'SELECT * FROM Emails WHERE email="{email}"'
@@ -55,6 +57,14 @@ class DatabaseHandler:
         return True
     
     def signup_admin(self, email: str, passwd: str) -> bool:
+        '''
+        Register a new student on the database, given the parameters:
+        email, name, password, profile picture
+
+        An admin and a student can't have the same email.
+
+        Returns a bool indicating the success or failure of the operation.
+        '''
         check_email = f'SELECT * FROM Emails WHERE email="{email}"'
         self.cursor.execute(check_email)
         exists_email = self.cursor.fetchall()
@@ -69,7 +79,7 @@ class DatabaseHandler:
 
     def login(self, email: str, password: str) -> bool:
         '''
-        Checks if the login data is according to the data stored in the database,
+        Checks if the login data for a student is according to the data stored in the database,
         given the parameters: student email, student password.
 
         Returns a bool indicating the success or failure of the operation.
@@ -86,6 +96,12 @@ class DatabaseHandler:
         return True
     
     def admin_login(self, email: str, password: str) -> bool:
+        '''
+        Checks if the login data for an admin is according to the data stored in the database,
+        given the parameters: student email, student password.
+
+        Returns a bool indicating the success or failure of the operation.
+        '''
         select_user = f'SELECT * FROM Admins WHERE email="{email}"'
         self.cursor.execute(select_user)
         user = self.cursor.fetchall()
@@ -98,6 +114,9 @@ class DatabaseHandler:
         return True
 
     def edit_personal_info(self, email: str, new_email: str = None, name: str = None, passwd: str = None, profile_pic = None) -> bool:
+        '''
+        Edits the personal information for a student.
+        '''
         queries = []
         if name:
             name_query = f'UPDATE Students SET name="{name}" WHERE email="{email}"'
@@ -152,6 +171,11 @@ class DatabaseHandler:
         return True
 
     def del_professor_review(self, student_email: str, professor_name: str = None, professor_id: int = None) -> bool:
+        '''
+        Deletes a review made for a professor, given the parameters student email AND (professor name OR professor id).
+
+        Returns a bool indicating the success or failure of the operation.
+        '''
         if not professor_name and not professor_id:
             return False
         if not professor_id:
@@ -171,6 +195,11 @@ class DatabaseHandler:
         return True
 
     def del_class_review(self, student_email: str, class_id: int) -> bool:
+        '''
+        Deletes a review made for a class, given the parameters student email, class id.
+
+        Returns a bool indicating the success or failure of the operation.
+        '''
         delete_class_review = f'DELETE \
             FROM ClassReviews AS CR \
             WHERE CR.student_email="{student_email}" AND CR.class_id={class_id}'
@@ -182,6 +211,11 @@ class DatabaseHandler:
         return True
 
     def report_professor_review(self, student_email: str, prof_id: int) -> bool:
+        '''
+        Reports a review made for a professor, given the parameters student email and professor id.
+
+        Returns a bool indicating the success or failure of the operation.
+        '''
         report_query = f'INSERT INTO ProfessorReviewsReports VALUES ("{student_email}", {prof_id})'
         try:
             self.cursor.execute(report_query)
@@ -191,6 +225,11 @@ class DatabaseHandler:
         return True
 
     def report_class_review(self, student_email: str, class_id: int) -> bool:
+        '''
+        Reports a review made for a class, given the parameters student email and class id.
+
+        Returns a bool indicating the success or failure of the operation.
+        '''
         report_query = f'INSERT INTO ClassReviewsReports VALUES ("{student_email}", {class_id})'
         try:
             self.cursor.execute(report_query)
@@ -200,6 +239,11 @@ class DatabaseHandler:
         return True
 
     def del_professorreview_report(self, student_email: str, prof_id: int) -> bool:
+        '''
+        Deletes a report made for a professor review, given the parameters student email and professor id.
+
+        Returns a bool indicating the success or failure of the operation.
+        '''
         query = f'DELETE \
             FROM ProfessorReviewsReports as PRR \
             WHERE PRR.student_email="{student_email}" AND PRR.prof_id={prof_id}'
@@ -211,6 +255,11 @@ class DatabaseHandler:
         return True
 
     def del_classreview_report(self, student_email: str, class_id: int) -> bool:
+        '''
+        Deletes a report made for a class review, given the parameters student email and class id.
+
+        Returns a bool indicating the success or failure of the operation.
+        '''
         query = f'DELETE \
             FROM ClassReviewsReports as CRR \
             WHERE CRR.student_email="{student_email}" AND CRR.class_id={class_id}'
@@ -221,10 +270,15 @@ class DatabaseHandler:
         self.connection.commit()
         return True
 
-    def remove_user(self, student_email: str) -> bool:
+    def remove_user(self, email: str) -> bool:
+        '''
+        Removes an user (student or admin) from the database, given their email.
+
+        Returns a bool indicating the success or failure of the operation.
+        '''
         query = f'DELETE \
-            FROM Students AS S \
-            WHERE S.email="{student_email}"'
+            FROM Emails AS E \
+            WHERE E.email="{email}"'
         try:
             self.cursor.execute(query)
         except mysql.connector.errors.IntegrityError as e:
