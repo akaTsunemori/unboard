@@ -11,7 +11,7 @@
 
 <p align="center">
   <a href="#funcionalidades">Funcionalidades</a> •
-  <a href="#instalação">Roadmap</a> •
+  <a href="#roadmap">Roadmap</a> •
   <a href="#instalação">Instalação</a> •
   <a href="#como-usar">Como usar</a> •
   <a href="#créditos">Créditos</a> •
