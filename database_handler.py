@@ -280,11 +280,10 @@ class DatabaseHandler:
 
         Returns a list of tuples, each tuple consisting of: (student email, review text, professor id)
         '''
-        query = f'SELECT PRR.student_email, PR.review, PRR.prof_id \
-            FROM ProfessorReviews AS PR, ProfessorReviewsReports AS PRR \
-            WHERE PR.student_email=PRR.student_email AND PR.prof_id=PRR.prof_id'
-        self.cursor.execute(query)
-        query_result = [i for i in self.cursor.fetchall() if i]
+        query = f'CALL ProfessorReviewReportsProcedure()' # The actual query for calling procedures in MySQL
+        self.cursor.callproc(query[5:-2]) # The MySQL connector for Python has its own way to call procedures
+        result = [i.fetchall() for i in self.cursor.stored_results()][0]
+        query_result = [i for i in result if i]
         return query_result
 
     def get_classreviews_reports(self) -> list:
@@ -293,11 +292,10 @@ class DatabaseHandler:
 
         Returns a list of tuples, each tuple consisting of: (student email, review text, class id)
         '''
-        query = f'SELECT CRR.student_email, CR.review, CRR.class_id \
-            FROM ClassReviews AS CR, ClassReviewsReports AS CRR \
-            WHERE CR.student_email=CRR.student_email AND CR.class_id=CRR.class_id'
-        self.cursor.execute(query)
-        query_result = [i for i in self.cursor.fetchall() if i]
+        query = f'CALL ClassReviewReportsProcedure()' # The actual query for calling procedures in MySQL
+        self.cursor.callproc(query[5:-2]) # The MySQL connector for Python has its own way to call procedures
+        result = [i.fetchall() for i in self.cursor.stored_results()][0]
+        query_result = [i for i in result if i]
         return query_result
 
     def student_professor_reviews(self, email: str) -> list:
