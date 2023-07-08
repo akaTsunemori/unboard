@@ -21,6 +21,16 @@
                 <div class="form-group">
                     <textarea name="review" class="text-box" placeholder="Type your review..."></textarea>
                 </div>
+                <div style="display: flex; justify-content: center; margin-bottom: 2rem;">
+                    <label for="evaluation">Choose an evaluation:</label>
+                    <select style="font-size: 1rem; width: 4rem; height: 1.75rem; text-align: center;" name="evaluation" id="evaluation">
+                        <option value="1">1 &#11088;</option> <!-- Star emoji -->
+                        <option value="2">2 &#11088;</option>
+                        <option value="3">3 &#11088;</option>
+                        <option value="4">4 &#11088;</option>
+                        <option value="5">5 &#11088;</option>
+                    </select>
+                </div>
                 <div class="form-group">
                     <button type="submit">Submit</button>
                 </div>
@@ -40,11 +50,13 @@
         <table style="margin-top: 1.5rem;">
             <tr>
                 <th>Review</th>
+                <th>Evaluation</th>
                 <th {{is_hidden}} style="min-width: 8rem; text-align: center;">Action</th>
             </tr>
             {% for r in reviews_list %}
             <tr>
                 <td>{{ r[1] }}</td>
+                <td>{{ r[2] }} &#11088;</td>
                 <td {{is_hidden}} style="text-align: center; min-width: 8rem;" >
                     <form method="POST">
                         <button

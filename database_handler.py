@@ -96,13 +96,13 @@ class DatabaseHandler:
         self.connection.commit()
         return True
 
-    def review_professor(self, student_email: str, prof_id: int, review: str) -> bool:
+    def review_professor(self, student_email: str, prof_id: int, review: str, evaluation: int) -> bool:
         '''
-        Review a professor given the parameters: student email, professor id, review.
+        Review a professor given the parameters: student email, professor id, review, evaluation.
 
         Returns a bool indicating the success or failure of the operation.
         '''
-        cmd = f'INSERT INTO ProfessorReviews VALUES ("{student_email}", {prof_id}, "{review}")'
+        cmd = f'INSERT INTO ProfessorReviews VALUES ("{student_email}", {prof_id}, "{review}", {evaluation})'
         try:
             self.cursor.execute(cmd)
         except mysql.connector.errors.IntegrityError as e:
@@ -110,13 +110,13 @@ class DatabaseHandler:
         self.connection.commit()
         return True
 
-    def review_class(self, student_email: str, class_id: int, review: str) -> bool:
+    def review_class(self, student_email: str, class_id: int, review: str, evaluation: int) -> bool:
         '''
-        Review a class given the parameters: student email, class id, review.
+        Review a class given the parameters: student email, class id, review, evaluation.
 
         Returns a bool indicating the success or failure of the operation.
         '''
-        cmd = f'INSERT INTO ClassReviews VALUES ("{student_email}", {class_id}, "{review}")'
+        cmd = f'INSERT INTO ClassReviews VALUES ("{student_email}", {class_id}, "{review}", {evaluation})'
         try:
             self.cursor.execute(cmd)
         except mysql.connector.errors.IntegrityError as e:
@@ -258,7 +258,7 @@ class DatabaseHandler:
 
         Returns a list of tuples, each tuple consisting of: (student email, review text, class id)
         '''
-        query = f'SELECT student_email, review, class_id FROM ClassReviews WHERE class_id={id}'
+        query = f'SELECT student_email, review, evaluation, class_id FROM ClassReviews WHERE class_id={id}'
         self.cursor.execute(query)
         query_result = [i for i in self.cursor.fetchall() if i]
         return query_result
@@ -269,7 +269,7 @@ class DatabaseHandler:
 
         Returns a list of tuples, each tuple consisting of: (student email, review text, professor id)
         '''
-        query = f'SELECT student_email, review, prof_id FROM ProfessorReviews WHERE prof_id={id}'
+        query = f'SELECT student_email, review, evaluation, prof_id FROM ProfessorReviews WHERE prof_id={id}'
         self.cursor.execute(query)
         query_result = [i for i in self.cursor.fetchall() if i]
         return query_result
@@ -304,7 +304,7 @@ class DatabaseHandler:
 
         Returns a list of tuples, each tuple consisting of: (professor name, review text)
         '''
-        query = f'SELECT P.name, PR.review \
+        query = f'SELECT P.name, PR.review, PR.evaluation \
             FROM Professors AS P, ProfessorReviews AS PR \
             WHERE P.id=PR.prof_id AND PR.student_email="{email}"'
         self.cursor.execute(query)
@@ -318,7 +318,7 @@ class DatabaseHandler:
         Returns a list of tuples, each tuple consisting of:
         (class code, discipline name, term, professor name, class schedule, review text, class id)
         '''
-        query = f'SELECT C.code, D.name, C.term, P.name, C.schedule, CR.review, C.id\
+        query = f'SELECT C.code, D.name, C.term, P.name, C.schedule, CR.review, CR.evaluation, C.id\
             FROM Classes AS C, Disciplines as D, Professors as P, ClassReviews as CR\
             WHERE C.disc_id=D.id AND C.prof_id=P.id AND CR.class_id=C.id AND CR.student_email="{email}"'
         self.cursor.execute(query)

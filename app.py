@@ -97,23 +97,24 @@ def reviews():
         if 'report_button' in request.form:
             to_report = eval(request.form['report_button'])
             if professor_to_review:
-                student_email, prof_id = to_report[0], to_report[2]
+                student_email, prof_id = to_report[0], to_report[-1]
                 database_handler.report_professor_review(student_email, prof_id)
             elif class_to_review:
-                student_email, class_id = to_report[0], to_report[2]
+                student_email, class_id = to_report[0], to_report[-1]
                 database_handler.report_class_review(student_email, class_id)
         review = request.form.get('review')
+        evaluation = request.form.get('evaluation')
         if review and class_to_review:
             student_email = lh.user_email
             id = global_vars.get_class_id()
             if id:
-                database_handler.review_class(student_email, id, review)
+                database_handler.review_class(student_email, id, review, evaluation)
         elif review and professor_to_review:
             student_email = lh.user_email
             id = [i[0] for i in global_vars.get_query_results()
                   if i[1] == global_vars.get_professor()]
             if id:
-                database_handler.review_professor(student_email, *id, review)
+                database_handler.review_professor(student_email, *id, review, evaluation)
     if professor_to_review:
         id = [i[0] for i in global_vars.get_query_results()
               if i[1] == global_vars.get_professor()]
@@ -161,11 +162,11 @@ def admin():
             selected_row = eval(request.form['delete_button'])
             if 'professor_review' in selected_row:
                 selected_row = selected_row['professor_review']
-                student_email, prof_id = selected_row[0], selected_row[2]
+                student_email, prof_id = selected_row[0], selected_row[-1]
                 database_handler.del_professor_review(student_email, professor_id=prof_id)
             elif 'class_review' in selected_row:
                 selected_row = selected_row['class_review']
-                student_email, prof_id = selected_row[0], selected_row[2]
+                student_email, prof_id = selected_row[0], selected_row[-1]
                 database_handler.del_class_review(student_email, class_id)
         if 'ban_button' in request.form:
             selected_row = eval(request.form['ban_button'])
@@ -175,11 +176,11 @@ def admin():
             selected_row = eval(request.form['remove_report_button'])
             if 'professor_review' in selected_row:
                 selected_row = selected_row['professor_review']
-                student_email, prof_id = selected_row[0], selected_row[2]
+                student_email, prof_id = selected_row[0], selected_row[-1]
                 database_handler.del_professorreview_report(student_email, prof_id)
             elif 'class_review' in selected_row:
                 selected_row = selected_row['class_review']
-                student_email, class_id = selected_row[0], selected_row[2]
+                student_email, class_id = selected_row[0], selected_row[-1]
                 database_handler.del_classreview_report(student_email, class_id)
     professor_reviews_reports = [i for i in database_handler.get_professorreviews_reports() if i]
     class_reviews_reports = [i for i in database_handler.get_classreviews_reports() if i]

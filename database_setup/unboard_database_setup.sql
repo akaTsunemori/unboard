@@ -47,6 +47,7 @@ CREATE TABLE ClassReviews (
   student_email VARCHAR(50) NOT NULL,
   class_id INT NOT NULL,
   review TEXT NOT NULL,
+  evaluation INT NOT NULL CHECK (evaluation BETWEEN 1 AND 5),
   PRIMARY KEY (student_email, class_id),
   FOREIGN KEY (student_email) REFERENCES Students(email) ON DELETE CASCADE,
   FOREIGN KEY (class_id) REFERENCES Classes(id) ON DELETE CASCADE
@@ -56,6 +57,7 @@ CREATE TABLE ProfessorReviews (
   student_email VARCHAR(50) NOT NULL,
   prof_id INT NOT NULL,
   review TEXT NOT NULL,
+  evaluation INT NOT NULL CHECK (evaluation BETWEEN 1 AND 5),
   PRIMARY KEY (student_email, prof_id),
   FOREIGN KEY (student_email) REFERENCES Students(email) ON DELETE CASCADE,
   FOREIGN KEY (prof_id) REFERENCES Professors(id) ON DELETE CASCADE
@@ -78,12 +80,12 @@ CREATE TABLE ProfessorReviewsReports (
 );
 
 CREATE VIEW ProfessorReviewReportsView AS
-SELECT PRR.student_email, PR.review, PRR.prof_id
+SELECT PRR.student_email, PR.review, PR.evaluation, PRR.prof_id
 FROM ProfessorReviews AS PR JOIN ProfessorReviewsReports AS PRR
 ON PR.student_email = PRR.student_email AND PR.prof_id = PRR.prof_id;
 
 CREATE VIEW ClassReviewReportsView AS
-SELECT CRR.student_email, CR.review, CRR.class_id
+SELECT CRR.student_email, CR.review, CR.evaluation, CRR.class_id
 FROM ClassReviews AS CR JOIN ClassReviewsReports AS CRR
 ON CR.student_email=CRR.student_email AND CR.class_id=CRR.class_id;
 

@@ -38,12 +38,14 @@
             <tr>
                 <th>Professor</th>
                 <th>Review</th>
+                <th style="min-width: 2rem;">Evaluation</th>
                 <th style="min-width: 8rem; text-align: center;">Action</th>
             </tr>
             {% for r in professor_reviews %}
             <tr>
                 <td>{{ r[0] }}</td>
                 <td>{{ r[1] }}</td>
+                <td style="min-width: 2rem;">{{ r[2] }} &#11088;</td>
                 <td style="text-align: center; min-width: 8rem;" >
                     <form method="POST">
                         <button
@@ -71,6 +73,7 @@
                     <th>Professor</th>
                     <th>Schedule</th>
                     <th>Review</th>
+                    <th style="min-width: 2rem;">Evaluation</th>
                     <th style="min-width: 8rem; text-align: center;">Action</th>
                 </tr>
                 {% for r in class_reviews %}
@@ -81,6 +84,7 @@
                     <td>{{ r[3] }}</td>
                     <td>{{ r[4] }}</td>
                     <td>{{ r[5] }}</td>
+                    <td style="min-width: 2rem;">{{ r[6] }} &#11088;</td>
                     <td style="text-align: center; min-width: 8rem;" >
                         <form method="POST">
                             <button
