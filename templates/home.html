@@ -6,10 +6,10 @@
 </head>
 <body>
     {% include 'header.html' %}
+    {% include 'alert.html' %}
     <div class="content">
-        <p class="warning" id="warning">{{ warning }}</p>
         <h1>Welcome to UnBoard!</h1>
-        <div class="container">
+        <div class="container" style="margin-top: 2rem;">
         <div class="form">
             <h2>Discover the Power of Student Feedback</h2>
             <p>At UnBoard, we believe in the power of student voices. Our platform is dedicated to empowering students like you to evaluate and share your experiences with professors. By providing a space for honest and constructive feedback, we aim to foster a community that benefits both students and educators.</p>
@@ -28,11 +28,5 @@
         </div>
         <img src="/static/images/anime/{{anime_image}}" alt="Image" class="bottom-right-image">
     </div>
-    <script>
-        setTimeout(function(){
-            var warning = document.getElementById("warning");
-            warning.parentNode.removeChild(warning);
-        }, 2500);
-    </script>
 </body>
 </html>

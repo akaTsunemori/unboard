@@ -1,0 +1,9 @@
+{% if alert %}
+<div class="alert {{ alert_type }}" id="alert">{{ alert }}</div>
+<script>
+    setTimeout(function(){
+        var alert = document.getElementById("alert");
+        alert.parentNode.removeChild(alert);
+    }, 3000);
+</script>
+{% endif %}

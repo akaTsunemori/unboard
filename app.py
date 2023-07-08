@@ -8,6 +8,7 @@ from base64 import b64encode
 from login_handler import LoginHandler
 from database_handler import DatabaseHandler
 from global_vars import GlobalVars
+from alerts import Alerts
 
 
 # Main app
@@ -21,7 +22,8 @@ app.jinja_env.filters['base64_encode'] = base64_encode
 
 # Login and database handlers
 database_handler = DatabaseHandler()
-lh = LoginHandler(database_handler=database_handler)
+alerts = Alerts()
+lh = LoginHandler(database_handler=database_handler, alerts=alerts)
 global_vars = GlobalVars()
 
 # Get random anime images from the anime dir
@@ -36,6 +38,7 @@ def render_template_util(page: str, **kwargs) -> str:
     Returns a str, the same as flask's render_template function does.
     '''
     image = choice(images)
+    alert, alert_type = alerts.get_alert()
     return render_template(page,
         anime_image=image,
         hide_logged_status=lh.hide_logged_status,
@@ -45,13 +48,15 @@ def render_template_util(page: str, **kwargs) -> str:
         user_email=lh.user_email,
         login_logout=lh.login_logout,
         login_redirect=lh.login_redirect,
+        alert=alert,
+        alert_type=alert_type,
         **kwargs)
 
 
 # Conventional routes
 @app.route('/')
 def home():
-    return render_template_util('home.html', warning=lh.warning)
+    return render_template_util('home.html')
 
 
 @app.route('/about')
@@ -99,9 +104,11 @@ def reviews():
             if professor_to_review:
                 student_email, prof_id = to_report[0], to_report[-1]
                 database_handler.report_professor_review(student_email, prof_id)
+                alerts.new_alert('Professor review reported', 'success')
             elif class_to_review:
                 student_email, class_id = to_report[0], to_report[-1]
                 database_handler.report_class_review(student_email, class_id)
+                alerts.new_alert('Class review reported', 'success')
         review = request.form.get('review')
         evaluation = request.form.get('evaluation')
         if review and class_to_review:
@@ -109,12 +116,14 @@ def reviews():
             id = global_vars.get_class_id()
             if id:
                 database_handler.review_class(student_email, id, review, evaluation)
+            alerts.new_alert('Class review added', 'success')
         elif review and professor_to_review:
             student_email = lh.user_email
             id = [i[0] for i in global_vars.get_query_results()
                   if i[1] == global_vars.get_professor()]
             if id:
                 database_handler.review_professor(student_email, *id, review, evaluation)
+            alerts.new_alert('Professor review added', 'success')
     if professor_to_review:
         id = [i[0] for i in global_vars.get_query_results()
               if i[1] == global_vars.get_professor()]
@@ -164,24 +173,29 @@ def admin():
                 selected_row = selected_row['professor_review']
                 student_email, prof_id = selected_row[0], selected_row[-1]
                 database_handler.del_professor_review(student_email, professor_id=prof_id)
+                alerts.new_alert('Professor review deleted.', 'success')
             elif 'class_review' in selected_row:
                 selected_row = selected_row['class_review']
                 student_email, prof_id = selected_row[0], selected_row[-1]
                 database_handler.del_class_review(student_email, class_id)
+                alerts.new_alert('Class review deleted.', 'success')
         if 'ban_button' in request.form:
             selected_row = eval(request.form['ban_button'])
             student_email = selected_row[0]
             database_handler.remove_user(student_email)
+            alerts.new_alert('User and everything linked to him removed from the database', 'warning')
         if 'remove_report_button' in request.form:
             selected_row = eval(request.form['remove_report_button'])
             if 'professor_review' in selected_row:
                 selected_row = selected_row['professor_review']
                 student_email, prof_id = selected_row[0], selected_row[-1]
                 database_handler.del_professorreview_report(student_email, prof_id)
+                alerts.new_alert('Professor review report deleted.', 'success')
             elif 'class_review' in selected_row:
                 selected_row = selected_row['class_review']
                 student_email, class_id = selected_row[0], selected_row[-1]
                 database_handler.del_classreview_report(student_email, class_id)
+                alerts.new_alert('Class review report deleted.', 'success')
     professor_reviews_reports = [i for i in database_handler.get_professorreviews_reports() if i]
     class_reviews_reports = [i for i in database_handler.get_classreviews_reports() if i]
     return render_template_util('admin.html',
@@ -200,9 +214,11 @@ def student():
             row_to_delete = eval(request.form['button_delete'])
             if 'professor' in row_to_delete:
                 database_handler.del_professor_review(lh.user_email, row_to_delete['professor'])
+                alerts.new_alert('Professor review deleted.', 'success')
             elif 'review' in row_to_delete:
                 class_id = [i[-1] for i in global_vars.get_query_results() if i == row_to_delete['review']]
                 database_handler.del_class_review(lh.user_email, *class_id)
+                alerts.new_alert('Class review deleted.', 'success')
     student_email = lh.user_email
     user_name, user_profile_pic = database_handler.student_data(student_email)
     first_name = user_name.split()[0]
@@ -223,13 +239,12 @@ def student():
 def login():
     if lh.is_logged:
         return redirect('/')
-    image = choice(images)
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
         lh.user_logon(email, password)
         return redirect('/')
-    return render_template('login.html', anime_image=image)
+    return render_template_util('login.html')
 
 
 @app.route('/logout')
@@ -242,7 +257,6 @@ def logout():
 def signup():
     if lh.is_logged:
         return redirect('/')
-    image = choice(images)
     if request.method == 'POST':
         name = request.form['name']
         email = request.form['email']
@@ -251,7 +265,7 @@ def signup():
         profile_picture = request.files['profile-picture']
         lh.user_signup(email, name, password, confirm_password, profile_picture)
         return redirect('/')
-    return render_template('signup.html', anime_image=image)
+    return render_template_util('signup.html')
 
 
 @app.route('/edit-profile', methods=['GET', 'POST'])
