@@ -76,3 +76,23 @@ CREATE TABLE ProfessorReviewsReports (
   FOREIGN KEY (student_email) REFERENCES Students(email) ON DELETE CASCADE,
   FOREIGN KEY (prof_id) REFERENCES Professors(id) ON DELETE CASCADE
 );
+
+CREATE VIEW ProfessorReviewReportsView AS
+SELECT PRR.student_email, PR.review, PRR.prof_id
+FROM ProfessorReviews AS PR JOIN ProfessorReviewsReports AS PRR
+ON PR.student_email = PRR.student_email AND PR.prof_id = PRR.prof_id;
+
+CREATE VIEW ClassReviewReportsView AS
+SELECT CRR.student_email, CR.review, CRR.class_id
+FROM ClassReviews AS CR JOIN ClassReviewsReports AS CRR
+ON CR.student_email=CRR.student_email AND CR.class_id=CRR.class_id;
+
+DELIMITER //
+CREATE PROCEDURE ProfessorReviewReportsProcedure() BEGIN
+SELECT * FROM ProfessorReviewReportsView; END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE ClassReviewReportsProcedure() BEGIN
+SELECT * FROM ClassReviewReportsView; END //
+DELIMITER ;
