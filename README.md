@@ -75,10 +75,9 @@ python3 ./database_setup/4-classes.py
 $ python3 app.py
 ```
 
-> **Notas:**
-> As instruções acima foram direcionadas a um ambiente Linux.<br>
-> As instruções sobre o MySQL assumem que não existe uma database chamada *unboard*, nem um usuário chamado *unboard_admin*.<br>
-> O primeiro usuário Administrador do sistema deve ser inserido manualmente. Se utilizado o script de geração conforme as instruções, ele será criado automaticamente, seus dados serão email *admin@unb.br*, e senha *admin*. Isso pode ser editado conforme a necessidade pelo arquivo unboard.sql.
+> **Nota 1:** As instruções acima foram direcionadas a um ambiente Linux.<br>
+> **Nota 2:** As instruções sobre o MySQL assumem que não existe uma database chamada *unboard*, nem um usuário chamado *unboard_admin*.<br>
+> **Nota 3:** O primeiro usuário Administrador do sistema deve ser inserido manualmente. Se utilizado o script de geração conforme as instruções, ele será criado automaticamente, seus dados serão email *admin@unb.br*, e senha *admin*. Isso pode ser editado conforme a necessidade pelo arquivo unboard.sql.
 
 ## Como usar
 
