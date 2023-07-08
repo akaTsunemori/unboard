@@ -13,7 +13,7 @@ CREATE TABLE Students (
   email VARCHAR(50) PRIMARY KEY NOT NULL,
   name VARCHAR(200) NOT NULL,
   passwd VARCHAR(32) NOT NULL,
-  profile_pic MEDIUMBLOB NOT NULL,
+  profile_pic MEDIUMBLOB,
   FOREIGN KEY (email) REFERENCES Emails(email) ON DELETE CASCADE
 );
 

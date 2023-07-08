@@ -115,7 +115,12 @@ class DatabaseHandler:
 
     def edit_personal_info(self, email: str, new_email: str = None, name: str = None, passwd: str = None, profile_pic = None) -> bool:
         '''
-        Edits the personal information for a student.
+        Edits the personal information for a student, given the parameters
+        old email (necessary), new email (optional),
+        new name (optional), new password (optional),
+        new profile picture (optional).
+
+        Returns a bool indicating the success or failure of the operation.
         '''
         queries = []
         if name:

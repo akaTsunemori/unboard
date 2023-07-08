@@ -1,0 +1,5 @@
+{% if user_profile_pic %}
+<img src="data:image/jpeg;base64,{{ user_profile_pic|base64_encode }}" alt="Profile Picture" class="profile-picture">
+{% else %}
+<img src="/static/images/no-face.png" alt="No-Face, from Spirited Away" class="profile-picture">
+{% endif %}

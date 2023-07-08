@@ -111,19 +111,22 @@ def reviews():
                 alerts.new_alert('Class review reported', 'success')
         review = request.form.get('review')
         evaluation = request.form.get('evaluation')
-        if review and class_to_review:
-            student_email = lh.user_email
-            id = global_vars.get_class_id()
-            if id:
-                database_handler.review_class(student_email, id, review, evaluation)
-            alerts.new_alert('Class review added', 'success')
-        elif review and professor_to_review:
-            student_email = lh.user_email
-            id = [i[0] for i in global_vars.get_query_results()
-                  if i[1] == global_vars.get_professor()]
-            if id:
-                database_handler.review_professor(student_email, *id, review, evaluation)
-            alerts.new_alert('Professor review added', 'success')
+        if review and not lh.is_logged:
+            alerts.new_alert('In order to review, you must be logged in.', 'warning')
+        else:
+            if review and class_to_review:
+                student_email = lh.user_email
+                id = global_vars.get_class_id()
+                if id:
+                    database_handler.review_class(student_email, id, review, evaluation)
+                alerts.new_alert('Class review added', 'success')
+            elif review and professor_to_review:
+                student_email = lh.user_email
+                id = [i[0] for i in global_vars.get_query_results()
+                    if i[1] == global_vars.get_professor()]
+                if id:
+                    database_handler.review_professor(student_email, *id, review, evaluation)
+                alerts.new_alert('Professor review added', 'success')
     if professor_to_review:
         id = [i[0] for i in global_vars.get_query_results()
               if i[1] == global_vars.get_professor()]
