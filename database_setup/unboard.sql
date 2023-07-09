@@ -1,6 +1,3 @@
-CREATE USER 'unboard_admin'@'localhost' IDENTIFIED BY 'unboard_passwd';
-
-CREATE DATABASE unboard;
 USE unboard;
 GRANT ALL PRIVILEGES ON unboard TO 'unboard_admin'@'localhost';
 GRANT ALL PRIVILEGES ON unboard.* TO 'unboard_admin'@'localhost';

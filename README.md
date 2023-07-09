@@ -62,8 +62,23 @@ $ cd unboard
 # Instalar dependências
 $ pip install -r requirements.txt
 
+# Fazendo login no MySQL como usuário root
+mysql -u root -p
+
+# Criação de usuário MySQL
+CREATE USER 'unboard_admin'@'localhost' IDENTIFIED BY 'unboard_passwd';
+
+# Criação da database unboard;
+CREATE DATABASE unboard;
+
+# Sair do ambiente MySQL
+exit;
+
 # Organizar o banco de dados e suas tabelas
-sudo mysql -u root -p unboard < ./database_setup/unboard.sql
+mysql -u root -p unboard < ./database_setup/unboard.sql
+
+# Sair do ambiente MySQL
+exit;
 
 # Alimentar o banco de dados
 python3 ./database_setup/1-departments.py
@@ -78,8 +93,8 @@ $ python3 app.py
 > **Notas:**<br>
 > - As instruções acima foram direcionadas a um ambiente Linux.<br>
 > - Assume-se que o setup do MySQL tenha sido feito corretamente, e que nele haja um usuário root para fazer as operações básicas de criação de usuário, tabelas etc.
-> - As instruções sobre o MySQL assumem que não existe uma database chamada *unboard*, nem um usuário chamado *unboard_admin*.<br>
-> - O primeiro usuário Administrador do sistema será inserido manualmente. Se utilizado o script de geração conforme as instruções, ele será criado automaticamente, seus dados serão email *admin@unb.br*, e senha *admin*. Isso pode ser editado conforme a necessidade pelo arquivo *unboard.sql*.
+> - As instruções sobre o MySQL assumem que não existe, previamente, uma database chamada *unboard*, nem um usuário chamado *unboard_admin*.<br>
+> - O primeiro usuário Administrador do sistema será inserido automaticamente pelo script *unboard.sql*, a presença desse primeiro usuário é necessária.
 
 ## Como usar
 

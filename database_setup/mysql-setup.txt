@@ -1,0 +1,3 @@
+mysql -u root -p;
+CREATE USER 'unboard_admin'@'localhost' IDENTIFIED BY 'unboard_passwd';
+CREATE DATABASE unboard;
