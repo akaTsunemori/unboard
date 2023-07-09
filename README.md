@@ -54,13 +54,13 @@ Para clonar e executar o website, será necessário que as tecnologias [Git](htt
 
 ```bash
 # Clonar este repositório
-$ git clone https://github.com/akaTsunemori/unboard.git
+git clone https://github.com/akaTsunemori/unboard.git
 
 # Mudar o diretório corrente ao do repositório
-$ cd unboard
+cd unboard
 
 # Instalar dependências
-$ pip install -r requirements.txt
+pip install -r requirements.txt
 
 # Fazendo login no MySQL como usuário root
 mysql -u root -p
@@ -87,7 +87,7 @@ python3 ./database_setup/3-professors.py
 python3 ./database_setup/4-classes.py
 
 # Executar a aplicação
-$ python3 app.py
+python3 app.py
 ```
 
 > **Notas:**<br>
