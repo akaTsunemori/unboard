@@ -21,8 +21,8 @@ for term in terms:
         try:
             cursor.execute(cmd)
         except mysql.connector.errors.IntegrityError as e:
-            if 'Duplicate entry' in str(e):
+            if 'Duplicate entry' in str(e): # Not necessary to print duplicate entries errors
                 continue
-            print(e)
+            print(e) # Print any insertion errors that are not for duplicate entries
 
 connection.commit()
