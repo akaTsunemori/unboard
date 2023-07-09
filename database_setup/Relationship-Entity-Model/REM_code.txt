@@ -8,11 +8,11 @@ Aula .diamond
 
 Departamento
 Disciplina
-Possui .diamond
+Oferta .diamond
   (Departamento)
   (Disciplina)
 
-Tem .diamond
+Compreende .diamond
   (Classe)
   (Disciplina)
 
@@ -22,15 +22,25 @@ Comentário .diamond
   (Classe)
   (Avaliação)
 
-Denúncia
-Gerenciamento .diamond
+Denúncias
+Organização .diamond
   (Avaliação)
-  (Denúncia)
+  (Denúncias)
 
 Estudante
-Faz .diamond
+Contribuição .diamond
   (Avaliação)
   (Estudante)
-Faz .diamond
-  (Denúncia)
+Feedback .diamond
+  (Denúncias)
   (Estudante)
+
+Administrador
+Gerenciamento .diamond
+  (Administrador)
+  (Estudante)
+  (Denúncias)
+
+Associado .diamond
+  (Professor)
+  (Departamento)
