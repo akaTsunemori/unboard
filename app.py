@@ -183,19 +183,19 @@ def admin():
             else:
                 database_handler.remove_user(email)
                 alerts.new_alert(
-                    'Admin and everything linked to him removed from the database', 'success')
+                    'User and everything linked to him removed from the database', 'warning')
         if 'delete_button' in request.form:
             selected_row = eval(request.form['delete_button'])
             if 'professor_review' in selected_row:
                 selected_row = selected_row['professor_review']
                 student_email, prof_id = selected_row[0], selected_row[-1]
                 database_handler.del_professor_review(student_email, professor_id=prof_id)
-                alerts.new_alert('Professor review deleted.', 'success')
+                alerts.new_alert('Professor review deleted.', 'warning')
             elif 'class_review' in selected_row:
                 selected_row = selected_row['class_review']
                 student_email, prof_id = selected_row[0], selected_row[-1]
                 database_handler.del_class_review(student_email, class_id)
-                alerts.new_alert('Class review deleted.', 'success')
+                alerts.new_alert('Class review deleted.', 'warning')
         if 'ban_button' in request.form:
             selected_row = eval(request.form['ban_button'])
             student_email = selected_row[0]
