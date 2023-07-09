@@ -51,10 +51,17 @@
                     <form method="POST">
                         <button
                             type="submit"
-                            title="Delete"
+                            title="Delete review"
                             name="button_delete"
                             value="{{ {'professor': r[0]} }}">
                             &#10060; <!-- "X" emoji icon to indicate deletion -->
+                        </button>
+                        <button
+                            type="submit"
+                            title="Edit review"
+                            name="button_edit"
+                            value="{{ {'professor': r} }}">
+                            &#128221; <!-- Emoji icon (pen and paper) -->
                         </button>
                     </form>
                 </td>
@@ -66,35 +73,42 @@
     {% if class_reviews %}
     <div class="content">
             <h2 style="margin-top: 3rem;">Your classes reviews</h2>
-            <table style="margin-top: 1.5rem;">
+            <table style="margin-top: 1.5rem; margin-left: 1rem; margin-right: 1rem; max-width: 90vw;">
                 <tr>
-                    <th style="min-width: 8rem;">Class code</th>
+                    <th>Class code</th>
                     <th>Discipline name</th>
-                    <th style="min-width: 8rem;">Term</th>
+                    <th>Term</th>
                     <th>Professor</th>
                     <th>Schedule</th>
                     <th>Review</th>
-                    <th style="min-width: 2rem;">Evaluation</th>
-                    <th style="min-width: 8rem; text-align: center;">Action</th>
+                    <th>Evaluation</th>
+                    <th style="min-width: 12rem; text-align: center;">Action</th>
                 </tr>
                 {% for r in class_reviews %}
                 <tr>
-                    <td style="min-width: 8rem;">{{ r[0] }}</td>
+                    <td>{{ r[0] }}</td>
                     <td>{{ r[1] }}</td>
-                    <td style="min-width: 8rem;">{{ r[2] }}</td>
+                    <td>{{ r[2] }}</td>
                     <td>{{ r[3] }}</td>
                     <td>{{ r[4] }}</td>
                     <td>{{ r[5] }}</td>
-                    <td style="min-width: 2rem;">{{ r[6] }} &#11088;</td>
-                    <td style="text-align: center; min-width: 8rem;" >
+                    <td>{{ r[6] }} &#11088;</td>
+                    <td style="text-align: center; min-width: 12rem;" >
                         <form method="POST">
                             <button
                                 type="submit"
-                                title="Delete"
+                                title="Delete review"
                                 name="button_delete"
-                                value="{{ {'review': r} }}">
+                                value="{{ {'class': r} }}">
                                 &#10060; <!-- "X" button to indicate review deletion -->
                             </button>
+                        <button
+                            type="submit"
+                            title="Edit review"
+                            name="button_edit"
+                            value="{{ {'class': r} }}">
+                            &#128221; <!-- Emoji icon (pen and paper) -->
+                        </button>
                         </form>
                     </td>
                 </tr>

@@ -93,6 +93,25 @@ def classes():
     return render_template_util('classes.html', classes=query_classes)
 
 
+@app.route('/professors', methods=['GET', 'POST'])
+def professors():
+    search_results = []
+    if request.method == 'POST':
+        if 'button_value' in request.form:
+            selected_professor = request.form['button_value']
+            global_vars.set_professor(selected_professor)
+            return redirect('/reviews')
+        query = request.form.get('query')
+        if query:
+            search_results = database_handler.search_professor(query)
+            global_vars.set_query_results(search_results)
+            if not search_results:
+                search_results = [f'No results found for "{query}".']
+            else:
+                search_results = [i[1] for i in search_results]
+    return render_template_util('professors.html', search_results=search_results)
+
+
 @app.route('/reviews', methods=['GET', 'POST'])
 def reviews():
     class_to_review      = global_vars.get_class()
@@ -104,15 +123,15 @@ def reviews():
             if professor_to_review:
                 student_email, prof_id = to_report[0], to_report[-1]
                 database_handler.report_professor_review(student_email, prof_id)
-                alerts.new_alert('Professor review reported', 'success')
+                alerts.new_alert('Professor review reported', 'warning')
             elif class_to_review:
                 student_email, class_id = to_report[0], to_report[-1]
                 database_handler.report_class_review(student_email, class_id)
-                alerts.new_alert('Class review reported', 'success')
+                alerts.new_alert('Class review reported', 'warning')
         review = request.form.get('review')
         evaluation = request.form.get('evaluation')
         if review and not lh.is_logged:
-            alerts.new_alert('In order to review, you must be logged in.', 'warning')
+            alerts.new_alert('In order to review, you must be logged in.', 'failure')
         else:
             if review and class_to_review:
                 student_email = lh.user_email
@@ -144,25 +163,6 @@ def reviews():
                 reviews_list=reviews_list)
 
 
-@app.route('/professors', methods=['GET', 'POST'])
-def professors():
-    search_results = []
-    if request.method == 'POST':
-        if 'button_value' in request.form:
-            selected_professor = request.form['button_value']
-            global_vars.set_professor(selected_professor)
-            return redirect('/reviews')
-        query = request.form.get('query')
-        if query:
-            search_results = database_handler.search_professor(query)
-            global_vars.set_query_results(search_results)
-            if not search_results:
-                search_results = [f'No results found for "{query}".']
-            else:
-                search_results = [i[1] for i in search_results]
-    return render_template_util('professors.html', search_results=search_results)
-
-
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     if not lh.is_logged:
@@ -179,7 +179,7 @@ def admin():
             email = request.form['email']
             confirm_email = request.form['confirm-email']
             if email != confirm_email:
-                alerts.new_alert('"Email" and "Confirm email" do not match!' , 'warning')
+                alerts.new_alert('"Email" and "Confirm email" do not match!' , 'failure')
             else:
                 database_handler.remove_user(email)
                 alerts.new_alert(
@@ -231,12 +231,36 @@ def student():
         if 'button_delete' in request.form:
             row_to_delete = eval(request.form['button_delete'])
             if 'professor' in row_to_delete:
-                database_handler.del_professor_review(lh.user_email, row_to_delete['professor'])
+                professor_name = row_to_delete['professor']
+                database_handler.del_professor_review(lh.user_email, professor_name)
                 alerts.new_alert('Professor review deleted.', 'success')
-            elif 'review' in row_to_delete:
-                class_id = [i[-1] for i in global_vars.get_query_results() if i == row_to_delete['review']]
-                database_handler.del_class_review(lh.user_email, *class_id)
+            elif 'class' in row_to_delete:
+                class_id = row_to_delete['class'][-1]
+                database_handler.del_class_review(lh.user_email, class_id)
                 alerts.new_alert('Class review deleted.', 'success')
+        if 'button_edit' in request.form:
+            row_to_edit = eval(request.form['button_edit'])
+            if 'professor' in row_to_edit:
+                professor_name, review, evaluation = row_to_edit['professor']
+                global_vars.set_professor(professor_name)
+                return render_template_util('edit-review.html',
+                    professor_to_review=professor_name,
+                    review=review,
+                    evaluation=evaluation)
+            elif 'class' in row_to_edit:
+                class_id = row_to_edit['class'][-1]
+                evaluation = row_to_edit['class'][-2]
+                review = row_to_edit['class'][-3]
+                class_to_review = row_to_edit['class'][0]
+                discipline_to_review = row_to_edit['class'][1]
+                global_vars.set_discipline(discipline_to_review)
+                global_vars.set_class_id(class_id)
+                global_vars.set_class(class_to_review)
+                return render_template_util('edit-review.html',
+                    class_to_review=class_to_review,
+                    discipline_to_review=discipline_to_review,
+                    review=review,
+                    evaluation=evaluation)
     student_email = lh.user_email
     user_name, user_profile_pic = database_handler.student_data(student_email)
     first_name = user_name.split()[0]
@@ -252,10 +276,43 @@ def student():
                 class_reviews=class_reviews)
 
 
+@app.route('/edit-review', methods=['GET', 'POST'])
+def edit_review():
+    if not lh.is_logged:
+        alerts.new_alert(
+            'You must be logged in to access this page.',
+            'failure')
+        return redirect('/')
+    if request.method == 'POST':
+        if 'button-submit' in request.form:
+            review = request.form['review']
+            evaluation = request.form['evaluation']
+            if global_vars.get_professor():
+                database_handler.edit_professor_review(
+                    student_email=lh.user_email,
+                    prof_name=global_vars.get_professor(),
+                    review=review,
+                    evaluation=evaluation)
+            elif global_vars.get_class():
+                database_handler.edit_class_review(
+                    student_email=lh.user_email,
+                    class_id=global_vars.get_class_id(),
+                    review=review,
+                    evaluation=evaluation)
+            alerts.new_alert(
+                'Success editing the review.',
+                'success')
+            return redirect('/')
+    return render_template_util('edit-review.html')
+
+
 # Student profile authentication and information routes
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if lh.is_logged:
+        alerts.new_alert(
+            'You are already logged in.',
+            'warning')
         return redirect('/')
     if request.method == 'POST':
         email = request.form['email']
@@ -274,6 +331,9 @@ def logout():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if lh.is_logged:
+        alerts.new_alert(
+            'You are already logged in.',
+            'warning')
         return redirect('/')
     if request.method == 'POST':
         name = request.form['name']
@@ -289,6 +349,9 @@ def signup():
 @app.route('/edit-profile', methods=['GET', 'POST'])
 def edit_profile():
     if not lh.is_logged:
+        alerts.new_alert(
+            'You must be logged in to access this page.',
+            'failure')
         return redirect('/')
     if request.method == 'POST':
         name = request.form['name']

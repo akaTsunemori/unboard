@@ -11,11 +11,11 @@ class Alerts:
         self.__alert_type = ''
 
     def new_alert(self, alert: str, alert_type: str) -> None:
-        if alert_type not in ['success', 'warning']:
+        if alert_type not in ['success', 'warning', 'failure']:
             return
         self.__alert = alert
         self.__alert_type = alert_type
-        Timer(3.6, self.__reset).start()
+        Timer(3, self.__reset).start()
 
     def get_alert(self) -> tuple[str, str]:
         return self.__alert, self.__alert_type

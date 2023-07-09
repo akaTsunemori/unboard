@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit review</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    {% include 'header.html' %}
+    {% include 'alert.html' %}
+    <div class="content">
+        <h1>Edit review</h1>
+        {% if professor_to_review %}
+            You are editing your review for the professor {{ professor_to_review }}.
+        {% elif class_to_review %}
+            You are editing your review the class {{ class_to_review }} from the discipline {{ discipline_to_review }}.
+        {% endif %}
+
+        <div class="container">
+            <form class="form" method="POST" action="{{ url_for('edit_review') }}">
+                <h2>Review</h2>
+                <div class="form-group">
+                    <textarea name="review" class="text-box">{{ review }}</textarea>
+                </div>
+                <div style="display: flex; justify-content: center; margin-bottom: 2rem;">
+                    <label for="evaluation">Choose a new evaluation:</label>
+                    <select style="font-size: 1rem; width: 4rem; height: 1.75rem; text-align: center;" name="evaluation" id="evaluation">
+                        <option value="1" {% if evaluation==1 %}selected{% endif %} >1 &#11088;</option> <!-- Star emoji -->
+                        <option value="2" {% if evaluation==2 %}selected{% endif %} >2 &#11088;</option>
+                        <option value="3" {% if evaluation==3 %}selected{% endif %} >3 &#11088;</option>
+                        <option value="4" {% if evaluation==4 %}selected{% endif %} >4 &#11088;</option>
+                        <option value="5" {% if evaluation==5 %}selected{% endif %} >5 &#11088;</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" name="button-submit" >Submit</button>
+                </div>
+            </form>
+        </div>
+        <img src="/static/images/anime/{{anime_image}}" alt="Image" class="bottom-right-image">
+    </div>
+</body>
+</html>

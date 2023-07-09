@@ -29,7 +29,7 @@ class LoginHandler():
         if not student_login_success and not admin_login_success:
             self.alerts.new_alert(
                 "Login failure! Check that you've entered valid information.",
-                'warning')
+                'failure')
             return
         else:
             self.alerts.new_alert(
@@ -57,19 +57,19 @@ class LoginHandler():
         self.user_email=''
         self.login_redirect = '/login'
         self.alerts.new_alert(
-            'Logged out.', 'success')
+            'Logged out.', 'warning')
 
     def user_signup(self, email: str, name: str, password: str, confirm_password, profile_pic) -> None:
         if password != confirm_password:
             self.alerts.new_alert(
                 '"Password" and "Confirm password" do not match!',
-                'warning')
+                'failure')
             return
         signup_success = self.database_handler.signup(email, name, password, profile_pic)
         if not signup_success:
             self.alerts.new_alert(
                 'Sign up failure! Check that you\'ve entered valid information.',
-                'warning')
+                'failure')
         else:
             self.alerts.new_alert(
                 'Sign up success! You can now login with your account.',
@@ -79,13 +79,13 @@ class LoginHandler():
         if password != confirm_password:
             self.alerts.new_alert(
                 '"Password" and "Confirm password" do not match!',
-                'warning')
+                'failure')
             return
         signup_success = self.database_handler.signup_admin(email, password)
         if not signup_success:
             self.alerts.new_alert(
                 'Admin sign up failure! Check that you\'ve entered valid information.',
-                'warning')
+                'failure')
         else:
             self.alerts.new_alert(
                 'Admin sign up success! You can now login with your account.',
@@ -95,13 +95,13 @@ class LoginHandler():
         if password != confirm_password:
             self.alerts.new_alert(
                 '"Password" and "Confirm password" do not match!',
-                'warning')
+                'failure')
             return
         edit_success = self.database_handler.edit_personal_info(self.user_email, email, name, password, profile_pic)
         if not edit_success:
             self.alerts.new_alert(
                 'Failure when editing profile! Check that you\'ve entered valid information.',
-                'warning')
+                'failure')
         else:
             self.alerts.new_alert(
                 'Success editing profile!',

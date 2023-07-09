@@ -214,7 +214,7 @@ table {
 th, td {
     text-align: left;
     padding: 0.5rem;
-    min-width: 15vw;
+    width: fit-content;
 }
 
 th {
@@ -268,7 +268,7 @@ tr:hover:nth-child(odd) {
     width: 20rem;
     border-radius: 0.75rem;
     display: block;
-    animation: fadeout 1s linear 1 normal forwards, slide 0.5s ease forwards;
+    animation: fadeout 0.5s linear 1 normal forwards, slide 0.5s ease forwards;
     animation-delay: 2s, 0s;
     box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
 }
@@ -283,9 +283,13 @@ tr:hover:nth-child(odd) {
 }
 
 .alert.warning {
-    background-color: #640e12;
+    background-color: #ada131;
 }
 
 .alert.success {
     background-color: rgb(82, 143, 21);
+}
+
+.alert.failure {
+    background-color: #640e12;   
 }

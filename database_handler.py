@@ -214,6 +214,36 @@ class DatabaseHandler:
             return False
         self.connection.commit()
         return True
+    
+    def edit_professor_review(self, student_email: str, review: str, evaluation: int, prof_name: str = None, prof_id: int = None) -> bool:
+        if not prof_name and not prof_id:
+            return False
+        if not prof_id:
+            get_prof_id = f'SELECT P.id \
+                FROM Professors AS P \
+                WHERE P.name="{prof_name}"'
+            self.cursor.execute(get_prof_id)
+            prof_id = self.cursor.fetchall()[0][0]
+        update_review = f'UPDATE ProfessorReviews \
+            SET review="{review}", evaluation={evaluation} \
+            WHERE student_email="{student_email}" AND prof_id={prof_id}'
+        try:
+            self.cursor.execute(update_review)
+        except mysql.connector.errors.IntegrityError as e:
+            return False
+        self.connection.commit()
+        return True
+    
+    def edit_class_review(self, student_email: str, class_id: int, review: str, evaluation: int) -> bool:
+        update_review = f'UPDATE ClassReviews \
+            SET review="{review}", evaluation={evaluation} \
+            WHERE student_email="{student_email}" AND class_id={class_id}'
+        try:
+            self.cursor.execute(update_review)
+        except mysql.connector.errors.IntegrityError as e:
+            return False
+        self.connection.commit()
+        return True
 
     def report_professor_review(self, student_email: str, prof_id: int) -> bool:
         '''
@@ -402,7 +432,7 @@ class DatabaseHandler:
         Gets all class reviews that a specific student made, given his email.
 
         Returns a list of tuples, each tuple consisting of:
-        (class code, discipline name, term, professor name, class schedule, review text, class id)
+        (class code, discipline name, term, professor name, class schedule, review text, evaluation, class id)
         '''
         query = f'SELECT C.code, D.name, C.term, P.name, C.schedule, CR.review, CR.evaluation, C.id\
             FROM Classes AS C, Disciplines as D, Professors as P, ClassReviews as CR\
