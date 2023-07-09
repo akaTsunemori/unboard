@@ -18,7 +18,7 @@
   <a href="#licença">Licença</a>
 </p>
 
-![screenshot](https://i.imgur.com/smyt7md.png)
+![screenshot](https://i.imgur.com/oCF8nfA.png)
 
 ## Funcionalidades
 
