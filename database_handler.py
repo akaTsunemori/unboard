@@ -58,7 +58,7 @@ class DatabaseHandler:
     
     def signup_admin(self, email: str, passwd: str) -> bool:
         '''
-        Register a new student on the database, given the parameters:
+        Register a new admin on the database, given the parameters:
         email, name, password, profile picture
 
         An admin and a student can't have the same email.
