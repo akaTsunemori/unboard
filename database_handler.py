@@ -68,17 +68,18 @@ class DatabaseHandler:
         select_user = f'SELECT email FROM Students WHERE email="{email}"'
         self.cursor.execute(select_user)
         user = self.cursor.fetchall()
+        if not user:
+            return False
         if is_admin:
             is_admin = 'TRUE'
         else:
             is_admin = 'FALSE'
-        if not user:
-            return False
         query = f'UPDATE Students SET is_admin={is_admin} WHERE email="{email}"'
         try:
             self.cursor.execute(query)
         except mysql.connector.errors.IntegrityError as e:
             return False
+        self.connection.commit()
         return True
 
     def login(self, email: str, password: str) -> tuple[bool, bool]:
