@@ -80,6 +80,8 @@
                         <td>{{ r[1] }}</td>
                         <td style="min-width: 2rem;">{{ r[2] }} &#11088;</td>
                         <td style="text-align: center; min-width: 12rem; display: flex; gap: 0.25rem;">
+                            <form method="POST"><button type="submit" title="Edit the review" name="edit_review_button" value="{{ {'professor_review': r} }}"></form>
+                                &#128221;</button> <!-- Emoji icon (pen and paper) -->
                             <form method="POST"><button type="submit" title="Delete the review" name="delete_button" value="{{ {'professor_review': r} }}"></form>
                                 &#10060;</button> <!-- "X" icon for deleting review -->
                             <form method="POST"><button type="submit" title="Remove user" name="ban_button" value="{{ r }}"></form>
@@ -107,6 +109,8 @@
                         <td>{{ r[1] }}</td>
                         <td style="min-width: 2rem;">{{ r[2] }} &#11088;</td>
                         <td style="text-align: center; min-width: 12rem; display: flex; gap: 0.25rem;">
+                            <form method="POST"><button type="submit" title="Edit the review" name="edit_review_button" value="{{ {'class_review': r} }}"></form>
+                                &#128221;</button> <!-- Emoji icon (pen and paper) -->
                             <form method="POST"><button type="submit" title="Delete the review" name="delete_button" value="{{ {'class_review': r} }}"></form>
                                 &#10060;</button> <!-- "X" icon for deleting review -->
                             <form method="POST"><button type="submit" title="Ban user" name="ban_button" value="{{ r }}"></form>

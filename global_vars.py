@@ -10,14 +10,19 @@ class GlobalVars:
         self.__class = ''
         self.__class_id = 0
         self.__professor = ''
+        self.__professor_id = ''
+        self.__email = ''
         self.__query_results = []
 
     def set_professor(self, name: str) -> None:
-        self.__clear()
+        self.clear()
         self.__professor = name
 
+    def set_professor_id(self, id: str) -> None:
+        self.__professor_id = id
+
     def set_discipline(self, discipline: str) -> None:
-        self.__clear()
+        self.clear()
         self.__discipline = discipline
 
     def set_class(self, cl: str) -> None:
@@ -26,12 +31,18 @@ class GlobalVars:
     def set_class_id(self, id: int) -> None:
         self.__class_id = id
 
+    def set_email(self, email: str) -> None:
+        self.__email = email
+
     def set_query_results(self, query_results: list) -> None:
         if query_results:
             self.__query_results = [i for i in query_results]
 
     def get_professor(self) -> str:
         return self.__professor
+
+    def get_professor_id(self) -> str:
+        return self.__professor_id
 
     def get_discipline(self) -> str:
         return self.__discipline
@@ -42,11 +53,16 @@ class GlobalVars:
     def get_class_id(self) -> str:
         return self.__class_id
 
+    def get_email(self) -> str:
+        return self.__email
+
     def get_query_results(self) -> list:
         return self.__query_results
 
-    def __clear(self) -> None:
+    def clear(self) -> None:
         self.__discipline = ''
         self.__class = ''
-        self.__professor = ''
         self.__class_id = 0
+        self.__professor = ''
+        self.__professor_id = ''
+        self.__email = ''

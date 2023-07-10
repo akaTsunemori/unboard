@@ -182,6 +182,24 @@ def admin():
                 database_handler.remove_user(email)
                 alerts.new_alert(
                     'User and everything linked to him removed from the database', 'warning')
+        if 'edit_review_button' in request.form:
+            selected_row = eval(request.form['edit_review_button'])
+            if 'professor_review' in selected_row:
+                selected_row = selected_row['professor_review']
+                student_email, review, evaluation, prof_id = selected_row
+                global_vars.set_professor_id(prof_id)
+                global_vars.set_email(student_email)
+                return render_template_util('edit-review.html',
+                    review=review,
+                    evaluation=evaluation)
+            elif 'class_review' in selected_row:
+                selected_row = selected_row['class_review']
+                student_email, review, evaluation, class_id = selected_row
+                global_vars.set_class_id(class_id)
+                global_vars.set_email(student_email)
+                return render_template_util('edit-review.html',
+                    review=review,
+                    evaluation=evaluation)
         if 'delete_button' in request.form:
             selected_row = eval(request.form['delete_button'])
             if 'professor_review' in selected_row:
@@ -295,22 +313,36 @@ def edit_review():
         if 'button-submit' in request.form:
             review = request.form['review']
             evaluation = request.form['evaluation']
-            if global_vars.get_professor():
-                database_handler.edit_professor_review(
-                    student_email=lh.user_email,
-                    prof_name=global_vars.get_professor(),
-                    review=review,
-                    evaluation=evaluation)
-            elif global_vars.get_class():
+            if global_vars.get_email():
+                email = global_vars.get_email()
+                redirect_page = '/admin'
+            else:
+                email = lh.user_email
+                redirect_page = '/student'
+            if global_vars.get_professor() or global_vars.get_professor_id():
+                if global_vars.get_professor_id():
+                    database_handler.edit_professor_review(
+                        student_email=email,
+                        prof_id=global_vars.get_professor_id(),
+                        review=review,
+                        evaluation=evaluation)
+                else:
+                    database_handler.edit_professor_review(
+                        student_email=email,
+                        prof_name=global_vars.get_professor(),
+                        review=review,
+                        evaluation=evaluation)
+            elif global_vars.get_class_id():
                 database_handler.edit_class_review(
-                    student_email=lh.user_email,
+                    student_email=email,
                     class_id=global_vars.get_class_id(),
                     review=review,
                     evaluation=evaluation)
+            global_vars.clear()
             alerts.new_alert(
                 'Success editing the review.',
                 'success')
-            return redirect('/student')
+            return redirect(redirect_page)
     return render_template_util('edit-review.html')
 
 
