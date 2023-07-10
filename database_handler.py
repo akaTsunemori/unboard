@@ -56,18 +56,23 @@ class DatabaseHandler:
         self.connection.commit()
         return True
 
-    def promote_admin(self, email: str) -> bool:
+    def manage_admin(self, email: str, is_admin: bool) -> bool:
         '''
-        Make an existing user admin.
+        Promote or demote an user, given the parameters: email and is_admin
+        (is_admin should be the new status for the user)
 
         Returns a bool indicating the success or failure of the operation.
         '''
         select_user = f'SELECT email FROM Students WHERE email="{email}"'
         self.cursor.execute(select_user)
         user = self.cursor.fetchall()
+        if is_admin:
+            is_admin = 'TRUE'
+        else:
+            is_admin = 'FALSE'
         if not user:
             return False
-        query = f'UPDATE Students SET is_admin=TRUE WHERE email="{email}"'
+        query = f'UPDATE Students SET is_admin={is_admin} WHERE email="{email}"'
         try:
             self.cursor.execute(query)
         except mysql.connector.errors.IntegrityError as e:

@@ -25,7 +25,25 @@
                     <input type="email" id="confirm-email" name="confirm-email" required>
                 </div>
                 <div class="form-group">
-                    <button type="submit" name="new_admin_button">Sign Up</button>
+                    <button type="submit" name="promote_admin_button">Promote</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="container">
+            <form class="form" method="POST" enctype="multipart/form-data">
+                <h2>Demote an Admin</h2>
+                <p style="margin-bottom: 2rem;">The user should already exist in the database. They will still be in the database, but as a student.</p>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Confirm email:</label>
+                    <input type="email" id="confirm-email" name="confirm-email" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" name="demote_admin_button">Demote</button>
                 </div>
             </form>
         </div>

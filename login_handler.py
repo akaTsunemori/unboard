@@ -53,21 +53,21 @@ class LoginHandler():
                 'Sign up success! You can now login with your account.',
                 'success')
 
-    def promote_admin(self, email: str, confirm_email: str) -> None:
+    def manage_admin(self, email: str, confirm_email: str, is_admin: bool) -> None:
         if email != confirm_email:
             self.alerts.new_alert(
                 'Emails do not match!',
                 'failure')
             return
-        promotion_status = self.database_handler.promote_admin(email)
+        promotion_status = self.database_handler.manage_admin(email, is_admin)
         if not promotion_status:
             self.alerts.new_alert(
-                'Admin promotion failure! Check that you\'ve entered valid information.',
+                'Admin management failure! Check that you\'ve entered valid information.',
                 'failure')
         else:
             self.alerts.new_alert(
-                'Admin promotion success! You can now login with your account.',
-                'success')
+                'Admin management done.',
+                'warning')
 
     def user_edit(self, email: str, name: str, password: str, confirm_password: str, profile_pic) -> None:
         if password != confirm_password:
