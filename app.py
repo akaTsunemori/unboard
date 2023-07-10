@@ -359,9 +359,16 @@ def edit_profile():
         email = request.form['email']
         password = request.form['password']
         confirm_password = request.form['confirm-password']
+        id = request.form['id']
+        course = request.form['course']
         profile_picture = request.files['profile-picture']
-        lh.user_edit(email, name, password, confirm_password, profile_picture)
-        return redirect('/')
+        lh.user_edit(email, name, password, confirm_password, course, id, profile_picture)
+        if email:
+            lh.user_logout('User information changed. Please, login again.')
+            return redirect('/')
+        else:
+            alerts.new_alert('User information changed.', 'success')
+            return redirect('/student')
     return render_template_util('edit-profile.html')
 
 

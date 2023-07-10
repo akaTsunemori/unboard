@@ -30,12 +30,16 @@ class LoginHandler():
         self.is_logged = True
         self.user_email = email
 
-    def user_logout(self) -> None:
+    def user_logout(self, alert: str = None) -> None:
         self.is_admin = False
         self.is_logged = False
         self.user_email=''
-        self.alerts.new_alert(
-            'Logged out.', 'warning')
+        if not alert:
+            self.alerts.new_alert(
+                'Logged out.', 'warning')
+        else:
+            self.alerts.new_alert(
+                alert, 'warning')
 
     def user_signup(self, email: str, name: str, password: str, confirm_password: str, course: str, id: int, profile_pic) -> None:
         if password != confirm_password:

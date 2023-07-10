@@ -8,7 +8,7 @@
     {% include 'header.html' %}
     <div class="container">
         <form class="form" method="POST" enctype="multipart/form-data">
-            <h2>Sign Up</h2>
+            <h2>Edit profile</h2>
             <p style="margin-bottom: 1rem;">Only fill in the fields you'd like to edit.</p>
             <div class="form-group">
                 <label for="name">Name:</label>
@@ -27,11 +27,18 @@
                 <input type="password" id="confirm-password" name="confirm-password">
             </div>
             <div class="form-group">
+                <label for="name">Registration ID:</label>
+                <input type="text" id="id" name="id">
+            </div>
+            <div class="form-group">
+                {% include 'courses.html' %}
+            </div>
+            <div class="form-group">
                 <label for="profile-picture">Profile Picture:</label>
                 <input type="file" accept="image/*" id="profile-picture" name="profile-picture">
             </div>
             <div class="form-group">
-                <button type="submit">Edit</button>
+                <button type="submit">Submit</button>
             </div>
         </form>
     </div>

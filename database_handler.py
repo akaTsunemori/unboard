@@ -118,7 +118,7 @@ class DatabaseHandler:
         if passwd:
             passwd_query = f'UPDATE Students SET passwd="{passwd}" WHERE email="{email}"'
             queries.append(passwd_query)
-        if course:
+        if course and course != 'NULL':
             course_query = f'UPDATE Students SET course="{course}" WHERE email="{email}"'
             queries.append(course_query)
         if id:
