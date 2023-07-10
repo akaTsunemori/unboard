@@ -1,3 +1,5 @@
+USE unboard;
+
 INSERT INTO Students (email, name, passwd, is_admin)
 VALUES ("arthur@unb.br", "Arthur Carvalho", "1234", FALSE);
 INSERT INTO Students (email, name, passwd, is_admin)
