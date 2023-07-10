@@ -226,6 +226,15 @@ def student():
     if request.method == 'POST':
         if 'edit-profile' in request.form:
             return redirect('/edit-profile')
+        if 'button_delete_account' in request.form:
+            user_password = request.form.get('password')
+            if user_password:
+                check = database_handler.login(lh.user_email, user_password)
+                if check[0]:
+                    database_handler.remove_user(lh.user_email)
+                    lh.user_logout('Account deleted.')
+                    return redirect('/')
+            alerts.new_alert('Failure deleting account', 'failure')
         if 'button_delete' in request.form:
             row_to_delete = eval(request.form['button_delete'])
             if 'professor' in row_to_delete:
