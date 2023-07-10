@@ -83,7 +83,8 @@ mysql -u root -p unboard < ./database_setup/populate.sql
 # Sair do ambiente MySQL
 exit;
 
-# Popular o banco de dados com dados dos arquivos csv
+# Popular o banco de dados com dados dos arquivos csv, as linhas
+# abaixo assumem que o diretório corrente é o diretório unboard
 python3 ./database_setup/1-departments.py
 python3 ./database_setup/2-disciplines.py
 python3 ./database_setup/3-professors.py
