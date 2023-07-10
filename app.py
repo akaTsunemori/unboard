@@ -191,7 +191,7 @@ def admin():
                 alerts.new_alert('Professor review deleted.', 'warning')
             elif 'class_review' in selected_row:
                 selected_row = selected_row['class_review']
-                student_email, prof_id = selected_row[0], selected_row[-1]
+                student_email, class_id = selected_row[0], selected_row[-1]
                 database_handler.del_class_review(student_email, class_id)
                 alerts.new_alert('Class review deleted.', 'warning')
         if 'ban_button' in request.form:
