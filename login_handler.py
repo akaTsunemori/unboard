@@ -47,6 +47,12 @@ class LoginHandler():
                 '"Password" and "Confirm password" do not match!',
                 'failure')
             return
+        id_str = str(id)
+        if not id_str.isnumeric():
+            self.alerts.new_alert(
+                'Registration ID can\'t contain letters!',
+                'failure')
+            return
         signup_success = self.database_handler.signup(email, name, password, False, course, id, profile_pic)
         if not signup_success:
             self.alerts.new_alert(
@@ -79,6 +85,13 @@ class LoginHandler():
                 '"Password" and "Confirm password" do not match!',
                 'failure')
             return
+        if id:
+            id_str = str(id)
+            if not id_str.isnumeric():
+                self.alerts.new_alert(
+                    'Registration ID can\'t contain letters!',
+                    'failure')
+                return
         edit_success = self.database_handler.edit_personal_info(self.user_email, email, name, password, course, id, profile_pic)
         if not edit_success:
             self.alerts.new_alert(
