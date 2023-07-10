@@ -7,6 +7,8 @@ CREATE TABLE Students (
   name VARCHAR(200) NOT NULL,
   passwd VARCHAR(32) NOT NULL,
   is_admin BOOLEAN NOT NULL,
+  course VARCHAR(100),
+  id INT,
   profile_pic MEDIUMBLOB
 );
 

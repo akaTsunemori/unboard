@@ -33,10 +33,10 @@ class DatabaseHandler:
     #           Create, Update and Delete functions           #
     ###########################################################
 
-    def signup(self, email: str, name: str, password: str, is_admin: bool, profile_pic) -> bool:
+    def signup(self, email: str, name: str, password: str, is_admin: bool, course: str, id: int, profile_pic) -> bool:
         '''
         Register a new student on the database, given the parameters:
-        email, name, password, is admin, profile picture
+        email, name, password, is admin, course, id, profile picture
 
         Returns a bool indicating the success or failure of the operation.
         '''
@@ -50,8 +50,10 @@ class DatabaseHandler:
             is_admin = 'TRUE'
         else:
             is_admin = 'FALSE'
-        cmd = f'INSERT INTO Students (email, name, passwd, is_admin, profile_pic) \
-                VALUES ("{email}", "{name}", "{password}", {is_admin}, _binary %s)'
+        if not id:
+            id = 'NULL'
+        cmd = f'INSERT INTO Students (email, name, passwd, is_admin, course, id, profile_pic) \
+                VALUES ("{email}", "{name}", "{password}", {is_admin}, "{course}", {id}, _binary %s)'
         self.cursor.execute(cmd, (profile_pic_data,))
         self.connection.commit()
         return True
@@ -98,11 +100,13 @@ class DatabaseHandler:
         is_admin = bool(user[2])
         return True, is_admin
 
-    def edit_personal_info(self, email: str, new_email: str = None, name: str = None, passwd: str = None, profile_pic = None) -> bool:
+    def edit_personal_info(self, email: str, new_email: str = None, name: str = None,
+            passwd: str = None, course: str = None, id: int = None, profile_pic = None) -> bool:
         '''
         Edits the personal information for a student, given the parameters
         old email (necessary), new email (optional),
         new name (optional), new password (optional),
+        new course (optional), new id (optional)
         new profile picture (optional).
 
         Returns a bool indicating the success or failure of the operation.
@@ -114,6 +118,15 @@ class DatabaseHandler:
         if passwd:
             passwd_query = f'UPDATE Students SET passwd="{passwd}" WHERE email="{email}"'
             queries.append(passwd_query)
+        if course:
+            course_query = f'UPDATE Students SET course="{course}" WHERE email="{email}"'
+            queries.append(course_query)
+        if id:
+            id_query = f'UPDATE Students SET id={id} WHERE email="{email}"'
+            queries.append(id_query)
+        if new_email:
+            email_query = f'UPDATE Students SET email="{new_email}" WHERE email="{email}"'
+            queries.append(email_query)
         if profile_pic:
             pfp_query = f'UPDATE Students SET profile_pic=_binary %s WHERE email="{email}"'
             profile_pic_data = profile_pic.read()
@@ -121,9 +134,6 @@ class DatabaseHandler:
                 self.cursor.execute(pfp_query, (profile_pic_data,))
             except mysql.connector.errors.IntegrityError as e:
                 return False
-        if new_email:
-            email_query = f'UPDATE Students SET email="{new_email}" WHERE email="{email}"'
-            queries.append(email_query)
         for query in queries:
             try:
                 self.cursor.execute(query)
@@ -430,10 +440,10 @@ class DatabaseHandler:
         '''
         Gets stored data for a student.
 
-        Returns a tuple consisting of: (student name, student profile picture)
+        Returns a tuple consisting of: (student name, course, id, profile picture)
         '''
-        query = f'SELECT name, profile_pic FROM Students WHERE email="{email}"'
+        query = f'SELECT name, course, id, profile_pic FROM Students WHERE email="{email}"'
         self.cursor.execute(query)
         user = self.cursor.fetchall()[0]
-        name, profile_pic = user
-        return name, profile_pic
+        name, course, id, profile_pic = user
+        return name, course, id, profile_pic

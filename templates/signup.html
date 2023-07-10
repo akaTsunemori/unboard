@@ -26,20 +26,107 @@
         <form class="form" method="POST" enctype="multipart/form-data">
             <h2>Sign Up</h2>
             <div class="form-group">
-                <label for="name">Name:</label>
+                <label for="name">Name:<p style="color: firebrick;">*</p></label>
                 <input type="text" id="name" name="name" required>
             </div>
             <div class="form-group">
-                <label for="email">Email:</label>
+                <label for="email">Email:<p style="color: firebrick;">*</p></label>
                 <input type="email" id="email" name="email" required>
             </div>
             <div class="form-group">
-                <label for="password">Password:</label>
+                <label for="password">Password:<p style="color: firebrick;">*</p></label>
                 <input type="password" id="password" name="password" required>
             </div>
             <div class="form-group">
-                <label for="confirm-password">Confirm Password:</label>
+                <label for="confirm-password">Confirm Password:<p style="color: firebrick;">*</p></label>
                 <input type="password" id="confirm-password" name="confirm-password" required>
+            </div>
+            <div class="form-group">
+                <label for="name">Registration ID:</label>
+                <input type="text" id="id" name="id">
+            </div>
+            <div class="form-group">
+            <label for="course">Choose your course:</label>
+            <select style="font-size: 1rem; width: 100%; height: 2.2rem; text-align: center;" name="course" id="course">
+                <option value="NULL" selected>Not informed</option>
+                <option value="Administração">Administração</option>
+                <option value="Agronomia">Agronomia</option>
+                <option value="Arquitetura e Urbanismo">Arquitetura e Urbanismo</option>
+                <option value="Arquivologia">Arquivologia</option>
+                <option value="Artes Cênicas">Artes Cênicas</option>
+                <option value="Artes Visuais">Artes Visuais</option>
+                <option value="Biblioteconomia">Biblioteconomia</option>
+                <option value="Biotecnologia">Biotecnologia</option>
+                <option value="Ciência da Computação">Ciência da Computação</option>
+                <option value="Ciência Política">Ciência Política</option>
+                <option value="Ciências Ambientais">Ciências Ambientais</option>
+                <option value="Ciências Biológicas">Ciências Biológicas</option>
+                <option value="Ciências Contábeis">Ciências Contábeis</option>
+                <option value="Ciências Econômicas">Ciências Econômicas</option>
+                <option value="Ciências Farmacêuticas">Ciências Farmacêuticas</option>
+                <option value="Ciências Naturais">Ciências Naturais</option>
+                <option value="Ciências Sociais">Ciências Sociais</option>
+                <option value="Computação">Computação</option>
+                <option value="Comunicação Organizacional">Comunicação Organizacional</option>
+                <option value="Comunicação Social - Audiovisual">Comunicação Social - Audiovisual</option>
+                <option value="Comunicação Social - Publicidade e Propaganda">Comunicação Social - Publicidade e Propaganda</option>
+                <option value="Design">Design</option>
+                <option value="Direito">Direito</option>
+                <option value="Educação do Campo">Educação do Campo</option>
+                <option value="Educação Física">Educação Física</option>
+                <option value="Enfermagem">Enfermagem</option>
+                <option value="Enfermagem e Obstetrícia">Enfermagem e Obstetrícia</option>
+                <option value="Engenharia Aeroespacial">Engenharia Aeroespacial</option>
+                <option value="Engenharia Ambiental">Engenharia Ambiental</option>
+                <option value="Engenharia Automotiva">Engenharia Automotiva</option>
+                <option value="Engenharia Civil">Engenharia Civil</option>
+                <option value="Engenharia de Computação">Engenharia de Computação</option>
+                <option value="Engenharia de Energia">Engenharia de Energia</option>
+                <option value="Engenharia de Produção">Engenharia de Produção</option>
+                <option value="Engenharia de Redes de Comunicação">Engenharia de Redes de Comunicação</option>
+                <option value="Engenharia de Software">Engenharia de Software</option>
+                <option value="Engenharia Eletrônica">Engenharia Eletrônica</option>
+                <option value="Engenharia Elétrica">Engenharia Elétrica</option>
+                <option value="Engenharia Florestal">Engenharia Florestal</option>
+                <option value="Engenharia Mecatrônica">Engenharia Mecatrônica</option>
+                <option value="Engenharia Mecânica">Engenharia Mecânica</option>
+                <option value="Engenharia Química">Engenharia Química</option>
+                <option value="Estatística">Estatística</option>
+                <option value="Farmácia">Farmácia</option>
+                <option value="Filosofia">Filosofia</option>
+                <option value="Fisioterapia">Fisioterapia</option>
+                <option value="Fonoaudiologia">Fonoaudiologia</option>
+                <option value="Física">Física</option>
+                <option value="Geofísica">Geofísica</option>
+                <option value="Geografia">Geografia</option>
+                <option value="Geologia">Geologia</option>
+                <option value="Gestão Ambiental">Gestão Ambiental</option>
+                <option value="Gestão de Agronegócio">Gestão de Agronegócio</option>
+                <option value="Gestão de Políticas Públicas">Gestão de Políticas Públicas</option>
+                <option value="Gestão do Agronegócio">Gestão do Agronegócio</option>
+                <option value="História">História</option>
+                <option value="Jornalismo">Jornalismo</option>
+                <option value="Letras">Letras</option>
+                <option value="Matemática">Matemática</option>
+                <option value="Medicina">Medicina</option>
+                <option value="Medicina Veterinária">Medicina Veterinária</option>
+                <option value="Museologia">Museologia</option>
+                <option value="Música">Música</option>
+                <option value="Nutrição">Nutrição</option>
+                <option value="Odontologia">Odontologia</option>
+                <option value="Pedagogia">Pedagogia</option>
+                <option value="Pós-Graduação">Pós-Graduação</option>
+                <option value="Psicologia">Psicologia</option>
+                <option value="Química">Química</option>
+                <option value="Química Tecnológica">Química Tecnológica</option>
+                <option value="Relações Internacionais">Relações Internacionais</option>
+                <option value="Saúde Coletiva">Saúde Coletiva</option>
+                <option value="Saúde Coletiva">Saúde Coletiva</option>
+                <option value="Serviço Social">Serviço Social</option>
+                <option value="Teoria, Crítica e História da Arte">Teoria, Crítica e História da Arte</option>
+                <option value="Terapia Ocupacional">Terapia Ocupacional</option>
+                <option value="Turismo">Turismo</option>
+            </select>
             </div>
             <div class="form-group">
                 <label for="profile-picture">Profile Picture:</label>
@@ -48,6 +135,10 @@
             <div class="form-group">
                 <button type="submit">Sign Up</button>
             </div>
+            <p style="width: 100%; display: inline;">
+                <i>Note: fields marked with
+                    <p style="color: firebrick; display: inline;">*</p>
+                    are necessary.</i></p>
         </form>
     </div>
     <img src="/static/images/anime/{{anime_image}}" alt="Image" class="bottom-right-image">

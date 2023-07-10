@@ -155,7 +155,7 @@ ul {
     display: none;
 }
 
-/* Bottom right image */
+/* Images */
 
 .profile-picture {
     display: flex;
@@ -174,7 +174,7 @@ ul {
     bottom: 0rem;
     right: 2rem;
     width: auto;
-    height: 15rem;  /* Adjust the width and height as needed */
+    height: 14rem;  /* Adjust the width and height as needed */
 }
 
 /* List items */
