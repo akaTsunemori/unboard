@@ -74,13 +74,16 @@ CREATE DATABASE unboard;
 # Sair do ambiente MySQL
 exit;
 
-# Organizar o banco de dados e suas tabelas
+# Organizar estrutura do banco de dados
 mysql -u root -p unboard < ./database_setup/unboard.sql
+
+# Popular banco de dados com 3 linhas para cada tabela
+mysql -u root -p unboard < ./database_setup/populate.sql
 
 # Sair do ambiente MySQL
 exit;
 
-# Alimentar o banco de dados
+# Popular o banco de dados com dados dos arquivos csv
 python3 ./database_setup/1-departments.py
 python3 ./database_setup/2-disciplines.py
 python3 ./database_setup/3-professors.py
