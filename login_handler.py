@@ -84,20 +84,18 @@ class LoginHandler():
             self.alerts.new_alert(
                 '"Password" and "Confirm password" do not match!',
                 'failure')
-            return
+            return False
         if id:
             id_str = str(id)
             if not id_str.isnumeric():
                 self.alerts.new_alert(
                     'Registration ID can\'t contain letters!',
                     'failure')
-                return
+                return False
         edit_success = self.database_handler.edit_personal_info(self.user_email, email, name, password, course, id, profile_pic)
         if not edit_success:
             self.alerts.new_alert(
                 'Failure when editing profile! Check that you\'ve entered valid information.',
                 'failure')
-        else:
-            self.alerts.new_alert(
-                'Success editing profile!',
-                'success')
+            return False
+        return True
