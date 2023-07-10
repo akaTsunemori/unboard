@@ -6,7 +6,6 @@
 </head>
 <body>
     {% include 'header.html' %}
-    {% include 'alert.html' %}
     <div class="content">
         <h1>Welcome to the Admin Panel!</h1>
         Here you can see all the reviews that were reported.
@@ -15,31 +14,44 @@
 
         <div class="container">
             <form class="form" method="POST" enctype="multipart/form-data">
-                <h2>Sign up a new administrator</h2>
-                <p style="margin-bottom: 2rem;">The email cannot conflict with an existing email in the database
-                    (being from a Student or from another Administrator)</p>
+                <h2>Promote an user to Admin</h2>
+                <p style="margin-bottom: 2rem;">The user should already exist in the database.</p>
                 <div class="form-group">
                     <label for="email">Email:</label>
                     <input type="email" id="email" name="email" required>
                 </div>
                 <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" required>
+                    <label for="email">Confirm email:</label>
+                    <input type="email" id="confirm-email" name="confirm-email" required>
                 </div>
                 <div class="form-group">
-                    <label for="confirm-password">Confirm Password:</label>
-                    <input type="password" id="confirm-password" name="confirm-password" required>
-                </div>
-                <div class="form-group">
-                    <button type="submit" name="new_admin_button">Sign Up</button>
+                    <button type="submit" name="promote_admin_button">Promote</button>
                 </div>
             </form>
         </div>
 
         <div class="container">
             <form class="form" method="POST" enctype="multipart/form-data">
-                <h2>Remove an user (student or administrator)</h2>
-                <p style="margin-bottom: 2rem;">Type their email below and they will be removed from the database.</p>
+                <h2>Demote an Admin</h2>
+                <p style="margin-bottom: 2rem;">The user should already exist in the database. They will still be in the database, but as a student.</p>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Confirm email:</label>
+                    <input type="email" id="confirm-email" name="confirm-email" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" name="demote_admin_button">Demote</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="container">
+            <form class="form" method="POST" enctype="multipart/form-data">
+                <h2>Remove an user</h2>
+                <p style="margin-bottom: 2rem;">Type their email below and they (student or administrator) will be removed from the database.</p>
                 <div class="form-group">
                     <label for="email">Email:</label>
                     <input type="email" id="email" name="email" required>

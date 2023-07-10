@@ -2,22 +2,12 @@ USE unboard;
 GRANT ALL PRIVILEGES ON unboard TO 'unboard_admin'@'localhost';
 GRANT ALL PRIVILEGES ON unboard.* TO 'unboard_admin'@'localhost';
 
-CREATE TABLE Emails (
-  email VARCHAR(50) PRIMARY KEY NOT NULL
-);
-
 CREATE TABLE Students (
   email VARCHAR(50) PRIMARY KEY NOT NULL,
   name VARCHAR(200) NOT NULL,
   passwd VARCHAR(32) NOT NULL,
-  profile_pic MEDIUMBLOB,
-  FOREIGN KEY (email) REFERENCES Emails(email) ON DELETE CASCADE
-);
-
-CREATE TABLE Admins (
-  email VARCHAR(50) PRIMARY KEY NOT NULL,
-  passwd VARCHAR(32) NOT NULL,
-  FOREIGN KEY (email) REFERENCES Emails(email) ON DELETE CASCADE
+  is_admin BOOLEAN NOT NULL,
+  profile_pic MEDIUMBLOB
 );
 
 CREATE TABLE Professors (
@@ -107,5 +97,5 @@ CREATE PROCEDURE ClassReviewReportsProcedure() BEGIN
 SELECT * FROM ClassReviewReportsView; END //
 DELIMITER ;
 
-INSERT INTO Emails VALUES ("admin@unb.br");
-INSERT INTO Admins VALUES ("admin@unb.br", "admin");
+INSERT INTO Students (email, name, passwd, is_admin)
+VALUES ("admin@unb.br", "Admin", "admin", TRUE);

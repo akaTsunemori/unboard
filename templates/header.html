@@ -1,3 +1,24 @@
+{% if is_admin %}
+    {% set admin_panel = '' %}
+{% else %}
+    {% set admin_panel = 'hidden' %}
+{% endif %}
+
+{% if is_logged %}
+    {% set student_panel = '' %}
+    {% set logged_status = '' %}
+    {% set logout = '' %}
+    {% set login = 'hidden' %}
+    {% set signup = 'hidden' %}
+{% else %}
+    {% set student_panel = 'hidden' %}
+    {% set logged_status = 'hidden' %}
+    {% set logout = 'hidden' %}
+    {% set login = '' %}
+    {% set signup = '' %}
+{% endif %}
+
+
 <header>
     <nav>
         <ul>
@@ -10,10 +31,14 @@
     <h3 class="centered-heading">UnBoard</h3>
     <nav class="auth-buttons">
         <ul>
-            <li {{hide_logged_status}}>Logged in as: {{user_email}}</li>
-            <li {{hide_logged_panel}}><a href="/{{admin_student}}">{{admin_student}} Panel</a></li>
-            <li><a href={{login_redirect}}>{{login_logout}}</a></li>
-            <li class={{hide_signup_button}}><a href="/signup">Sign Up</a></li>
+            <li {{ logged_status }}                    >Logged in as: {{ user_email }}</li>
+            <li {{ admin_panel }}   ><a href="/admin"  >Admin Panel</a></li>
+            <li {{ student_panel }} ><a href="/student">Student Panel</a></li>
+            <li {{ login }}         ><a href='/login'  >Login</a></li>
+            <li {{  logout}}        ><a href='/logout' >Logout</a></li>
+            <li {{ signup }}        ><a href="/signup" >Sign Up</a></li>
         </ul>
     </nav>
 </header>
+
+{% include 'alert.html' %}

@@ -6,11 +6,10 @@
 </head>
 <body>
     {% include 'header.html' %}
-    {% include 'alert.html' %}
     <div class="container">
         <div class="form">
             <h1>Welcome to the Student Panel!</h1>
-            {% include 'profile-pic.html' %} 
+            {% include 'profile-pic.html' %}
             <p style="margin-bottom: 2rem;"> Hello, {{user_name}}. </p>
             <img src="/static/images/anime/{{anime_image}}" alt="Random anime image :)" class="bottom-right-image">
             <h2>Your personal information</h2>
