@@ -37,13 +37,13 @@ class LoginHandler():
         self.alerts.new_alert(
             'Logged out.', 'warning')
 
-    def user_signup(self, email: str, name: str, password: str, confirm_password: str, profile_pic) -> None:
+    def user_signup(self, email: str, name: str, password: str, confirm_password: str, course: str, id: int, profile_pic) -> None:
         if password != confirm_password:
             self.alerts.new_alert(
                 '"Password" and "Confirm password" do not match!',
                 'failure')
             return
-        signup_success = self.database_handler.signup(email, name, password, False, profile_pic)
+        signup_success = self.database_handler.signup(email, name, password, False, course, id, profile_pic)
         if not signup_success:
             self.alerts.new_alert(
                 'Sign up failure! Check that you\'ve entered valid information.',
@@ -69,13 +69,13 @@ class LoginHandler():
                 'Admin management done.',
                 'warning')
 
-    def user_edit(self, email: str, name: str, password: str, confirm_password: str, profile_pic) -> None:
+    def user_edit(self, email: str, name: str, password: str, confirm_password: str, course: str, id: int, profile_pic) -> None:
         if password != confirm_password:
             self.alerts.new_alert(
                 '"Password" and "Confirm password" do not match!',
                 'failure')
             return
-        edit_success = self.database_handler.edit_personal_info(self.user_email, email, name, password, profile_pic)
+        edit_success = self.database_handler.edit_personal_info(self.user_email, email, name, password, course, id, profile_pic)
         if not edit_success:
             self.alerts.new_alert(
                 'Failure when editing profile! Check that you\'ve entered valid information.',

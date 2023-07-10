@@ -191,7 +191,7 @@ def admin():
                 alerts.new_alert('Professor review deleted.', 'warning')
             elif 'class_review' in selected_row:
                 selected_row = selected_row['class_review']
-                student_email, prof_id = selected_row[0], selected_row[-1]
+                student_email, class_id = selected_row[0], selected_row[-1]
                 database_handler.del_class_review(student_email, class_id)
                 alerts.new_alert('Class review deleted.', 'warning')
         if 'ban_button' in request.form:
@@ -260,9 +260,10 @@ def student():
                     review=review,
                     evaluation=evaluation)
     student_email = lh.user_email
-    user_name, user_profile_pic = database_handler.student_data(student_email)
+    user_name, course, id, user_profile_pic = database_handler.student_data(student_email)
     first_name = user_name.split()[0]
-    personal_information = [user_name, student_email]
+    personal_information = [user_name, student_email, course, id]
+    personal_information = [i for i in personal_information if (i and i != 'NULL')]
     professor_reviews = database_handler.student_professor_reviews(student_email)
     class_reviews = database_handler.student_class_reviews(student_email)
     global_vars.set_query_results(class_reviews)
@@ -338,8 +339,10 @@ def signup():
         email = request.form['email']
         password = request.form['password']
         confirm_password = request.form['confirm-password']
+        id = request.form['id']
+        course = request.form['course']
         profile_picture = request.files['profile-picture']
-        lh.user_signup(email, name, password, confirm_password, profile_picture)
+        lh.user_signup(email, name, password, confirm_password, course, id, profile_picture)
         return redirect('/')
     return render_template_util('signup.html')
 
