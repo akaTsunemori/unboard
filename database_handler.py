@@ -33,85 +33,65 @@ class DatabaseHandler:
     #           Create, Update and Delete functions           #
     ###########################################################
 
-    def signup(self, email: str, name: str, password: str, profile_pic) -> bool:
+    def signup(self, email: str, name: str, password: str, is_admin: bool, profile_pic) -> bool:
         '''
         Register a new student on the database, given the parameters:
-        email, name, password, profile picture
-
-        An admin and a student can't have the same email.
+        email, name, password, is admin, profile picture
 
         Returns a bool indicating the success or failure of the operation.
         '''
-        check_email = f'SELECT * FROM Emails WHERE email="{email}"'
+        check_email = f'SELECT email FROM Students WHERE email="{email}"'
         self.cursor.execute(check_email)
         exists_email = self.cursor.fetchall()
         if exists_email:
             return False
         profile_pic_data = profile_pic.read()
-        cmd = f'INSERT INTO Emails VALUES ("{email}")'
-        self.cursor.execute(cmd)
-        cmd = f'INSERT INTO Students (email, name, passwd, profile_pic) \
-                VALUES ("{email}", "{name}", "{password}", _binary %s)'
+        if is_admin:
+            is_admin = 'TRUE'
+        else:
+            is_admin = 'FALSE'
+        cmd = f'INSERT INTO Students (email, name, passwd, is_admin, profile_pic) \
+                VALUES ("{email}", "{name}", "{password}", {is_admin}, _binary %s)'
         self.cursor.execute(cmd, (profile_pic_data,))
         self.connection.commit()
         return True
-    
-    def signup_admin(self, email: str, passwd: str) -> bool:
-        '''
-        Register a new admin on the database, given the parameters:
-        email, name, password, profile picture
 
-        An admin and a student can't have the same email.
+    def promote_admin(self, email: str) -> bool:
+        '''
+        Make an existing user admin.
 
         Returns a bool indicating the success or failure of the operation.
         '''
-        check_email = f'SELECT * FROM Emails WHERE email="{email}"'
-        self.cursor.execute(check_email)
-        exists_email = self.cursor.fetchall()
-        if exists_email:
+        select_user = f'SELECT email FROM Students WHERE email="{email}"'
+        self.cursor.execute(select_user)
+        user = self.cursor.fetchall()
+        if not user:
             return False
-        cmd = f'INSERT INTO Emails VALUES ("{email}")'
-        self.cursor.execute(cmd)
-        cmd = f'INSERT INTO Admins VALUES ("{email}", "{passwd}")'
-        self.cursor.execute(cmd)
-        self.connection.commit()
+        query = f'UPDATE Students SET is_admin=TRUE WHERE email="{email}"'
+        try:
+            self.cursor.execute(query)
+        except mysql.connector.errors.IntegrityError as e:
+            return False
         return True
 
-    def login(self, email: str, password: str) -> bool:
+    def login(self, email: str, password: str) -> tuple[bool, bool]:
         '''
         Checks if the login data for a student is according to the data stored in the database,
         given the parameters: student email, student password.
 
-        Returns a bool indicating the success or failure of the operation.
+        Returns (False, False) if the operation fails, else returns (success, is_admin).
         '''
-        select_user = f'SELECT * FROM Students WHERE email="{email}"'
+        select_user = f'SELECT email, passwd, is_admin FROM Students WHERE email="{email}"'
         self.cursor.execute(select_user)
         user = self.cursor.fetchall()
         if not user:
-            return False
+            return False, False
         user = user[0]
-        db_password = user[2]
+        db_password = user[1]
         if password != db_password:
-            return False
-        return True
-    
-    def admin_login(self, email: str, password: str) -> bool:
-        '''
-        Checks if the login data for an admin is according to the data stored in the database,
-        given the parameters: student email, student password.
-
-        Returns a bool indicating the success or failure of the operation.
-        '''
-        select_user = f'SELECT * FROM Admins WHERE email="{email}"'
-        self.cursor.execute(select_user)
-        user = self.cursor.fetchall()
-        if not user:
-            return False
-        user = user[0]
-        db_password = user[-1]
-        if password != db_password:
-            return False
-        return True
+            return False, False
+        is_admin = bool(user[2])
+        return True, is_admin
 
     def edit_personal_info(self, email: str, new_email: str = None, name: str = None, passwd: str = None, profile_pic = None) -> bool:
         '''
@@ -214,7 +194,7 @@ class DatabaseHandler:
             return False
         self.connection.commit()
         return True
-    
+
     def edit_professor_review(self, student_email: str, review: str, evaluation: int, prof_name: str = None, prof_id: int = None) -> bool:
         if not prof_name and not prof_id:
             return False
@@ -233,7 +213,7 @@ class DatabaseHandler:
             return False
         self.connection.commit()
         return True
-    
+
     def edit_class_review(self, student_email: str, class_id: int, review: str, evaluation: int) -> bool:
         update_review = f'UPDATE ClassReviews \
             SET review="{review}", evaluation={evaluation} \
@@ -312,8 +292,8 @@ class DatabaseHandler:
         Returns a bool indicating the success or failure of the operation.
         '''
         query = f'DELETE \
-            FROM Emails AS E \
-            WHERE E.email="{email}"'
+            FROM Students AS S \
+            WHERE S.email="{email}"'
         try:
             self.cursor.execute(query)
         except mysql.connector.errors.IntegrityError as e:

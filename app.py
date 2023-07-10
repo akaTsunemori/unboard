@@ -41,13 +41,9 @@ def render_template_util(page: str, **kwargs) -> str:
     alert, alert_type = alerts.get_alert()
     return render_template(page,
         anime_image=image,
-        hide_logged_status=lh.hide_logged_status,
-        hide_signup_button=lh.hide_signup_button,
-        hide_logged_panel=lh.hide_logged_panel,
-        admin_student=lh.admin_student,
+        is_logged=lh.is_logged,
+        is_admin=lh.is_admin,
         user_email=lh.user_email,
-        login_logout=lh.login_logout,
-        login_redirect=lh.login_redirect,
         alert=alert,
         alert_type=alert_type,
         **kwargs)
@@ -172,9 +168,8 @@ def admin():
     if request.method == 'POST':
         if 'new_admin_button' in request.form:
             email = request.form['email']
-            password = request.form['password']
-            confirm_password = request.form['confirm-password']
-            lh.signup_admin(email, password, confirm_password)
+            confirm_email = request.form['confirm-email']
+            lh.promote_admin(email, confirm_email)
         if 'remove_admin_button' in request.form:
             email = request.form['email']
             confirm_email = request.form['confirm-email']
@@ -366,4 +361,4 @@ def edit_profile():
 
 # Run the app
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)
