@@ -80,7 +80,7 @@ mysql -u root -p unboard < ./database_setup/unboard.sql
 # Popular banco de dados com 3 linhas para cada tabela
 mysql -u root -p unboard < ./database_setup/populate.sql
 
-# Sair do ambiente MySQL
+# Caso esteja no ambiente MySQL, sair:
 exit;
 
 # Popular o banco de dados com dados dos arquivos csv, as linhas
@@ -96,13 +96,14 @@ python3 app.py
 
 > **Notas:**<br>
 > - As instruções acima foram direcionadas a um ambiente Linux.<br>
-> - Assume-se que o setup do MySQL tenha sido feito corretamente, e que nele haja um usuário root para fazer as operações básicas de criação de usuário, tabelas etc.
-> - As instruções sobre o MySQL assumem que não existe, previamente, uma database chamada *unboard*, nem um usuário chamado *unboard_admin*.<br>
-> - O primeiro usuário Administrador do sistema será inserido automaticamente pelo script *unboard.sql*, a presença desse primeiro usuário é necessária.
+> - Assume-se que o setup[\[1\]](https://dev.mysql.com/doc/mysql-getting-started/en/)[\[2\]](https://ubuntu.com/server/docs/databases-mysql)[\[3\]](https://docs.fedoraproject.org/en-US/quick-docs/installing-mysql-mariadb/) do MySQL tenha sido feito corretamente, e que nele haja um usuário root para fazer as operações básicas de criação de usuário (*CREATE USER*), base de dados (*CREATE DATABASE*) e tabelas (*CREATE TABLE*).
+> - As instruções sobre o MySQL assumem que não existe, previamente, uma *database* chamada **unboard**, nem um *user* chamado **unboard_admin**.<br>
+> - O primeiro usuário Administrador do sistema será inserido automaticamente pelo script *unboard.sql*, a presença deste primeiro usuário é necessária.
 
 ## Como usar
 
-Para acessar o website, basta abrir um browser qualquer (Firefox ou Chrome, por exemplo) e se direcionar ao site *localhost:5000*. Uma vez que todo o setup tenha sido executado com sucesso, referencie-se ao vídeo presente no relatório, que apresenta a usabililidade do aplicativo.
+Para acessar o website, basta abrir um browser qualquer (Firefox ou Chrome, por exemplo) e se direcionar ao site *localhost:5000*. Uma vez que todo o setup tenha sido executado com sucesso, referencie-se ao vídeo presente no relatório, que apresenta a usabililidade do aplicativo.<br><br>
+O sistema possui quatro usuários pré-cadastrados: três estudantes e um administrador. Os estudantes foram adicionados através do arquivo populate.sql e o administrador através do arquivo unboard.sql. Os emails dos usuários estudantes são **arthur[]()@unb.br**, **dani[]()@unb.br**, **yaya[]()@unb.br**, a senha para os três usuários é **1234**. O email do usuário administrador é **admin[]()@unb.br** e sua senha é **admin**. Para adicionar outros administradores, é necessário que eles já sejam estudantes cadastrados no site. Nesse caso, basta fazer login em qualquer conta com privilégios de administrador (como a própria conta mencionada nesta seção) e acessar o *Admin Panel*.
 
 ## Créditos
 
